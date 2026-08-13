@@ -1,0 +1,383 @@
+/* =========================================================
+   FightScout · Hoja de estilos única (MOBILE-FIRST)
+   Conectada a: index.html, registro.html, registroScout.html
+   Orden: tokens → base → compartido → landing → formulario → responsive
+
+   ESTRATEGIA MOBILE-FIRST:
+   La base está pensada para MÓVIL (una columna, apilado, compacto).
+   Con @media (min-width: ...) se AÑADE complejidad hacia pantallas grandes.
+   Nunca se usa max-width para "desarmar" desktop: se construye desde abajo.
+   ========================================================= */
+
+/* ===== TOKENS: colores en un solo lugar ===== */
+:root {
+  --negro:      #0a0a0b;   /* fondo base, el octágono de noche */
+  --carbon:     #16161a;   /* superficies elevadas (tarjetas) */
+  --sangre:     #c1121f;   /* rojo sangre, el acento agresivo */
+  --sangre-osc: #7a0c15;   /* rojo profundo para hover */
+  --hueso:      #f2ede4;   /* texto principal, blanco hueso */
+  --ceniza:     #8a8a92;   /* texto secundario, gris ceniza */
+  --linea:      #2a2a30;   /* bordes y divisores */
+}
+
+/* ===== BASE ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--negro);
+  color: var(--hueso);
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+h1, h2, .marca {
+  font-family: 'Arial Narrow', 'Roboto Condensed', 'Impact', sans-serif;
+  text-transform: uppercase;   /* mayúsculas: gritan como un cartel de pelea */
+  letter-spacing: 1px;
+  line-height: 1.05;
+}
+/* h3 con fuente limpia: la condensada se apelmaza en tamaños medianos */
+h3 {
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+/* ===== ACCESIBILIDAD: skip link y foco visible ===== */
+.skip-link {
+  position: absolute; left: -999px; top: 0;
+  background: var(--sangre); color: var(--hueso);
+  padding: 12px 20px; z-index: 100;
+}
+.skip-link:focus { left: 0; }
+
+a:focus-visible, button:focus-visible, .btn:focus-visible,
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--sangre);
+  outline-offset: 3px;
+}
+
+/* ===== HEADER STICKY (compartido) ·  BASE = MÓVIL (apilado) ===== */
+header {
+  position: sticky; top: 0; z-index: 50;
+  display: flex;
+  flex-direction: column;        /* móvil: logo arriba, nav debajo */
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 6vw;
+  background: rgba(10,10,11,0.9);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--linea);
+}
+.marca { font-size: 1.6rem; color: var(--hueso); text-decoration: none; }
+.marca span { color: var(--sangre); }
+
+nav ul { list-style: none; display: flex; gap: 12px; flex-wrap: wrap; } /* móvil: enlaces bajan de línea si no caben */
+nav a {
+  color: var(--ceniza); text-decoration: none; font-weight: 600;
+  text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;
+  transition: color 0.2s;
+}
+nav a:hover, nav a[aria-current="page"] { color: var(--hueso); }
+
+/* ===== BOTONES (compartido) ===== */
+.btn {
+  display: inline-block; padding: 16px 34px;
+  font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  text-decoration: none; font-size: 0.95rem; cursor: pointer;
+  border: 2px solid var(--sangre); transition: all 0.2s;
+  font-family: inherit;
+}
+.btn-primario { background: var(--sangre); color: var(--hueso); }
+.btn-primario:hover { background: var(--sangre-osc); border-color: var(--sangre-osc); }
+.btn-fantasma { background: transparent; color: var(--hueso); }
+.btn-fantasma:hover { background: var(--sangre); }
+
+/* ===== FOOTER (compartido) · BASE = MÓVIL (una columna) ===== */
+footer {
+  background: var(--carbon); border-top: 2px solid var(--sangre);
+  padding: 60px 6vw 40px;
+  display: grid; grid-template-columns: 1fr; gap: 40px;
+}
+footer .marca-footer {
+  font-family: 'Arial Narrow', sans-serif; text-transform: uppercase;
+  font-size: 1.5rem; margin-bottom: 12px;
+}
+footer .marca-footer span { color: var(--sangre); }
+footer p { color: var(--ceniza); font-size: 0.9rem; max-width: 34ch; }
+footer h4 {
+  text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem;
+  margin-bottom: 16px; color: var(--hueso);
+}
+footer ul { list-style: none; }
+footer ul li { margin-bottom: 10px; }
+footer a { color: var(--ceniza); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+footer a:hover { color: var(--sangre); }
+.creditos {
+  grid-column: 1 / -1; border-top: 1px solid var(--linea);
+  padding-top: 24px; margin-top: 20px;
+  color: var(--ceniza); font-size: 0.82rem;
+}
+
+/* =========================================================
+   LANDING (index.html)
+   ========================================================= */
+
+/* ===== HERO · BASE = MÓVIL (una columna, altura natural) ===== */
+.hero {
+  min-height: auto;
+  display: grid;
+  grid-template-columns: 1fr;          /* móvil: texto arriba, imágenes abajo */
+  align-items: center;
+  gap: 40px;
+  padding: 40px 6vw 60px;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(193,18,31,0.18), transparent 45%),
+    var(--negro);
+  border-bottom: 2px solid var(--sangre);
+}
+.hero-texto { display: flex; flex-direction: column; align-items: flex-start; }
+
+/* ===== CARRUSEL DEL HERO · BASE = MÓVIL ===== */
+.hero-carrusel {
+  position: relative;
+  width: 100%;
+  height: 45vh;              /* móvil: más bajo para no empujar el contenido */
+  max-height: 620px;
+  margin-top: 20px;
+}
+.hero-carrusel .slide {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border: 1px solid var(--linea);
+  border-bottom: 3px solid var(--sangre);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.hero-carrusel .slide.activa { opacity: 1; }
+.hero .eyebrow {
+  color: var(--sangre); font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; font-size: 0.8rem; margin-bottom: 16px;
+}
+.hero h1 {
+  font-size: clamp(2.2rem, 12vw, 3rem);   /* móvil: título más contenido */
+  max-width: 15ch; margin-bottom: 20px;
+}
+.hero h1 em { color: var(--sangre); font-style: normal; }
+.hero p {
+  color: var(--ceniza); font-size: 1.2rem;
+  max-width: 55ch; margin-bottom: 40px;
+}
+.acciones { display: flex; gap: 18px; flex-wrap: wrap; }
+
+/* ===== SECCIONES GENERALES DE LA LANDING · BASE = MÓVIL ===== */
+section { padding: 60px 6vw; }   /* móvil: menos aire vertical */
+.titulo-seccion { font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 12px; }
+.titulo-seccion span { color: var(--sangre); }
+.subtexto { color: var(--ceniza); max-width: 60ch; margin-bottom: 50px; }
+
+/* ===== TERRITORIOS ===== */
+.territorios {
+  list-style: none;
+  display: grid;
+  /* auto-fit: crea tantas columnas como quepan; cada tarjeta mide mínimo 240px.
+     Ya es intrínsecamente responsive: en móvil baja a una sola columna sin
+     necesidad de media query. Se conserva igual en mobile-first. */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 20px;
+}
+.territorio {
+  display: flex; flex-direction: column;
+  background: var(--carbon);
+  border: 1px solid var(--linea);
+  border-bottom: 3px solid var(--sangre);
+  padding: 30px 24px;
+  text-decoration: none;
+  min-height: 200px;
+  transition: transform 0.2s, background 0.2s, border-color 0.2s;
+}
+.territorio:hover {
+  transform: translateY(-6px);
+  background: #1e1e24;
+  border-bottom-color: var(--hueso);
+}
+.territorio .pais {
+  font-family: 'Arial Narrow', sans-serif; text-transform: uppercase;
+  font-size: 1.5rem; letter-spacing: 1px; color: var(--hueso);
+  margin-bottom: 8px;
+}
+.territorio .dato { color: var(--ceniza); font-size: 0.9rem; flex-grow: 1; }
+.territorio .cta-mini {
+  color: var(--sangre); font-weight: 700; text-transform: uppercase;
+  font-size: 0.8rem; letter-spacing: 1px; margin-top: 18px;
+  white-space: nowrap;   /* mantiene "Ver peleadores →" en una sola línea */
+  transition: color 0.2s;
+}
+.territorio:hover .cta-mini { color: var(--hueso); }
+
+/* ===== ZONA DIVIDIDA: peleadores / scouts · BASE = MÓVIL (una columna) ===== */
+.publicos { display: grid; grid-template-columns: 1fr; gap: 28px; }
+.publicos article {
+  background: var(--carbon); border: 1px solid var(--linea);
+  border-top: 3px solid var(--sangre);
+  padding: 40px 34px;
+}
+.publicos h3 { font-size: 1.35rem; font-weight: 700; margin-bottom: 14px; color: var(--hueso); }
+.publicos p { color: var(--ceniza); margin-bottom: 26px; }
+
+/* ===== CÓMO FUNCIONA: 3 pasos · BASE = MÓVIL (apilados) ===== */
+.pasos { display: grid; grid-template-columns: 1fr; gap: 28px; }
+.paso { border-left: 2px solid var(--sangre); padding-left: 22px; }
+.paso .num {
+  font-family: 'Arial Narrow', sans-serif; font-size: 3rem;
+  color: var(--sangre); line-height: 1;
+}
+.paso h3 { font-size: 1.05rem; font-weight: 700; margin: 8px 0; color: var(--hueso); }
+.paso p { color: var(--ceniza); font-size: 0.95rem; }
+
+/* ===== ANIMACIÓN: revelado al hacer scroll ===== */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s, transform 0.6s; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* =========================================================
+   FORMULARIO (registro.html, registroScout.html)
+   ========================================================= */
+
+legend {
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+/* ===== ENCABEZADO DE PÁGINA · BASE = MÓVIL ===== */
+.page-head {
+  padding: 30px 6vw 30px;   /* móvil: padding-top reducido */
+  border-bottom: 2px solid var(--sangre);
+  background:
+    radial-gradient(circle at 15% 30%, rgba(193,18,31,0.15), transparent 45%),
+    var(--negro);
+}
+.page-head .eyebrow {
+  color: var(--sangre); font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; font-size: 0.8rem; margin-bottom: 12px;
+}
+.page-head h1 { font-size: clamp(2rem, 6vw, 3.5rem); }
+.page-head p { color: var(--ceniza); max-width: 60ch; margin-top: 14px; }
+
+/* ===== CONTENEDOR DEL FORMULARIO ===== */
+.form-wrap { padding: 50px 6vw 90px; }
+form { max-width: 760px; margin: 0 auto; }
+
+/* botón volver: alineado con el formulario, grande y visible */
+.volver-wrap { max-width: 760px; margin: 0 auto 24px; }
+.btn-volver {
+  display: inline-block;
+  background: var(--sangre);
+  color: var(--hueso);
+  text-decoration: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 1rem;
+  padding: 14px 28px;
+  border: 2px solid var(--sangre);
+  transition: all 0.2s;
+}
+.btn-volver:hover { background: transparent; color: var(--sangre); }
+
+/* ===== FIELDSET Y CAMPOS · BASE = MÓVIL ===== */
+fieldset {
+  border: 1px solid var(--linea);
+  border-top: 3px solid var(--sangre);
+  background: var(--carbon);
+  padding: 22px 18px;        /* móvil: padding compacto */
+  margin-bottom: 32px;
+}
+legend {
+  color: var(--hueso); font-size: 1.1rem; font-weight: 700;
+  padding: 0 12px; margin-left: -12px;
+}
+
+.campos {
+  display: grid;
+  grid-template-columns: 1fr;   /* móvil: un campo por fila */
+  gap: 22px;
+  margin-top: 10px;
+}
+.col-full { grid-column: 1 / -1; }
+
+.campo { display: flex; flex-direction: column; }
+label {
+  font-size: 0.9rem; font-weight: 600; margin-bottom: 8px;
+  color: var(--hueso);
+}
+label .req { color: var(--sangre); }
+
+input, select, textarea {
+  background: var(--negro);
+  border: 1px solid var(--linea);
+  color: var(--hueso);
+  padding: 12px 14px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--sangre); outline: none; }
+textarea { resize: vertical; min-height: 110px; }
+.ayuda { color: var(--ceniza); font-size: 0.8rem; margin-top: 6px; }
+
+/* móvil: los botones del formulario ocupan todo el ancho y apilan */
+.acciones-form { margin-top: 10px; display: flex; gap: 16px; flex-wrap: wrap; }
+.acciones-form .btn { width: 100%; text-align: center; }
+
+/* =========================================================
+   RESPONSIVE · MOBILE-FIRST (se construye HACIA ARRIBA con min-width)
+   Base ya cubierta arriba = móvil.
+   ≥480px  → teléfonos grandes / tablets pequeñas: recupera aire y tamaños.
+   ≥768px  → tablet horizontal / desktop: layouts multi-columna.
+   ========================================================= */
+
+/* ===== ≥ 480px : más espacio y tipografía a tamaño completo ===== */
+@media (min-width: 480px) {
+  nav ul { gap: 18px; }
+  .hero h1 { font-size: clamp(2.8rem, 8vw, 6rem); }
+  section { padding: 90px 6vw; }
+  .page-head { padding-top: 60px; }
+  fieldset { padding: 30px 28px; }
+  .acciones-form .btn { width: auto; text-align: center; }
+}
+
+/* ===== ≥ 768px : estructura de escritorio (varias columnas) ===== */
+@media (min-width: 768px) {
+  /* header vuelve a una sola fila: logo izquierda, nav derecha */
+  header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0;
+    padding: 16px 6vw;
+  }
+  nav ul { gap: 28px; flex-wrap: nowrap; }
+
+  /* landing */
+  .hero {
+    grid-template-columns: 1fr 1fr;   /* texto | imágenes */
+    min-height: 100vh;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .hero-carrusel { height: 70vh; margin-top: 0; }
+  .publicos { grid-template-columns: 1fr 1fr; }
+  .pasos    { grid-template-columns: repeat(3, 1fr); }
+  footer    { grid-template-columns: 2fr 1fr 1fr; }
+
+  /* formulario: dos campos por fila */
+  .campos { grid-template-columns: 1fr 1fr; }
+}
+
+/* ===== Respeta a quien desactiva animaciones ===== */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  * { transition: none; scroll-behavior: auto; }
+}

@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",          // versión de JS que genera. ES2017 = compatible con todo navegador moderno
+    "module": "none",            // no usamos sistema de módulos: es un script suelto para el navegador
+    "rootDir": "./src",          // dónde están tus .ts fuente
+    "outDir": "./js",            // dónde escribe los .js compilados
+    "strict": true,              // activa todas las comprobaciones estrictas de tipos (lo que hace útil a TS)
+    "noImplicitAny": true,       // te obliga a tipar: prohíbe variables sin tipo definido
+    "sourceMap": true            // genera mapas para depurar el .ts original en el navegador
+  },
+  "include": ["src/**/*.ts"]     // compila todo lo que esté en src/
+}

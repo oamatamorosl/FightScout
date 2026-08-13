@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FightScout · Scouting de MMA y boxeo</title>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <!-- ===== HEADER STICKY ===== -->
+  <header>
+    <a href="index.html" class="marca">Fight<span>Scout</span></a>
+    <nav aria-label="Navegación principal">
+      <ul>
+        <li><a href="index.html" aria-current="page">Inicio</a></li>
+        <li><a href="registro.html">Crear Perfil</a></li>
+        <li><a href="registroScout.html">Buscar talento</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="contenido">
+
+    <!-- ===== HERO: 100vh ===== -->
+    <section class="hero" aria-labelledby="hero-titulo">
+      <div class="hero-texto">
+        <p class="eyebrow">MMA · Boxeo · Scouting real</p>
+        <h1 id="hero-titulo">Donde el <em>talento</em> deja de ser invisible</h1>
+        <p>Peleadores construyen un perfil verificado con su récord y estilo. Scouts y coaches encuentran a quién buscan describiendo lo que necesitan, no marcando casillas: una búsqueda potenciada por IA que entiende la intención detrás de tus palabras.</p>
+        <div class="acciones">
+          <a href="registro.html" class="btn btn-primario">Soy peleador</a>
+          <a href="registroScout.html" class="btn btn-fantasma">Soy scout</a>
+        </div>
+      </div>
+
+      <!-- Carrusel: las imágenes se turnan cada 2 segundos (ver script al final) -->
+      <div class="hero-carrusel" aria-hidden="true">
+        <img class="slide activa" src="peleador1.jpeg" alt="">
+        <img class="slide" src="peleador2.jpg" alt="">
+        <img class="slide" src="peleador3.jpg" alt="">
+        <img class="slide" src="peleador4.jpg" alt="">
+      </div>
+    </section>
+
+    <!-- ===== TERRITORIOS LATINOAMÉRICA ===== -->
+    <section class="reveal" aria-labelledby="territorios-titulo">
+      <h2 class="titulo-seccion" id="territorios-titulo">Talento de <span>Latinoamérica</span></h2>
+      <p class="subtexto">Elige un territorio y encuentra a sus peleadores. Cada clic te acerca al talento de la región.</p>
+
+      <ul class="territorios">
+        <li>
+          <a href="registro.html" class="territorio">
+            <span class="pais">Brasil</span>
+            <span class="dato">Cuna del Jiu-Jitsu y el Vale Tudo</span>
+            <span class="cta-mini">Ver peleadores →</span>
+          </a>
+        </li>
+        <li>
+          <a href="registro.html" class="territorio">
+            <span class="pais">Ecuador</span>
+            <span class="dato">Escena en crecimiento</span>
+            <span class="cta-mini">Ver peleadores →</span>
+          </a>
+        </li>
+        <li>
+          <a href="registro.html" class="territorio">
+            <span class="pais">Argentina</span>
+            <span class="dato">Boxeo de tradición y garra</span>
+            <span class="cta-mini">Ver peleadores →</span>
+          </a>
+        </li>
+        <li>
+          <a href="registro.html" class="territorio">
+            <span class="pais">México</span>
+            <span class="dato">Potencia histórica del boxeo</span>
+            <span class="cta-mini">Ver peleadores →</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ===== ZONA DIVIDIDA: PÚBLICOS ===== -->
+    <section class="reveal" aria-labelledby="publicos-titulo">
+      <h2 class="titulo-seccion" id="publicos-titulo">¿De qué <span>lado</span> estás?</h2>
+      <p class="subtexto">Dos caminos, una plataforma.</p>
+      <div class="publicos">
+        <article>
+          <h3>Para peleadores</h3>
+          <p>Crea tu perfil verificado: récord, disciplina y estilo. Deja que los scouts te encuentren por lo que sabes hacer arriba del ring.</p>
+          <a href="registro.html" class="btn btn-primario">Crear mi perfil</a>
+        </article>
+        <article>
+          <h3>Para scouts y coaches</h3>
+          <p>Describe el perfil que buscas en tus propias palabras. Nuestra búsqueda entiende la intención, no solo el texto exacto.</p>
+          <a href="registroScout.html" class="btn btn-fantasma">Buscar talento</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== CÓMO FUNCIONA ===== -->
+    <section class="reveal" aria-labelledby="como-titulo">
+      <h2 class="titulo-seccion" id="como-titulo">Cómo <span>funciona</span></h2>
+      <div class="pasos">
+        <div class="paso">
+          <p class="num" aria-hidden="true">01</p>
+          <h3>El peleador se registra</h3>
+          <p>Completa su perfil con récord, disciplina y estilo de pelea.</p>
+        </div>
+        <div class="paso">
+          <p class="num" aria-hidden="true">02</p>
+          <h3>Se verifica el perfil</h3>
+          <p>Un administrador revisa la evidencia antes de publicarlo. Nada entra sin control.</p>
+        </div>
+        <div class="paso">
+          <p class="num" aria-hidden="true">03</p>
+          <h3>El scout encuentra y contacta</h3>
+          <p>Busca por intención, revisa perfiles reales y conecta con el talento.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div>
+      <p class="marca-footer">Fight<span>Scout</span></p>
+      <p>La plataforma de scouting para MMA y boxeo. Talento verificado, búsqueda que entiende lo que necesitas.</p>
+    </div>
+    <div>
+      <h4>Plataforma</h4>
+      <ul>
+        <li><a href="registro.html">Crear perfil</a></li>
+        <li><a href="registroScout.html">Buscar talento</a></li>
+      </ul>
+    </div>
+    <p class="creditos">FightScout · Proyecto en desarrollo · Todos los perfiles mostrados son de ejemplo.</p>
+  </footer>
+
+  <!-- Animación de revelado al hacer scroll -->
+  <script>
+    const items = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.15 });
+    items.forEach(el => io.observe(el));
+
+    // ===== CARRUSEL DEL HERO: cambia de imagen cada 2 segundos, en bucle =====
+    const slides = document.querySelectorAll('.hero-carrusel .slide');
+    let actual = 0;
+    setInterval(() => {
+      slides[actual].classList.remove('activa');
+      actual = (actual + 1) % slides.length;
+      slides[actual].classList.add('activa');
+    }, 2000);
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crear cuenta de scout · FightScout</title>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <a href="index.html" class="marca">Fight<span>Scout</span></a>
+    <nav aria-label="Navegación principal">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="registro.html">Crear Perfil</a></li>
+        <li><a href="registroScout.html" aria-current="page">Buscar talento</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="contenido">
+
+    <!-- ===== ENCABEZADO DE PÁGINA ===== -->
+    <section class="page-head" aria-labelledby="titulo-scout">
+      <p class="eyebrow">Cuenta de scout</p>
+      <h1 id="titulo-scout">Encuentra tu próximo talento</h1>
+      <p>Crea tu cuenta de scout o coach. Una vez registrado, podrás buscar peleadores por estilo, disciplina y récord. Los campos marcados con <span style="color:var(--sangre)">*</span> son obligatorios.</p>
+    </section>
+
+    <!-- ===== FORMULARIO ===== -->
+    <div class="form-wrap">
+      <div class="volver-wrap">
+        <a href="index.html" class="btn-volver">← Volver al inicio</a>
+      </div>
+      <form action="#" method="post">
+
+        <!-- GRUPO 1: DATOS PERSONALES -->
+        <fieldset>
+          <legend>Datos personales</legend>
+          <div class="campos">
+
+            <div class="campo">
+              <label for="firstName">Nombre <span class="req">*</span></label>
+              <input id="firstName" name="firstName" type="text" minlength="2" required>
+            </div>
+
+            <div class="campo">
+              <label for="lastName">Apellido <span class="req">*</span></label>
+              <input id="lastName" name="lastName" type="text" minlength="2" required>
+            </div>
+
+            <div class="campo">
+              <label for="email">Correo electrónico <span class="req">*</span></label>
+              <input id="email" name="email" type="email" required>
+              <p class="ayuda">Lo usaremos para contactarte y verificar tu cuenta.</p>
+            </div>
+
+            <div class="campo">
+              <label for="country">País <span class="req">*</span></label>
+              <select id="country" name="country" required>
+                <option value="">Selecciona un país</option>
+                <option value="br">Brasil</option>
+                <option value="ec">Ecuador</option>
+                <option value="ar">Argentina</option>
+                <option value="mx">México</option>
+              </select>
+            </div>
+
+          </div>
+        </fieldset>
+
+        <!-- GRUPO 2: PERFIL PROFESIONAL -->
+        <fieldset>
+          <legend>Perfil profesional</legend>
+          <div class="campos">
+
+            <div class="campo">
+              <label for="role">Rol <span class="req">*</span></label>
+              <select id="role" name="role" required>
+                <option value="">Selecciona tu rol</option>
+                <option value="scout">Scout</option>
+                <option value="coach">Coach</option>
+                <option value="representante">Representante</option>
+                <option value="promotor">Promotor</option>
+              </select>
+            </div>
+
+            <div class="campo">
+              <label for="organization">Organización</label>
+              <input id="organization" name="organization" type="text" placeholder="Gimnasio, equipo o empresa">
+              <p class="ayuda">Opcional. El equipo o empresa que representas.</p>
+            </div>
+
+            <div class="campo col-full">
+              <label for="bio">Sobre ti</label>
+              <textarea id="bio" name="bio" maxlength="400" placeholder="Ej: scout independiente enfocado en talento juvenil de MMA en Sudamérica..."></textarea>
+              <p class="ayuda">Opcional. Máximo 400 caracteres.</p>
+            </div>
+
+          </div>
+        </fieldset>
+
+        <div class="acciones-form">
+          <button type="submit" class="btn btn-primario">Crear mi cuenta</button>
+          <a href="index.html" class="btn btn-fantasma">Cancelar</a>
+        </div>
+
+      </form>
+    </div>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div>
+      <p class="marca-footer">Fight<span>Scout</span></p>
+      <p>Scouting de MMA y boxeo · Talento verificado</p>
+    </div>
+  </footer>
+
+</body>
+</html>

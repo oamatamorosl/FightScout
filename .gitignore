@@ -1,0 +1,6 @@
+# Dependencias (se regeneran con npm install)
+node_modules/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
