@@ -4,8 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FightScout · Scouting de MMA y boxeo</title>
+  <meta name="description" content="FightScout conecta a peleadores de MMA y boxeo de Latinoamérica con scouts y coaches mediante perfiles verificados y búsqueda por intención.">
 
-  <link rel="stylesheet" href="styles.css">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="FightScout · Scouting de MMA y boxeo">
+  <meta property="og:description" content="FightScout conecta a peleadores de MMA y boxeo de Latinoamérica con scouts y coaches mediante perfiles verificados y búsqueda por intención.">
+  <meta property="og:url" content="https://www.fightscout.com/index.html">
+  <meta property="og:image" content="https://www.fightscout.com/peleador1.jpeg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FightScout · Scouting de MMA y boxeo">
+  <meta name="twitter:description" content="FightScout conecta a peleadores de MMA y boxeo de Latinoamérica con scouts y coaches mediante perfiles verificados y búsqueda por intención.">
+  <meta name="twitter:image" content="https://www.fightscout.com/peleador1.jpeg">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/nav.js" defer></script>
 </head>
 
 <body>
@@ -14,13 +28,22 @@
   <!-- ===== HEADER STICKY ===== -->
   <header>
     <a href="index.html" class="marca">Fight<span>Scout</span></a>
-    <nav aria-label="Navegación principal">
+
+    <button type="button" class="nav-toggle" id="navToggle" aria-controls="navPrincipal" aria-expanded="false" aria-label="Abrir menú de navegación">
+      <span class="nav-toggle-barra"></span>
+      <span class="nav-toggle-barra"></span>
+      <span class="nav-toggle-barra"></span>
+    </button>
+
+    <nav aria-label="Navegación principal" id="navPrincipal">
       <ul>
         <li><a href="index.html" aria-current="page">Inicio</a></li>
         <li><a href="registro.html">Crear Perfil</a></li>
         <li><a href="registroScout.html">Buscar talento</a></li>
       </ul>
     </nav>
+
+    <div class="nav-backdrop" id="navBackdrop" hidden></div>
   </header>
 
   <main id="contenido">

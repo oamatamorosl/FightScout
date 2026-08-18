@@ -58,12 +58,14 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
   outline-offset: 3px;
 }
 
-/* ===== HEADER STICKY (compartido) ·  BASE = MÓVIL (apilado) ===== */
+/* ===== HEADER STICKY (compartido) · el nav es fixed, así que el header
+   solo necesita alinear marca + hamburguesa en una fila, en cualquier tamaño ===== */
 header {
   position: sticky; top: 0; z-index: 50;
   display: flex;
-  flex-direction: column;        /* móvil: logo arriba, nav debajo */
-  align-items: flex-start;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   gap: 12px;
   padding: 14px 6vw;
   background: rgba(10,10,11,0.9);
@@ -73,13 +75,63 @@ header {
 .marca { font-size: 1.6rem; color: var(--hueso); text-decoration: none; }
 .marca span { color: var(--sangre); }
 
-nav ul { list-style: none; display: flex; gap: 12px; flex-wrap: wrap; } /* móvil: enlaces bajan de línea si no caben */
+/* ===== HAMBURGUESA · visible solo en móvil (se oculta en ≥768px) ===== */
+.nav-toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--linea);
+  cursor: pointer;
+  z-index: 61;   /* por encima del drawer, para que se convierta en "X" visible */
+}
+.nav-toggle-barra {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--hueso);
+  transition: transform 0.25s, opacity 0.25s;
+}
+.nav-toggle-activo .nav-toggle-barra:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle-activo .nav-toggle-barra:nth-child(2) { opacity: 0; }
+.nav-toggle-activo .nav-toggle-barra:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ===== DRAWER DE NAVEGACIÓN · BASE = MÓVIL (panel fuera de pantalla) ===== */
+.nav-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 59;
+}
+nav {
+  position: fixed;
+  top: 0; right: 0;
+  height: 100vh;
+  width: min(78vw, 320px);
+  background: var(--carbon);
+  border-left: 1px solid var(--linea);
+  padding: 90px 28px 40px;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  z-index: 60;
+  overflow-y: auto;
+}
+nav.nav-drawer-abierto { transform: translateX(0); }
+
+nav ul { list-style: none; display: flex; flex-direction: column; gap: 28px; }
 nav a {
   color: var(--ceniza); text-decoration: none; font-weight: 600;
-  text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;
+  text-transform: uppercase; font-size: 1.05rem; letter-spacing: 1px;
   transition: color 0.2s;
 }
 nav a:hover, nav a[aria-current="page"] { color: var(--hueso); }
+
+/* evita que el fondo haga scroll mientras el drawer está abierto */
+body.nav-bloqueo-scroll { overflow: hidden; }
 
 /* ===== BOTONES (compartido) ===== */
 .btn {
@@ -327,6 +379,19 @@ input:focus, select:focus, textarea:focus { border-color: var(--sangre); outline
 textarea { resize: vertical; min-height: 110px; }
 .ayuda { color: var(--ceniza); font-size: 0.8rem; margin-top: 6px; }
 
+/* ===== VALIDACIÓN DE FORMULARIO (JS) ===== */
+.campo-invalido { border-color: var(--sangre); }
+.error-campo { color: var(--sangre); font-size: 0.8rem; margin-top: 6px; font-weight: 600; }
+.formulario-confirmacion {
+  color: var(--hueso);
+  background: var(--carbon);
+  border: 1px solid var(--linea);
+  border-left: 3px solid var(--sangre);
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  font-size: 0.9rem;
+}
+
 /* móvil: los botones del formulario ocupan todo el ancho y apilan */
 .acciones-form { margin-top: 10px; display: flex; gap: 16px; flex-wrap: wrap; }
 .acciones-form .btn { width: 100%; text-align: center; }
@@ -340,7 +405,6 @@ textarea { resize: vertical; min-height: 110px; }
 
 /* ===== ≥ 480px : más espacio y tipografía a tamaño completo ===== */
 @media (min-width: 480px) {
-  nav ul { gap: 18px; }
   .hero h1 { font-size: clamp(2.8rem, 8vw, 6rem); }
   section { padding: 90px 6vw; }
   .page-head { padding-top: 60px; }
@@ -350,15 +414,20 @@ textarea { resize: vertical; min-height: 110px; }
 
 /* ===== ≥ 768px : estructura de escritorio (varias columnas) ===== */
 @media (min-width: 768px) {
-  /* header vuelve a una sola fila: logo izquierda, nav derecha */
-  header {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0;
-    padding: 16px 6vw;
+  header { gap: 0; padding: 16px 6vw; }
+
+  /* la hamburguesa y el drawer ya no hacen falta: el nav vuelve a fluir en el header */
+  .nav-toggle, .nav-backdrop { display: none; }
+  nav {
+    position: static;
+    height: auto; width: auto;
+    background: transparent; border-left: 0;
+    padding: 0;
+    transform: none;
+    overflow: visible;
   }
-  nav ul { gap: 28px; flex-wrap: nowrap; }
+  nav ul { flex-direction: row; gap: 28px; flex-wrap: nowrap; }
+  nav a { font-size: 0.85rem; }
 
   /* landing */
   .hero {

@@ -4,8 +4,23 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Crear cuenta de scout · FightScout</title>
+  <meta name="description" content="Regístrate como scout o coach en FightScout y busca talento de MMA y boxeo en Latinoamérica por estilo, disciplina y récord de combate.">
 
-  <link rel="stylesheet" href="styles.css">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Crear cuenta de scout · FightScout">
+  <meta property="og:description" content="Regístrate como scout o coach en FightScout y busca talento de MMA y boxeo en Latinoamérica por estilo, disciplina y récord de combate.">
+  <meta property="og:url" content="https://www.fightscout.com/registroScout.html">
+  <meta property="og:image" content="https://www.fightscout.com/peleador1.jpeg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Crear cuenta de scout · FightScout">
+  <meta name="twitter:description" content="Regístrate como scout o coach en FightScout y busca talento de MMA y boxeo en Latinoamérica por estilo, disciplina y récord de combate.">
+  <meta name="twitter:image" content="https://www.fightscout.com/peleador1.jpeg">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/nav.js" defer></script>
+  <script src="js/validarPerfilScout.js" defer></script>
 </head>
 
 <body>
@@ -14,13 +29,22 @@
   <!-- ===== HEADER ===== -->
   <header>
     <a href="index.html" class="marca">Fight<span>Scout</span></a>
-    <nav aria-label="Navegación principal">
+
+    <button type="button" class="nav-toggle" id="navToggle" aria-controls="navPrincipal" aria-expanded="false" aria-label="Abrir menú de navegación">
+      <span class="nav-toggle-barra"></span>
+      <span class="nav-toggle-barra"></span>
+      <span class="nav-toggle-barra"></span>
+    </button>
+
+    <nav aria-label="Navegación principal" id="navPrincipal">
       <ul>
         <li><a href="index.html">Inicio</a></li>
         <li><a href="registro.html">Crear Perfil</a></li>
         <li><a href="registroScout.html" aria-current="page">Buscar talento</a></li>
       </ul>
     </nav>
+
+    <div class="nav-backdrop" id="navBackdrop" hidden></div>
   </header>
 
   <main id="contenido">
@@ -37,7 +61,7 @@
       <div class="volver-wrap">
         <a href="index.html" class="btn-volver">← Volver al inicio</a>
       </div>
-      <form action="#" method="post">
+      <form id="formPerfilScout" action="#" method="post" novalidate>
 
         <!-- GRUPO 1: DATOS PERSONALES -->
         <fieldset>
