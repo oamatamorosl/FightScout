@@ -135,7 +135,11 @@
   }
 
   function mostrarError(campo: CampoFormulario, mensaje: string): void {
-    campo.classList.add('campo-invalido');
+    // El color/ícono del campo los decide el CSS (:invalid). Acá solo le
+    // avisamos a la plataforma que es inválido —también cubre reglas que
+    // el HTML nativo no puede expresar, como "nocauts ≤ victorias"— y
+    // dejamos el mensaje accesible en su propio elemento.
+    campo.setCustomValidity(mensaje);
     campo.setAttribute('aria-invalid', 'true');
 
     const contenedor = obtenerContenedor(campo);
@@ -152,7 +156,7 @@
   }
 
   function limpiarError(campo: CampoFormulario): void {
-    campo.classList.remove('campo-invalido');
+    campo.setCustomValidity('');
     campo.removeAttribute('aria-invalid');
     campo.removeAttribute('aria-describedby');
 

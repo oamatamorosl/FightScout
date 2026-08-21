@@ -68,7 +68,10 @@
         return (_b = (_a = campo.closest('.campo')) !== null && _a !== void 0 ? _a : campo.parentElement) !== null && _b !== void 0 ? _b : campo;
     }
     function mostrarError(campo, mensaje) {
-        campo.classList.add('campo-invalido');
+        // El color/ícono del campo los decide el CSS (:invalid). Acá solo le
+        // avisamos a la plataforma que es inválido y dejamos el mensaje
+        // accesible en su propio elemento.
+        campo.setCustomValidity(mensaje);
         campo.setAttribute('aria-invalid', 'true');
         const contenedor = obtenerContenedor(campo);
         const idError = `${campo.id}-error`;
@@ -83,7 +86,7 @@
         campo.setAttribute('aria-describedby', idError);
     }
     function limpiarError(campo) {
-        campo.classList.remove('campo-invalido');
+        campo.setCustomValidity('');
         campo.removeAttribute('aria-invalid');
         campo.removeAttribute('aria-describedby');
         const contenedor = obtenerContenedor(campo);

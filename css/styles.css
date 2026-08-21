@@ -18,6 +18,7 @@
   --hueso:      #f2ede4;   /* texto principal, blanco hueso */
   --ceniza:     #8a8a92;   /* texto secundario, gris ceniza */
   --linea:      #2a2a30;   /* bordes y divisores */
+  --exito:      #3fae6a;   /* verde: feedback de campo válido */
 }
 
 /* ===== BASE ===== */
@@ -279,6 +280,29 @@ section { padding: 60px 6vw; }   /* móvil: menos aire vertical */
 .publicos h3 { font-size: 1.35rem; font-weight: 700; margin-bottom: 14px; color: var(--hueso); }
 .publicos p { color: var(--ceniza); margin-bottom: 26px; }
 
+/* ===== TESTIMONIOS · BASE = MÓVIL (una columna) ===== */
+.testimonios {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 20px;
+}
+.testimonio {
+  display: flex; flex-direction: column;
+  background: var(--carbon);
+  border: 1px solid var(--linea);
+  border-bottom: 3px solid var(--sangre);
+  padding: 30px 24px;
+}
+.testimonio blockquote { margin: 0 0 20px; }
+.testimonio blockquote p { color: var(--hueso); font-size: 1rem; }
+.testimonio cite { display: flex; flex-direction: column; font-style: normal; }
+.testimonio-nombre {
+  font-family: 'Arial Narrow', sans-serif; text-transform: uppercase;
+  font-size: 1.1rem; letter-spacing: 1px; color: var(--hueso);
+}
+.testimonio-rol { color: var(--sangre); font-size: 0.85rem; font-weight: 700; }
+
 /* ===== CÓMO FUNCIONA: 3 pasos · BASE = MÓVIL (apilados) ===== */
 .pasos { display: grid; grid-template-columns: 1fr; gap: 28px; }
 .paso { border-left: 2px solid var(--sangre); padding-left: 22px; }
@@ -373,14 +397,60 @@ input, select, textarea {
   padding: 12px 14px;
   font-size: 1rem;
   font-family: inherit;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, background-color 0.2s;
 }
+/* espacio reservado para el ícono de :valid/:invalid, siempre — así el campo
+   no "salta" de tamaño cuando el ícono aparece o desaparece */
+input, textarea { padding-right: 42px; }
+
 input:focus, select:focus, textarea:focus { border-color: var(--sangre); outline: none; }
 textarea { resize: vertical; min-height: 110px; }
 .ayuda { color: var(--ceniza); font-size: 0.8rem; margin-top: 6px; }
 
-/* ===== VALIDACIÓN DE FORMULARIO (JS) ===== */
-.campo-invalido { border-color: var(--sangre); }
+/* =========================================================
+   FEEDBACK VISUAL NATIVO: :valid / :invalid / :focus
+   El color nunca es la única pista: cada estado suma un ícono (círculo con
+   "!" para inválido, check para válido) además del borde/fondo. El mensaje
+   de texto sigue viviendo en su propio elemento (.error-campo, más abajo),
+   generado por TS — ahí solo delega la validez vía setCustomValidity(), el
+   color y el ícono los decide el CSS, nunca un classList.add() en JS.
+
+   No se marca en rojo antes de que el usuario escriba algo (:not(:placeholder-shown))
+   ni mientras sigue escribiendo (:not(:focus)) — solo al salir del campo.
+   ========================================================= */
+input:invalid:not(:placeholder-shown):not(:focus),
+textarea:invalid:not(:placeholder-shown):not(:focus) {
+  border-color: var(--sangre);
+  background-color: rgba(193, 18, 31, 0.08);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='none' stroke='%23c1121f' stroke-width='1.5'/%3E%3Cline x1='8' y1='4.5' x2='8' y2='9' stroke='%23c1121f' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='8' cy='11.5' r='0.9' fill='%23c1121f'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px;
+}
+
+input:valid:not(:placeholder-shown),
+textarea:valid:not(:placeholder-shown) {
+  border-color: var(--exito);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-6.5' fill='none' stroke='%233fae6a' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px;
+}
+
+textarea:invalid:not(:placeholder-shown):not(:focus),
+textarea:valid:not(:placeholder-shown) {
+  background-position: right 14px top 14px;   /* arriba, no centrado en un cuadro alto */
+}
+
+/* <select> no soporta :placeholder-shown (no aplica a ese elemento): se usa
+   :user-invalid/:user-valid, pensados justo para esto — solo se activan
+   después de que el usuario interactúa con el campo, no antes. Sin ícono
+   propio para no pelear con la flecha nativa del navegador; el color +
+   el mensaje de texto de abajo ya cubren la pista no-solo-color. */
+select:user-invalid:not(:focus) { border-color: var(--sangre); background-color: rgba(193, 18, 31, 0.08); }
+select:user-valid { border-color: var(--exito); }
+
+/* ===== VALIDACIÓN DE FORMULARIO (JS): solo el mensaje de texto y aria-* ===== */
 .error-campo { color: var(--sangre); font-size: 0.8rem; margin-top: 6px; font-weight: 600; }
 .formulario-confirmacion {
   color: var(--hueso);
