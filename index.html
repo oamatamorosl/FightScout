@@ -193,12 +193,12 @@
     items.forEach(el => io.observe(el));
 
     // ===== CARRUSEL DEL HERO: cambia de imagen cada 2 segundos, en bucle =====
-    const slides = document.querySelectorAll('.hero-carrusel .slide');
+    const slides = document.querySelectorAll('.hero-carrusel .slide'); // agarra las 4 imágenes
     let actual = 0;
-    setInterval(() => {
-      slides[actual].classList.remove('activa');
-      actual = (actual + 1) % slides.length;
-      slides[actual].classList.add('activa');
+    setInterval(() => { // 1. apaga la actual
+      slides[actual].classList.remove('activa'); // 2. avanza al siguiente índice
+      actual = (actual + 1) % slides.length; // 3. enciende la nueva
+      slides[actual].classList.add('activa'); // repite cada 2000ms (2 seg)
     }, 2000);
   </script>
 

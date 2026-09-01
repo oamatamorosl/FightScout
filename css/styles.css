@@ -384,6 +384,7 @@ legend {
 .col-full { grid-column: 1 / -1; }
 
 .campo { display: flex; flex-direction: column; }
+.oculto { display: none; }
 label {
   font-size: 0.9rem; font-weight: 600; margin-bottom: 8px;
   color: var(--hueso);

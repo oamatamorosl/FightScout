@@ -90,30 +90,17 @@
             </div>
 
             <div class="campo">
-              <label for="age">Edad <span class="req">*</span></label>
-              <input id="age" name="age" type="number" min="18" max="60" placeholder="Ej: 24" required>
-              <p class="ayuda">Debes ser mayor de 18 años.</p>
-            </div>
-
-            <div class="campo">
-              <label for="weight">Peso <span class="req">*</span></label>
-              <input id="weight" name="weight" type="number" min="40" max="200" step="0.1" placeholder="Ej: 70.5" required>
-            </div>
-
-            <div class="campo">
-              <label for="weightUnit">Unidad de peso <span class="req">*</span></label>
-              <select id="weightUnit" name="weightUnit" required>
-                <option value="kg">Kilogramos (kg)</option>
-                <option value="lb">Libras (lb)</option>
-              </select>
+              <label for="birthDate">Fecha de nacimiento <span class="req">*</span></label>
+              <input id="birthDate" name="birthDate" type="date" min="1960-01-01" max="2026-08-27" required>
+              <p class="ayuda">Debes ser mayor de 18 años para registrarte.</p>
             </div>
 
           </div>
         </fieldset>
 
-        <!-- GRUPO 2: DISCIPLINA Y ESTILO -->
+        <!-- GRUPO 2: DISCIPLINA Y CATEGORÍA -->
         <fieldset>
-          <legend>Disciplina y estilo</legend>
+          <legend>Disciplina y categoría</legend>
           <div class="campos">
 
             <div class="campo">
@@ -126,6 +113,14 @@
             </div>
 
             <div class="campo">
+              <label for="weightClass">División de peso <span class="req">*</span></label>
+              <select id="weightClass" name="weightClass" required disabled>
+                <option value="">Primero elige disciplina</option>
+              </select>
+              <p class="ayuda">¿Compites en otra división? Selecciona la categoría en la que compites oficialmente.</p>
+            </div>
+
+            <div class="campo">
               <label for="stance">Guardia <span class="req">*</span></label>
               <select id="stance" name="stance" required>
                 <option value="">Selecciona guardia</option>
@@ -135,18 +130,71 @@
               </select>
             </div>
 
-            <div class="campo col-full">
-              <label for="style">Describe tu estilo de pelea</label>
-              <textarea id="style" name="style" maxlength="400" placeholder="Ej: presión constante, buen juego de suelo, contragolpeador..."></textarea>
-              <p class="ayuda">Máximo 400 caracteres. Esto ayuda a los scouts a encontrarte.</p>
+            <div class="campo">
+              <label for="height">Estatura (cm) <span class="req">*</span></label>
+              <input id="height" name="height" type="number" min="120" max="230" required>
+              <p class="ayuda">En centímetros. Ej: 178</p>
+            </div>
+
+            <div class="campo">
+              <label for="reach">Alcance / envergadura (cm) <span class="req">*</span></label>
+              <input id="reach" name="reach" type="number" min="120" max="250" required>
+              <p class="ayuda">En centímetros, de punta a punta de los brazos extendidos. Ej: 183</p>
+            </div>
+
+            <div class="campo">
+              <label for="walkAroundWeight">Peso natural (opcional)</label>
+              <input id="walkAroundWeight" name="walkAroundWeight" type="number" min="0" step="0.1" placeholder="Ej: 75">
+              <p class="ayuda">Tu peso con el que caminas, sin corte de peso.</p>
+            </div>
+
+            <div class="campo">
+              <label for="walkAroundUnit">Unidad</label>
+              <select id="walkAroundUnit" name="walkAroundUnit">
+                <option value="kg">Kilogramos (kg)</option>
+                <option value="lb">Libras (lb)</option>
+              </select>
             </div>
 
           </div>
         </fieldset>
 
-        <!-- GRUPO 3: RÉCORD -->
+        <!-- GRUPO 3: TRAYECTORIA -->
         <fieldset>
-          <legend>Récord de peleas</legend>
+          <legend>Trayectoria</legend>
+          <div class="campos">
+
+            <div class="campo">
+              <label for="fighterType">Tipo de peleador <span class="req">*</span></label>
+              <select id="fighterType" name="fighterType" required>
+                <option value="">Selecciona una opción</option>
+                <option value="amateur">Amateur</option>
+                <option value="profesional">Profesional</option>
+              </select>
+            </div>
+
+            <div class="campo oculto">
+              <label for="debutDate">Fecha de debut profesional</label>
+              <input id="debutDate" name="debutDate" type="date" max="2026-08-27">
+            </div>
+
+            <div class="campo oculto">
+              <label for="trainingYears">Años que llevas entrenando</label>
+              <input id="trainingYears" name="trainingYears" type="number" min="0" max="60">
+            </div>
+
+            <div class="campo col-full">
+              <label for="achievements">Logros y reconocimientos</label>
+              <textarea id="achievements" name="achievements" maxlength="600"></textarea>
+              <p class="ayuda">Títulos, torneos, cinturones, reconocimientos. Este campo ayuda a que los scouts te encuentren.</p>
+            </div>
+
+          </div>
+        </fieldset>
+
+        <!-- GRUPO 4: RÉCORD Y ESTILO -->
+        <fieldset>
+          <legend>Récord y estilo</legend>
           <div class="campos">
 
             <div class="campo">
@@ -167,6 +215,18 @@
             <div class="campo">
               <label for="knockouts">Nocauts (KO)</label>
               <input id="knockouts" name="knockouts" type="number" min="0" placeholder="Ej: 3">
+            </div>
+
+            <div class="campo">
+              <label for="firstRoundKos">Nocauts en el primer round</label>
+              <input id="firstRoundKos" name="firstRoundKos" type="number" min="0" placeholder="Ej: 1" disabled>
+              <p class="ayuda">Primero ingresa tus nocauts totales.</p>
+            </div>
+
+            <div class="campo col-full">
+              <label for="style">Describe tu estilo de pelea</label>
+              <textarea id="style" name="style" maxlength="400" placeholder="Ej: presión constante, buen juego de suelo, contragolpeador..."></textarea>
+              <p class="ayuda">Máximo 400 caracteres. Esto ayuda a los scouts a encontrarte.</p>
             </div>
 
           </div>
