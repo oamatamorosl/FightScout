@@ -1,0 +1,63 @@
+/* =========================================================
+   Tokens de diseño — fuente única de verdad para todo el sitio
+   (index.html, registro.html, registroScout.html, playground.html).
+   Por eso este archivo se enlaza ANTES que cualquier otra hoja de
+   estilos: todo lo demás asume que estas variables ya existen.
+   ========================================================= */
+:root{
+
+    /* ===== Colores de marca (idénticos a los de css/styles.css) ===== */
+    --negro:#0a0a0b;
+    --carbon:#16161a;
+    --sangre:#c1121f;
+    --sangre-osc:#7a0c15;
+    --hueso:#f2ede4;
+    --ceniza:#8a8a92;
+    --linea:#2a2a30;
+    --exito:#3fae6a;
+    --carbon-claro:#1e1e24;   /* carbón más claro, para hover de superficies */
+
+    /* ===== Colores semánticos (feedback de UI: alerts, toasts, etc.) ===== */
+    --semantic-error:#ef4444;
+    --semantic-success:#10b981;
+    --semantic-warning:#f59e0b;
+    --semantic-info: #3b82f6;
+    --border: 8px;
+
+    /* ===== Tipografía — familias ===== */
+    --fuente-titulo: 'Arial Narrow', 'Roboto Condensed', 'Impact', sans-serif;
+    --fuente-cuerpo: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+    /* ===== Tipografía — tamaños ===== */
+    --texto-sm: 0.85rem;
+    --texto-base: 1rem;
+    --texto-lg: 1.2rem;
+    --texto-xl: 1.5rem;
+    --texto-titulo: 2rem;
+    --texto-hero: clamp(2.2rem, 8vw, 6rem);
+
+    /* ===== Tipografía — pesos ===== */
+    --peso-normal: 400;
+    --peso-medio: 600;
+    --peso-fuerte: 700;
+
+    /* ===== Espaciado — el número del nombre ES el valor en px ===== */
+    --espacio-4: 4px;
+    --espacio-6: 6px;
+    --espacio-8: 8px;
+    --espacio-10: 10px;
+    --espacio-12: 12px;
+    --espacio-14: 14px;
+    --espacio-16: 16px;
+    --espacio-18: 18px;
+    --espacio-20: 20px;
+    --espacio-22: 22px;
+    --espacio-24: 24px;
+    --espacio-28: 28px;
+    --espacio-30: 30px;
+    --espacio-34: 34px;
+    --espacio-40: 40px;
+    --espacio-50: 50px;
+    --espacio-60: 60px;
+    --espacio-90: 90px;
+}
