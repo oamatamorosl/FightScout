@@ -66,18 +66,23 @@
   transform: translateY(1px);
 }
 
-/* ===== DESTRUCTIVE: mismo lenguaje (sólido, borde a juego), pero con el
-   rojo semántico de error — para que nunca se confunda con "Guardar" ===== */
+/* Destructiva: fantasma con acento de error. Pesa menos que la acción
+   principal (roja sólida) para no competir con la identidad de marca;
+   se rellena solo al interactuar, comunicando peligro sin dominar. */
 .c-btn--destructive {
+  background: transparent;
+  border-color: var(--semantic-error);
+  color: var(--semantic-error);
+}
+.c-btn--destructive:hover {
+  background: var(--semantic-error);
+  color: var(--hueso);
+}
+.c-btn--destructive:active {
   background: var(--semantic-error);
   border-color: var(--semantic-error);
   color: var(--hueso);
-}
-.c-btn--destructive:hover {
   filter: brightness(0.85);
-}
-.c-btn--destructive:active {
-  filter: brightness(0.72);
   transform: translateY(1px);
 }
 
