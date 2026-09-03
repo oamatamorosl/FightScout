@@ -1,11 +1,33 @@
-/* Dialogs — selectores vacíos, listos para estilar a mano. */
+/* Dialogs — identidad oscura de FightScout sobre el <dialog> nativo. */
 
-.c-dialog { }
-.c-dialog-title { }
-.c-dialog-actions { }
-
-@media (max-width: 480px) {
+.c-dialog {
+  background: var(--carbon);
+  color: var(--hueso);
+  border: 1px solid var(--linea);
+  border-top: 3px solid var(--sangre);
+  border-radius: var(--border);
+  padding: var(--espacio-28);
+  max-width: 440px;
+  width: 90%;
 }
-
-@media (max-width: 768px) {
+/* fondo oscuro tras el modal */
+.c-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+.c-dialog-title {
+  font-family: var(--fuente-titulo);
+  text-transform: uppercase;
+  color: var(--hueso);
+  font-size: var(--texto-xl);
+  margin: 0 0 var(--espacio-12);
+}
+.c-dialog p {
+  color: var(--ceniza);
+  font-size: var(--texto-sm);
+  margin: 0 0 var(--espacio-24);
+}
+.c-dialog-actions {
+  display: flex;
+  gap: var(--espacio-12);
+  justify-content: flex-end;
 }
