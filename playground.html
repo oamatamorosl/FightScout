@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Playground de componentes · FightScout backoffice</title>
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/playground.css">
+  <link rel="stylesheet" href="css/styles.css">
+
+
+
+  <!-- Chrome de la página (aside, layout de dos columnas, espaciado general).
+       Reglas del componente en sí NO van acá: viven en /css, vacías a propósito. -->
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      display: flex;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #1a1a1a;
+    }
+
+    .pg-aside {
+      flex-shrink: 0;
+      width: 220px;
+      padding: 28px 20px;
+      border-right: 1px solid #ddd;
+      position: sticky;
+      top: 0;
+      align-self: flex-start;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .pg-aside p {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #888;
+      margin: 0 0 14px;
+    }
+    .pg-aside ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+    .pg-aside a {
+      display: block;
+      padding: 8px 10px;
+      color: #1a1a1a;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 0.92rem;
+    }
+    .pg-aside a:hover, .pg-aside a:focus-visible { background: #f0f0f0; }
+
+    .pg-main { flex: 1; min-width: 0; padding: 40px clamp(20px, 5vw, 56px) 100px; max-width: 1200px; }
+    .pg-main > p { color: #555; max-width: 65ch; }
+
+    .pg-section {
+      margin-top: 64px;
+      padding-top: 40px;
+      border-top: 1px solid #ddd;
+      scroll-margin-top: 20px;
+    }
+    .pg-section:first-of-type { margin-top: 40px; }
+    .pg-section h2 { margin: 0 0 20px; }
+
+    .pg-grid { display: grid; grid-template-columns: 1fr; gap: 32px; align-items: start; }
+    @media (min-width: 860px) {
+      .pg-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 48px; }
+    }
+
+    .pg-col h3 {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #888;
+      margin: 0 0 14px;
+    }
+    .pg-componente > * + * { margin-top: 14px; }
+    .pg-comportamiento dl { margin: 0; }
+    .pg-comportamiento dt { font-weight: 600; margin-top: 12px; }
+    .pg-comportamiento dt:first-child { margin-top: 0; }
+    .pg-comportamiento dd { margin: 2px 0 0; color: #444; }
+
+    .pg-menu-instancia { position: relative; display: inline-block; }
+    .pg-menu-instancia + .pg-menu-instancia { margin-left: 16px; }
+  </style>
+</head>
+
+<body>
+
+  <aside class="pg-aside">
+    <p>Componentes</p>
+    <nav aria-label="Componentes del playground">
+      <ul>
+        <li><a href="#seccion-alerts">Alerts</a></li>
+        <li><a href="#seccion-botones">Botones</a></li>
+        <li><a href="#seccion-checkboxes-radios">Checkboxes/Radios</a></li>
+        <li><a href="#seccion-dialogs">Dialogs</a></li>
+        <li><a href="#seccion-menus">Menús</a></li>
+        <li><a href="#seccion-toasts">Toasts</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="pg-main">
+    <h1>Playground de componentes</h1>
+    <p>HTML real de los componentes de interacción del backoffice de FightScout, listo para estilar en /css. El comportamiento de teclado y foco de Dialogs, Menús y Toasts ya está implementado en <code>ts/playground.ts</code>.</p>
+
+    <!-- ===== 1. ALERTS ===== -->
+    <section class="pg-section" id="seccion-alerts" aria-labelledby="titulo-alerts">
+      <h2 id="titulo-alerts">Alerts</h2>
+      <div class="pg-grid">
+
+        <div class="pg-col pg-componente">
+          <h3>Componente</h3>
+
+          <div class="c-alert c-alert--success" role="status">
+            <span class="c-alert-icon" aria-hidden="true">✓</span>
+            <div class="c-alert-cuerpo">
+              <p class="c-alert-title">Éxito</p>
+              <p class="c-alert-message">Perfil de peleador guardado correctamente.</p>
+            </div>
+            <button type="button" class="c-alert-close" aria-label="Cerrar alerta">✕</button>
+          </div>
+
+          <div class="c-alert c-alert--error" role="alert">
+            <span class="c-alert-icon" aria-hidden="true">⚠</span>
+            <div class="c-alert-cuerpo">
+              <p class="c-alert-title">Error</p>
+              <p class="c-alert-message">No se pudo guardar el perfil. Intenta de nuevo.</p>
+            </div>
+            <button type="button" class="c-alert-close" aria-label="Cerrar alerta">✕</button>
+          </div>
+
+          <div class="c-alert c-alert--warning" role="alert">
+            <span class="c-alert-icon" aria-hidden="true">!</span>
+            <div class="c-alert-cuerpo">
+              <p class="c-alert-title">Atención</p>
+              <p class="c-alert-message">Tu sesión de administrador expira en 5 minutos.</p>
+            </div>
+            <button type="button" class="c-alert-close" aria-label="Cerrar alerta">✕</button>
+          </div>
+
+          <div class="c-alert c-alert--info" role="alert">
+            <span class="c-alert-icon" aria-hidden="true">ℹ</span>
+            <div class="c-alert-cuerpo">
+              <p class="c-alert-title">Información</p>
+              <p class="c-alert-message">La revisión de perfiles nuevos puede tardar hasta 48 horas.</p>
+            </div>
+            <button type="button" class="c-alert-close" aria-label="Cerrar alerta">✕</button>
+          </div>
+        </div>
+
+        <div class="pg-col pg-comportamiento">
+          <h3>Teclado y foco</h3>
+          <dl>
+            <dt>Activación</dt>
+            <dd>No es un widget que se "abra": aparece como parte del flujo de la página. Lo único enfocable es el botón de cerrar, un <code>&lt;button&gt;</code> nativo que entra al orden de tabulación normal.</dd>
+            <dt>Anuncio</dt>
+            <dd><code>role="alert"</code> (error, advertencia) interrumpe al lector de pantalla de inmediato — se usa para lo urgente. <code>role="status"</code> (éxito, informativo) anuncia con cortesía, sin interrumpir.</dd>
+            <dt>Cierre</dt>
+            <dd>Enter o Espacio sobre el botón de cerrar (enfocado con Tab) lo activa. No le quita el foco a nada más de la página.</dd>
+          </dl>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== 2. BOTONES ===== -->
+    <section class="pg-section" id="seccion-botones" aria-labelledby="titulo-botones">
+      <h2 id="titulo-botones">Botones</h2>
+      <div class="pg-grid">
+
+        <div class="pg-col pg-componente">
+          <h3>Componente</h3>
+          <button type="button" class="c-btn c-btn--primary">Guardar</button>
+          <button type="button" class="c-btn c-btn--secondary">Cancelar</button>
+          <button type="button" class="c-btn c-btn--destructive">Eliminar</button>
+          <button type="button" class="c-btn c-btn--icon" aria-label="Más opciones">⋮</button>
+        </div>
+
+        <div class="pg-col pg-comportamiento">
+          <h3>Teclado y foco</h3>
+          <dl>
+            <dt>Foco</dt>
+            <dd>Tab / Shift+Tab los recorre en el orden del DOM. El icon button no tiene texto visible, pero su <code>aria-label</code> lo describe igual para quien navega con lector de pantalla.</dd>
+            <dt>Activación</dt>
+            <dd>Enter y Espacio activan por igual un <code>&lt;button&gt;</code> enfocado — es comportamiento nativo, no hay JS involucrado acá.</dd>
+          </dl>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== 3. CHECKBOXES / RADIOS ===== -->
+    <section class="pg-section" id="seccion-checkboxes-radios" aria-labelledby="titulo-checkboxes-radios">
+      <h2 id="titulo-checkboxes-radios">Checkboxes/Radios</h2>
+      <div class="pg-grid">
+
+        <div class="pg-col pg-componente">
+          <h3>Componente</h3>
+
+          <fieldset class="c-check-group">
+            <legend>Filtrar por disciplina</legend>
+            <div class="c-check">
+              <input type="checkbox" id="filtroMma" name="filtroDisciplina" value="mma">
+              <label for="filtroMma">MMA</label>
+            </div>
+            <div class="c-check">
+              <input type="checkbox" id="filtroBoxeo" name="filtroDisciplina" value="boxeo">
+              <label for="filtroBoxeo">Boxeo</label>
+            </div>
+            <div class="c-check">
+              <input type="checkbox" id="filtroVerificados" name="filtroDisciplina" value="verificados">
+              <label for="filtroVerificados">Solo perfiles verificados</label>
+            </div>
+          </fieldset>
+
+          <fieldset class="c-radio-group">
+            <legend>Estado del perfil</legend>
+            <div class="c-radio">
+              <input type="radio" id="estadoPendiente" name="estadoPerfil" value="pendiente">
+              <label for="estadoPendiente">Pendiente</label>
+            </div>
+            <div class="c-radio">
+              <input type="radio" id="estadoAprobado" name="estadoPerfil" value="aprobado">
+              <label for="estadoAprobado">Aprobado</label>
+            </div>
+            <div class="c-radio">
+              <input type="radio" id="estadoRechazado" name="estadoPerfil" value="rechazado">
+              <label for="estadoRechazado">Rechazado</label>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="pg-col pg-comportamiento">
+          <h3>Teclado y foco</h3>
+          <dl>
+            <dt>Entre grupos</dt>
+            <dd>Tab / Shift+Tab mueven el foco entre el grupo de checkboxes y el de radios (y hacia/desde el resto de la página) — comportamiento nativo del <code>&lt;fieldset&gt;</code>.</dd>
+            <dt>Dentro de los checkboxes</dt>
+            <dd>Cada checkbox recibe su propia parada en el Tab; Espacio lo marca o desmarca de forma independiente.</dd>
+            <dt>Dentro de los radios</dt>
+            <dd>Al compartir <code>name</code>, el grupo entero cuenta como una sola parada de Tab (la opción marcada, o la primera si ninguna lo está). Una vez adentro, las flechas ↑/↓ mueven la selección y desmarcan automáticamente al resto del grupo.</dd>
+          </dl>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== 4. DIALOGS ===== -->
+    <section class="pg-section" id="seccion-dialogs" aria-labelledby="titulo-dialogs">
+      <h2 id="titulo-dialogs">Dialogs</h2>
+      <div class="pg-grid">
+
+        <div class="pg-col pg-componente">
+          <h3>Componente</h3>
+
+          <button type="button" class="c-btn c-btn--destructive" id="triggerDialogEliminar">Eliminar perfil</button>
+
+          <dialog class="c-dialog" id="dialogEliminarPerfil" aria-labelledby="dialogEliminarTitulo">
+            <h2 class="c-dialog-title" id="dialogEliminarTitulo">¿Eliminar este perfil?</h2>
+            <p>Esta acción no se puede deshacer. El perfil de peleador se va a eliminar de forma permanente de FightScout.</p>
+            <div class="c-dialog-actions">
+              <button type="button" class="c-btn c-btn--secondary" id="dialogEliminarCancelar">Cancelar</button>
+              <button type="button" class="c-btn c-btn--destructive" id="dialogEliminarConfirmar">Eliminar</button>
+            </div>
+          </dialog>
+        </div>
+
+        <div class="pg-col pg-comportamiento">
+          <h3>Teclado y foco</h3>
+          <dl>
+            <dt>Apertura</dt>
+            <dd>Enter o Espacio sobre "Eliminar perfil" (enfocado con Tab) llama a <code>dialogEliminarPerfil.showModal()</code>. Al abrir, el navegador enfoca el primer elemento enfocable adentro — acá, "Cancelar", nunca la acción destructiva, a propósito.</dd>
+            <dt>Mientras está abierto</dt>
+            <dd>El foco queda atrapado dentro del <code>&lt;dialog&gt;</code>: Tab/Shift+Tab solo recorren sus botones, no el resto de la página (nativo de <code>showModal()</code>, no hay JS de por medio).</dd>
+            <dt>Cierre</dt>
+            <dd>Escape lo cierra de forma nativa. "Cancelar" y "Eliminar" también lo cierran. En los tres casos, el foco vuelve al botón "Eliminar perfil" que lo abrió — lo hace explícito <code>ts/playground.ts</code> escuchando el evento <code>close</code>.</dd>
+          </dl>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== 5. MENÚS ===== -->
+    <section class="pg-section" id="seccion-menus" aria-labelledby="titulo-menus">
+      <h2 id="titulo-menus">Menús</h2>
+      <div class="pg-grid">
+
+        <div class="pg-col pg-componente">
+          <h3>Componente</h3>
+
+          <div class="pg-menu-instancia">
+            <button type="button" class="c-btn c-btn--secondary c-menu-account-toggle" id="menuTextoToggle" aria-expanded="false" aria-controls="menuTextoLista">
+              Cuenta ▾
+            </button>
+            <ul class="c-menu-account" id="menuTextoLista" hidden>
+              <li><a href="#">Perfil</a></li>
+              <li><a href="#">Configuración</a></li>
+              <li><button type="button">Cerrar sesión</button></li>
+            </ul>
+          </div>
+
+          <div class="pg-menu-instancia">
+            <button type="button" class="c-btn c-btn--icon c-menu-account-toggle" id="menuIconoToggle" aria-expanded="false" aria-controls="menuIconoLista" aria-label="Más opciones de cuenta">
+              ⋮
+            </button>
+            <ul class="c-menu-account" id="menuIconoLista" hidden>
+              <li><a href="#">Perfil</a></li>
+              <li><a href="#">Configuración</a></li>
+              <li><button type="button">Cerrar sesión</button></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pg-col pg-comportamiento">
+          <h3>Teclado y foco</h3>
+          <dl>
+            <dt>Apertura</dt>
+            <dd>Enter/Espacio (o clic) sobre cualquiera de los dos triggers abre <em>su propio</em> desplegable y pone <code>aria-expanded="true"</code> en ese trigger — son dos instancias independientes del mismo patrón, no comparten lista.</dd>
+            <dt>Cierre</dt>
+            <dd>Escape cierra el que esté abierto y devuelve el foco al trigger que lo abrió. Un clic afuera (en cualquier parte que no sea el trigger o la lista) también lo cierra.</dd>
+            <dt>Estado</dt>
+            <dd><code>aria-expanded</code> alterna "true"/"false" en el trigger correspondiente; la lista usa el atributo nativo <code>hidden</code>, no una clase, para no depender de que ya exista CSS.</dd>
+          </dl>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== 6. TOASTS ===== -->
+    <section class="pg-section" id="seccion-toasts" aria-labelledby="titulo-toasts">
+      <h2 id="titulo-toasts">Toasts</h2>
+      <div class="pg-grid">
+
+        <div class="pg-col pg-componente">
+          <h3>Componente</h3>
+
+          <div class="c-toast-container" id="toastContainer" aria-live="polite">
+            <div class="c-toast c-toast--success">
+              <p>Perfil verificado correctamente.</p>
+            </div>
+            <div class="c-toast c-toast--error">
+              <p>No se pudo verificar el perfil. Reintenta.</p>
+            </div>
+          </div>
+
+          <button type="button" class="c-btn c-btn--secondary" id="toastDemoTrigger">Simular nuevo toast</button>
+        </div>
+
+        <div class="pg-col pg-comportamiento">
+          <h3>Teclado y foco</h3>
+          <dl>
+            <dt>Foco</dt>
+            <dd>No son foco-interactivos: nunca reciben Tab ni le roban el foco a lo que el usuario esté haciendo en ese momento.</dd>
+            <dt>Anuncio</dt>
+            <dd>Se anuncian solos porque viven dentro de un contenedor <code>aria-live="polite"</code> — cualquier toast que se agregue ahí adentro se lee sin interrumpir.</dd>
+            <dt>Ciclo de vida</dt>
+            <dd>Cada uno se retira solo después de unos segundos, y nunca hay más de 3 visibles a la vez: al agregar un cuarto, se retira primero el más antiguo. El botón "Simular nuevo toast" reutiliza <code>c-btn c-btn--secondary</code> para mostrar esto en vivo.</dd>
+          </dl>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/playground.js" defer></script>
+</body>
+</html>

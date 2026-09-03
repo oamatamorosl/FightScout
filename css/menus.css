@@ -1,0 +1,12 @@
+/* Menús — selectores vacíos, listos para estilar a mano.
+   Los triggers reutilizan .c-btn / .c-btn--secondary / .c-btn--icon,
+   ya definidos (vacíos) en botones.css — no se repiten acá. */
+
+.c-menu-account { }
+.c-menu-account-toggle { }
+
+@media (max-width: 480px) {
+}
+
+@media (max-width: 768px) {
+}

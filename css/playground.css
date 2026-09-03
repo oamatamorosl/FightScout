@@ -1,0 +1,10 @@
+/* Agregador del playground de componentes del backoffice.
+   No confundir con css/styles.css: ese es del sitio público
+   (index.html, registro.html, registroScout.html) y no se toca acá. */
+@import url("variables.css");
+@import url("alerts.css");
+@import url("botones.css");
+@import url("checkboxes-radios.css");
+@import url("dialogs.css");
+@import url("menus.css");
+@import url("toasts.css");

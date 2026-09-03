@@ -1,0 +1,12 @@
+/* Checkboxes/Radios — selectores vacíos, listos para estilar a mano. */
+
+.c-check-group { }
+.c-check { }
+.c-radio-group { }
+.c-radio { }
+
+@media (max-width: 480px) {
+}
+
+@media (max-width: 768px) {
+}

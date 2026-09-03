@@ -1,0 +1,77 @@
+/* Alerts — patrón "tinte sutil": fondo = --carbon + un 12% del color
+   semántico mezclado encima (color-mix), acento de color solo en el
+   borde izquierdo. Mantiene la estética oscura de FightScout en vez de
+   un fondo sólido de color, que rompía el contraste con el texto. */
+
+.c-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--espacio-12);
+    padding: var(--espacio-16);
+    border-radius: var(--border);
+    border-left: 4px solid transparent;
+    background-color: var(--carbon);
+}
+
+.c-alert--success {
+    background-color: color-mix(in srgb, var(--semantic-success) 12%, var(--carbon));
+    border-left-color: var(--semantic-success);
+}
+.c-alert--error {
+    background-color: color-mix(in srgb, var(--semantic-error) 12%, var(--carbon));
+    border-left-color: var(--semantic-error);
+}
+.c-alert--warning {
+    background-color: color-mix(in srgb, var(--semantic-warning) 12%, var(--carbon));
+    border-left-color: var(--semantic-warning);
+}
+.c-alert--info {
+    background-color: color-mix(in srgb, var(--semantic-info) 12%, var(--carbon));
+    border-left-color: var(--semantic-info);
+}
+
+/* tamaño fijo: no se achica aunque el mensaje sea largo */
+.c-alert-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    font-size: 1.1rem;
+    line-height: 1;
+}
+.c-alert--success .c-alert-icon { color: var(--semantic-success); }
+.c-alert--error .c-alert-icon { color: var(--semantic-error); }
+.c-alert--warning .c-alert-icon { color: var(--semantic-warning); }
+.c-alert--info .c-alert-icon { color: var(--semantic-info); }
+
+.c-alert-cuerpo { flex: 1; }
+.c-alert-title {
+    margin: 0;
+    font-weight: var(--peso-fuerte);
+    font-size: var(--texto-base);
+    color: var(--hueso);
+}
+.c-alert-message {
+    margin: 0;
+    font-size: var(--texto-sm);
+    color: var(--hueso);
+    opacity: 0.85;   /* atenuado respecto al título: la jerarquía la da el peso, no el color */
+}
+
+/* sin fondo ni caja — solo la ✕, que se ilumina al pasar el mouse o enfocar */
+.c-alert-close {
+    background: transparent;
+    border: none;
+    padding: var(--espacio-4);
+    color: var(--ceniza);
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+}
+.c-alert-close:hover { color: var(--hueso); }
+.c-alert-close:focus-visible {
+    outline: 2px solid var(--sangre);
+    outline-offset: 2px;
+}

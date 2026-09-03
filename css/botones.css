@@ -1,0 +1,108 @@
+/* Botones — personalizados con la identidad real de FightScout
+   (mismos tokens que .btn/.btn-primario/.btn-fantasma de css/styles.css:
+   mayúsculas, borde de 2px, hover que profundiza a --sangre-osc), más el
+   --border (radio) y los colores semánticos ya definidos en variables.css. */
+
+.c-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 2px solid transparent;
+  border-radius: var(--border);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, filter 0.15s ease, transform 0.1s ease;
+}
+
+/* Affordance: foco de teclado visible, igual que el resto del sitio
+   (mismo outline que :focus-visible en css/styles.css). */
+.c-btn:focus-visible {
+  outline: 3px solid var(--sangre);
+  outline-offset: 2px;
+}
+
+.c-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  filter: none;
+  transform: none;
+}
+
+/* ===== PRIMARY: la acción principal — sólido, el rojo de marca ===== */
+.c-btn--primary {
+  background: var(--sangre);
+  border-color: var(--sangre);
+  color: var(--hueso);
+}
+.c-btn--primary:hover {
+  background: var(--sangre-osc);
+  border-color: var(--sangre-osc);
+}
+.c-btn--primary:active {
+  background: var(--sangre-osc);
+  border-color: var(--sangre-osc);
+  transform: translateY(1px);
+}
+
+/* ===== SECONDARY: ghost — mismo comportamiento que .btn-fantasma
+   (borde rojo, fondo transparente, se rellena de rojo al pasar el mouse) ===== */
+.c-btn--secondary {
+  background: transparent;
+  border-color: var(--sangre);
+  color: var(--hueso);
+}
+.c-btn--secondary:hover {
+  background: var(--sangre);
+}
+.c-btn--secondary:active {
+  background: var(--sangre-osc);
+  border-color: var(--sangre-osc);
+  transform: translateY(1px);
+}
+
+/* ===== DESTRUCTIVE: mismo lenguaje (sólido, borde a juego), pero con el
+   rojo semántico de error — para que nunca se confunda con "Guardar" ===== */
+.c-btn--destructive {
+  background: var(--semantic-error);
+  border-color: var(--semantic-error);
+  color: var(--hueso);
+}
+.c-btn--destructive:hover {
+  filter: brightness(0.85);
+}
+.c-btn--destructive:active {
+  filter: brightness(0.72);
+  transform: translateY(1px);
+}
+
+/* ===== ICON: mismo tamaño y borde que .nav-toggle (44px, 1px --linea) ===== */
+.c-btn--icon {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--linea);
+  background: transparent;
+  color: var(--hueso);
+  font-size: 1.1rem;
+}
+.c-btn--icon:hover {
+  border-color: var(--sangre);
+  background: var(--carbon);
+}
+.c-btn--icon:active {
+  border-color: var(--sangre-osc);
+  background: var(--linea);
+  transform: translateY(1px);
+}
+
+@media (max-width: 480px) {
+}
+
+@media (max-width: 768px) {
+}
