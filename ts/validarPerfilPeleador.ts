@@ -23,6 +23,13 @@
     name: string;
     mensaje: string;
   }
+  // Un método de victoria es un input numérico propio (no un checkbox): cada
+  // uno necesita su propio "name"/id, a diferencia de OpcionCheckbox donde
+  // varias opciones comparten un mismo "name" y se distinguen por "value".
+  interface MetodoVictoria {
+    name: string;
+    etiqueta: string;
+  }
 
   function aEntero(valor: string): number | null {
     const limpio = valor.trim();
@@ -132,6 +139,29 @@
   const ESTILOS_POR_DISCIPLINA: Record<string, OpcionCheckbox[]> = {
     boxeo: ESTILOS_BOXEO,
     mma: ESTILOS_MMA,
+  };
+
+  // Métodos de victoria por disciplina: MMA suma "por sumisión" (no aplica
+  // en boxeo). El "name" es el id/name real del <input> que se crea en
+  // poblarMetodosVictoria.
+  const METODOS_BOXEO: MetodoVictoria[] = [
+    { name: 'methodKo', etiqueta: 'Por KO' },
+    { name: 'methodTko', etiqueta: 'Por TKO' },
+    { name: 'methodDec', etiqueta: 'Por decisión' },
+    { name: 'methodDq', etiqueta: 'Por descalificación' },
+  ];
+
+  const METODOS_MMA: MetodoVictoria[] = [
+    { name: 'methodKo', etiqueta: 'Por KO' },
+    { name: 'methodTko', etiqueta: 'Por TKO' },
+    { name: 'methodSub', etiqueta: 'Por sumisión' },
+    { name: 'methodDec', etiqueta: 'Por decisión' },
+    { name: 'methodDq', etiqueta: 'Por descalificación' },
+  ];
+
+  const METODOS_POR_DISCIPLINA: Record<string, MetodoVictoria[]> = {
+    boxeo: METODOS_BOXEO,
+    mma: METODOS_MMA,
   };
 
   const validadores: ConfigCampo[] = [
@@ -304,32 +334,26 @@
       },
     },
     {
-      id: 'knockouts',
-      validar: (valor, datos) => {
+      id: 'noContests',
+      validar: (valor) => {
         if (valor.trim() === '') return null;
-        const nocauts = aEntero(valor);
-        if (nocauts === null || nocauts < 0) return 'Los nocauts no pueden ser negativos.';
-        const victorias = aEntero(datos.wins ?? '');
-        if (victorias !== null && nocauts > victorias) {
-          return 'Los nocauts no pueden superar tus victorias.';
-        }
+        const sinResultado = aEntero(valor);
+        if (sinResultado === null || sinResultado < 0) return 'No puede ser negativo.';
         return null;
       },
     },
     {
-      // Cadena de tres niveles: firstRoundKos ≤ knockouts (acá abajo) y
-      // knockouts ≤ wins (arriba, sin tocar) — por transitividad,
-      // firstRoundKos también queda acotado por wins.
+      // TEMPORAL (Fase C1): "knockouts" se eliminó (ahora la victoria por
+      // KO/TKO vive en los métodos de victoria dinámicos, más abajo), así
+      // que este validador ya no puede compararse contra nocauts totales.
+      // Queda validando solo ≥ 0 hasta que la Fase C2 lo reconecte contra
+      // methodKo + methodTko.
       id: 'firstRoundKos',
-      validar: (valor, datos) => {
+      validar: (valor) => {
         if (valor.trim() === '') return null;
         const primerRound = aEntero(valor);
         if (primerRound === null || primerRound < 0) {
           return 'Los nocauts en el primer round no pueden ser negativos.';
-        }
-        const nocautsTotales = aEntero(datos.knockouts ?? '');
-        if (nocautsTotales !== null && primerRound > nocautsTotales) {
-          return 'Los nocauts en el primer round no pueden superar tus nocauts totales.';
         }
         return null;
       },
@@ -501,6 +525,118 @@
     });
   }
 
+  // ===== Métodos de victoria =====
+  // Cada método es un <input type="number"> con su propio id/name (no un
+  // checkbox): por eso NO usan el sistema de "grupos de checkboxes" de más
+  // arriba, ni viven en el "validadores" genérico — son dinámicos como los
+  // checkboxes (se recrean por disciplina) pero se validan individualmente
+  // con mostrarError/limpiarError (los mismos que usa cualquier CampoFormulario)
+  // más una regla cruzada de grupo (la suma vs. wins) mostrada en el
+  // contenedor, igual en espíritu a mostrarErrorGrupo pero identificado por
+  // id en vez de por data-grupo (el HTML de este contenedor no lleva data-grupo).
+  let nombresMetodosVictoriaActuales: string[] = [];
+
+  // ":scope > .error-campo" (no ".error-campo" a secas): #metodosVictoria
+  // también contiene, más adentro, el .error-campo propio de cada input de
+  // método individual (puesto por mostrarError). Sin acotar al hijo directo,
+  // esta función encontraría y borraría el error de un método puntual
+  // creyendo que era el suyo — y viceversa, ver el bug que se descubrió acá.
+  function mostrarErrorMetodos(contenedor: HTMLElement, mensaje: string): void {
+    contenedor.setAttribute('aria-invalid', 'true');
+
+    const idError = `${contenedor.id}-error`;
+    let error = contenedor.querySelector<HTMLParagraphElement>(':scope > .error-campo');
+    if (!error) {
+      error = document.createElement('p');
+      error.className = 'error-campo';
+      error.id = idError;
+      contenedor.appendChild(error);
+    }
+    error.textContent = mensaje;
+    contenedor.setAttribute('aria-describedby', idError);
+  }
+
+  function limpiarErrorMetodos(contenedor: HTMLElement): void {
+    contenedor.removeAttribute('aria-invalid');
+    contenedor.removeAttribute('aria-describedby');
+
+    const error = contenedor.querySelector(':scope > .error-campo');
+    if (error) error.remove();
+  }
+
+  function validarUnMetodoVictoria(input: HTMLInputElement): boolean {
+    if (input.value.trim() === '') {
+      limpiarError(input);
+      return true;
+    }
+    const valor = aEntero(input.value);
+    if (valor === null || valor < 0) {
+      mostrarError(input, 'No puede ser negativo.');
+      return false;
+    }
+    limpiarError(input);
+    return true;
+  }
+
+  // Regla cruzada: la suma de los métodos vigentes no puede superar "wins"
+  // — mismo espíritu que la vieja "nocauts ≤ victorias". Si wins todavía
+  // está vacío o inválido, no hay con qué comparar: se deja pasar (mismo
+  // criterio que usaban knockouts/firstRoundKos con datos.wins).
+  function validarSumaMetodosVictoria(): boolean {
+    const contenedor = document.getElementById('metodosVictoria');
+    if (!contenedor) return true;
+
+    const suma = nombresMetodosVictoriaActuales.reduce((total, name) => {
+      const input = document.getElementById(name);
+      const valor = input instanceof HTMLInputElement ? aEntero(input.value) : null;
+      // Math.max(..., 0): un método negativo ya se marca inválido aparte
+      // (validarUnMetodoVictoria) — acá no debe "restar" de la suma y
+      // esconder un error real de "supera tus victorias".
+      return total + Math.max(valor ?? 0, 0);
+    }, 0);
+
+    const winsEl = obtenerCampo('wins');
+    const victorias = aEntero(winsEl?.value ?? '');
+
+    if (victorias !== null && suma > victorias) {
+      mostrarErrorMetodos(contenedor, 'La suma de los métodos de victoria no puede superar tu total de victorias.');
+      return false;
+    }
+    limpiarErrorMetodos(contenedor);
+    return true;
+  }
+
+  // Reconstruye los inputs de métodos de victoria desde cero por disciplina
+  // (mismo espíritu que poblarCheckboxes/weightClass). Cada input revalida
+  // su propio valor y la suma del grupo al perder el foco.
+  function poblarMetodosVictoria(contenedorOpciones: HTMLElement, metodos: MetodoVictoria[]): void {
+    contenedorOpciones.innerHTML = '';
+    nombresMetodosVictoriaActuales = metodos.map((metodo) => metodo.name);
+
+    metodos.forEach((metodo) => {
+      const campo = document.createElement('div');
+      campo.className = 'campo';
+
+      const label = document.createElement('label');
+      label.htmlFor = metodo.name;
+      label.textContent = metodo.etiqueta;
+
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.id = metodo.name;
+      input.name = metodo.name;
+      input.min = '0';
+      input.addEventListener('blur', () => {
+        validarUnMetodoVictoria(input);
+        validarSumaMetodosVictoria();
+      });
+
+      campo.appendChild(label);
+      campo.appendChild(input);
+      contenedorOpciones.appendChild(campo);
+    });
+  }
+
   function recolectarDatos(): Record<string, string> {
     const datos: Record<string, string> = {};
     validadores.forEach(({ id }) => {
@@ -589,14 +725,16 @@
     });
   }
 
-  // Cascada disciplina → estilo de pelea / artes marciales: fightStyle se
-  // repuebla con las opciones de la disciplina elegida (mismo patrón que
-  // weightClass, pero con checkboxes en vez de <option>). martialArts solo
-  // aplica a MMA: se muestra/oculta como los campos condicionales de
-  // competitiveLevel, y se desmarca al ocultarse para no dejar datos de
-  // un peleador que ya no es de MMA.
+  // Cascada disciplina → estilo de pelea / artes marciales / métodos de
+  // victoria: fightStyle y métodos se repueblan con las opciones de la
+  // disciplina elegida (mismo patrón que weightClass, pero con checkboxes o
+  // inputs numéricos en vez de <option>). martialArts solo aplica a MMA: se
+  // muestra/oculta como los campos condicionales de competitiveLevel, y se
+  // desmarca al ocultarse para no dejar datos de un peleador que ya no es de MMA.
   const fightStyleOpcionesEl = document.getElementById('fightStyleOpciones');
   const martialArtsContenedor = obtenerContenedorGrupo('martialArts');
+  const metodosVictoriaOpcionesEl = document.getElementById('metodosVictoriaOpciones');
+  const metodosVictoriaContenedor = document.getElementById('metodosVictoria');
 
   if (disciplineEl instanceof HTMLSelectElement && fightStyleOpcionesEl instanceof HTMLElement) {
     disciplineEl.addEventListener('change', () => {
@@ -613,6 +751,11 @@
             .forEach((casilla) => { casilla.checked = false; });
           limpiarErrorGrupo(martialArtsContenedor);
         }
+      }
+
+      if (metodosVictoriaOpcionesEl instanceof HTMLElement) {
+        poblarMetodosVictoria(metodosVictoriaOpcionesEl, METODOS_POR_DISCIPLINA[disciplineEl.value] ?? []);
+        if (metodosVictoriaContenedor) limpiarErrorMetodos(metodosVictoriaContenedor);
       }
     });
   }
@@ -651,31 +794,11 @@
     });
   }
 
-  // Cascada nocauts totales → nocauts en el primer round: firstRoundKos
-  // arranca deshabilitado y solo se habilita cuando knockouts tiene un
-  // valor ≥ 1. Usa 'input' (no 'change') para que la revalidación sea
-  // inmediata mientras se escribe, no recién al salir del campo.
-  const knockoutsEl = obtenerCampo('knockouts');
-  const firstRoundKosEl = obtenerCampo('firstRoundKos');
-
-  if (knockoutsEl instanceof HTMLInputElement && firstRoundKosEl instanceof HTMLInputElement) {
-    knockoutsEl.addEventListener('input', () => {
-      const nocautsTotales = aEntero(knockoutsEl.value);
-
-      if (nocautsTotales !== null && nocautsTotales >= 1) {
-        firstRoundKosEl.disabled = false;
-      } else {
-        firstRoundKosEl.disabled = true;
-        firstRoundKosEl.value = '';
-        limpiarError(firstRoundKosEl);
-      }
-
-      // Si knockouts baja de 2 a 1 y firstRoundKos ya tenía 2 cargado, el
-      // error debe aparecer al instante, sin esperar a que el peleador
-      // toque firstRoundKos.
-      validarUnCampo('firstRoundKos');
-    });
-  }
+  // TEMPORAL (Fase C1): la cascada "knockouts → firstRoundKos" (que lo
+  // deshabilitaba hasta tener ≥1 nocaut total) se eliminó junto con el
+  // campo knockouts. Por ahora firstRoundKos queda como un campo simple,
+  // siempre habilitado y opcional — la Fase C2 lo reconecta a los nuevos
+  // métodos de victoria (methodKo + methodTko).
 
   // Feedback en vivo: revalida un campo apenas el peleador lo abandona.
   validadores.forEach(({ id }) => {
@@ -725,6 +848,22 @@
         primerCampoInvalido = document.querySelector<HTMLInputElement>(`input[name="${name}"]`);
       }
     });
+
+    // Métodos de victoria: no viven en "validadores" (son dinámicos, igual
+    // que los grupos de checkboxes) — cada uno ≥ 0, más la regla cruzada de
+    // la suma contra "wins".
+    nombresMetodosVictoriaActuales.forEach((name) => {
+      const input = document.getElementById(name);
+      if (!(input instanceof HTMLInputElement)) return;
+      const esValido = validarUnMetodoVictoria(input);
+      if (!esValido && !primerCampoInvalido) primerCampoInvalido = input;
+    });
+
+    const sumaMetodosValida = validarSumaMetodosVictoria();
+    if (!sumaMetodosValida && !primerCampoInvalido) {
+      const primerMetodo = document.getElementById(nombresMetodosVictoriaActuales[0] ?? '');
+      if (primerMetodo instanceof HTMLInputElement) primerCampoInvalido = primerMetodo;
+    }
 
     if (primerCampoInvalido) {
       (primerCampoInvalido as CampoFormulario).focus();

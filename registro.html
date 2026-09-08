@@ -301,15 +301,24 @@
               <input id="draws" name="draws" type="number" min="0" placeholder="Ej: 0">
             </div>
 
+            <div class="campo col-full" id="metodosVictoria">
+              <span class="grupo-label">Victorias por método <span class="ayuda-inline">(opcional)</span></span>
+              <div class="campos" id="metodosVictoriaOpciones">
+                <!-- se puebla por JS según la disciplina elegida en "Disciplina y categoría" -->
+              </div>
+              <p class="ayuda">La suma de los métodos no puede superar tu total de victorias.</p>
+            </div>
+
             <div class="campo">
-              <label for="knockouts">Nocauts (KO)</label>
-              <input id="knockouts" name="knockouts" type="number" min="0" placeholder="Ej: 3">
+              <label for="noContests">No Contest (sin resultado)</label>
+              <input id="noContests" name="noContests" type="number" min="0" placeholder="Ej: 0">
+              <p class="ayuda">Peleas sin resultado oficial. No cuentan como victoria ni derrota.</p>
             </div>
 
             <div class="campo">
               <label for="firstRoundKos">Nocauts en el primer round</label>
-              <input id="firstRoundKos" name="firstRoundKos" type="number" min="0" placeholder="Ej: 1" disabled>
-              <p class="ayuda">Primero ingresa tus nocauts totales.</p>
+              <input id="firstRoundKos" name="firstRoundKos" type="number" min="0" placeholder="Ej: 1">
+              <p class="ayuda">Opcional.</p>
             </div>
 
             <div class="campo campo-checkboxes col-full" data-grupo="fightStyle" role="group" aria-labelledby="fightStyleLabel">
