@@ -335,11 +335,10 @@
             },
         },
         {
-            // TEMPORAL (Fase C1): "knockouts" se eliminó (ahora la victoria por
-            // KO/TKO vive en los métodos de victoria dinámicos, más abajo), así
-            // que este validador ya no puede compararse contra nocauts totales.
-            // Queda validando solo ≥ 0 hasta que la Fase C2 lo reconecte contra
-            // methodKo + methodTko.
+            // Un nocaut de primer round es un KO o TKO ocurrido en el round 1:
+            // por eso se acota contra methodKo + methodTko (no contra SUB/DEC/DQ,
+            // que no son nocauts). sumaKoTko() lee esos inputs directo del DOM
+            // porque son dinámicos y no viven en "validadores"/recolectarDatos().
             id: 'firstRoundKos',
             validar: (valor) => {
                 if (valor.trim() === '')
@@ -347,6 +346,10 @@
                 const primerRound = aEntero(valor);
                 if (primerRound === null || primerRound < 0) {
                     return 'Los nocauts en el primer round no pueden ser negativos.';
+                }
+                const koTko = sumaKoTko();
+                if (primerRound > koTko) {
+                    return 'Los nocauts en el primer round no pueden superar tus victorias por KO + TKO.';
                 }
                 return null;
             },
@@ -569,9 +572,42 @@
         limpiarErrorMetodos(contenedor);
         return true;
     }
+    // Suma de KO + TKO leída directo del DOM: methodKo/methodTko son dinámicos
+    // (no viven en "validadores"), así que ni recolectarDatos() ni el "datos"
+    // que reciben los validadores los conoce. Math.max(..., 0) por la misma
+    // razón que en validarSumaMetodosVictoria: un valor negativo individual
+    // (ya inválido aparte) no debe "restar" de la suma.
+    function sumaKoTko() {
+        const ko = document.getElementById('methodKo');
+        const tko = document.getElementById('methodTko');
+        const valorKo = ko instanceof HTMLInputElement ? aEntero(ko.value) : null;
+        const valorTko = tko instanceof HTMLInputElement ? aEntero(tko.value) : null;
+        return Math.max(valorKo !== null && valorKo !== void 0 ? valorKo : 0, 0) + Math.max(valorTko !== null && valorTko !== void 0 ? valorTko : 0, 0);
+    }
+    // Habilita/deshabilita firstRoundKos según la suma de KO+TKO — mismo
+    // patrón que la vieja cascada knockouts→firstRoundKos (Fase C1 la quitó
+    // junto con "knockouts"): al deshabilitarse se limpia valor y error; en
+    // cualquier caso se revalida, así un error ya visible se actualiza al
+    // instante si la suma cambia (ej. firstRoundKos=3 y KO+TKO baja a 2).
+    function actualizarFirstRoundKos() {
+        const firstRoundKosEl = obtenerCampo('firstRoundKos');
+        if (!(firstRoundKosEl instanceof HTMLInputElement))
+            return;
+        if (sumaKoTko() >= 1) {
+            firstRoundKosEl.disabled = false;
+        }
+        else {
+            firstRoundKosEl.disabled = true;
+            firstRoundKosEl.value = '';
+            limpiarError(firstRoundKosEl);
+        }
+        validarUnCampo('firstRoundKos');
+    }
     // Reconstruye los inputs de métodos de victoria desde cero por disciplina
     // (mismo espíritu que poblarCheckboxes/weightClass). Cada input revalida
-    // su propio valor y la suma del grupo al perder el foco.
+    // su propio valor y la suma del grupo al perder el foco; methodKo/methodTko
+    // además recalculan firstRoundKos en cada 'input' (no 'blur'), para que
+    // la habilitación sea inmediata mientras se escribe.
     function poblarMetodosVictoria(contenedorOpciones, metodos) {
         contenedorOpciones.innerHTML = '';
         nombresMetodosVictoriaActuales = metodos.map((metodo) => metodo.name);
@@ -590,10 +626,18 @@
                 validarUnMetodoVictoria(input);
                 validarSumaMetodosVictoria();
             });
+            if (metodo.name === 'methodKo' || metodo.name === 'methodTko') {
+                input.addEventListener('input', actualizarFirstRoundKos);
+            }
             campo.appendChild(label);
             campo.appendChild(input);
             contenedorOpciones.appendChild(campo);
         });
+        // Al repoblar (cambio de disciplina) methodKo/methodTko siempre nacen
+        // vacíos: la suma vuelve a 0, así que firstRoundKos debe quedar
+        // deshabilitado y limpio de nuevo, no arrastrar el estado de la
+        // disciplina anterior.
+        actualizarFirstRoundKos();
     }
     function recolectarDatos() {
         const datos = {};
@@ -733,11 +777,6 @@
             alternarCampoCondicional(trainingYearsEl, trainingYearsCampo, esAmateur);
         });
     }
-    // TEMPORAL (Fase C1): la cascada "knockouts → firstRoundKos" (que lo
-    // deshabilitaba hasta tener ≥1 nocaut total) se eliminó junto con el
-    // campo knockouts. Por ahora firstRoundKos queda como un campo simple,
-    // siempre habilitado y opcional — la Fase C2 lo reconecta a los nuevos
-    // métodos de victoria (methodKo + methodTko).
     // Feedback en vivo: revalida un campo apenas el peleador lo abandona.
     validadores.forEach(({ id }) => {
         const campo = obtenerCampo(id);
