@@ -1,0 +1,6 @@
+[build]
+  # Sin bundler: "compilar" es correr tsc (ts/ -> js/) y despues copiar
+  # los archivos publicos del sitio a dist/. Se regenera en cada deploy,
+  # asi nunca queda un dist/ viejo desincronizado del codigo fuente.
+  command = "npx tsc && rm -rf dist && mkdir dist && cp index.html registro.html registroScout.html playground.html favicon.svg robots.txt sitemap.xml dist/ && cp -r css js img dist/"
+  publish = "dist"

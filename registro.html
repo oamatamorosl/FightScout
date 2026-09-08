@@ -24,6 +24,16 @@
   <script src="js/validarPerfilPeleador.js" defer></script>
 </head>
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B5ENK45QG3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-B5ENK45QG3');
+</script>
+
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
@@ -80,8 +90,8 @@
             </div>
 
             <div class="campo">
-              <label for="country">País <span class="req">*</span></label>
-              <select id="country" name="country" required>
+              <label for="nationality">Nacionalidad <span class="req">*</span></label>
+              <select id="nationality" name="nationality" required>
                 <option value="">Selecciona un país</option>
                 <option value="br">Brasil</option>
                 <option value="ec">Ecuador</option>
@@ -96,10 +106,59 @@
               <p class="ayuda">Debes ser mayor de 18 años para registrarte.</p>
             </div>
 
+            <div class="campo">
+              <label for="residenceCountry">País de residencia actual <span class="req">*</span></label>
+              <select id="residenceCountry" name="residenceCountry" required>
+                <option value="">Selecciona un país</option>
+                <option value="br">Brasil</option>
+                <option value="ec">Ecuador</option>
+                <option value="ar">Argentina</option>
+                <option value="mx">México</option>
+              </select>
+            </div>
+
+            <div class="campo">
+              <label for="residenceCityState">Ciudad / estado de residencia <span class="req">*</span></label>
+              <input id="residenceCityState" name="residenceCityState" type="text" placeholder="Ej: São Paulo, SP" required>
+            </div>
+
+            <div class="campo campo-checkboxes col-full" data-grupo="languages" role="group" aria-labelledby="languagesLabel">
+              <span class="grupo-label" id="languagesLabel">Idiomas que hablas <span class="req">*</span></span>
+              <div class="checkbox-opciones">
+                <label class="checkbox-item"><input type="checkbox" name="languages" value="espanol"> Español</label>
+                <label class="checkbox-item"><input type="checkbox" name="languages" value="ingles"> Inglés</label>
+                <label class="checkbox-item"><input type="checkbox" name="languages" value="portugues"> Portugués</label>
+                <label class="checkbox-item"><input type="checkbox" name="languages" value="frances"> Francés</label>
+              </div>
+            </div>
+
           </div>
         </fieldset>
 
-        <!-- GRUPO 2: DISCIPLINA Y CATEGORÍA -->
+        <!-- GRUPO 2: UBICACIÓN Y EQUIPO -->
+        <fieldset>
+          <legend>Ubicación y equipo</legend>
+          <div class="campos">
+
+            <div class="campo">
+              <label for="city">Ciudad <span class="req">*</span></label>
+              <input id="city" name="city" type="text" placeholder="Ej: Guayaquil" required>
+            </div>
+
+            <div class="campo">
+              <label for="stateProvince">Estado / provincia <span class="req">*</span></label>
+              <input id="stateProvince" name="stateProvince" type="text" placeholder="Ej: Guayas" required>
+            </div>
+
+            <div class="campo">
+              <label for="gym">Gimnasio / team</label>
+              <input id="gym" name="gym" type="text" placeholder="Ej: Gimnasio Fénix MMA">
+            </div>
+
+          </div>
+        </fieldset>
+
+        <!-- GRUPO 3: DISCIPLINA Y CATEGORÍA -->
         <fieldset>
           <legend>Disciplina y categoría</legend>
           <div class="campos">
@@ -160,14 +219,14 @@
           </div>
         </fieldset>
 
-        <!-- GRUPO 3: TRAYECTORIA -->
+        <!-- GRUPO 4: TRAYECTORIA -->
         <fieldset>
           <legend>Trayectoria</legend>
           <div class="campos">
 
             <div class="campo">
-              <label for="fighterType">Tipo de peleador <span class="req">*</span></label>
-              <select id="fighterType" name="fighterType" required>
+              <label for="competitiveLevel">Nivel competitivo <span class="req">*</span></label>
+              <select id="competitiveLevel" name="competitiveLevel" required>
                 <option value="">Selecciona una opción</option>
                 <option value="amateur">Amateur</option>
                 <option value="profesional">Profesional</option>
@@ -184,6 +243,30 @@
               <input id="trainingYears" name="trainingYears" type="number" min="0" max="60">
             </div>
 
+            <div class="campo">
+              <label for="competitiveStatus">Estado competitivo <span class="req">*</span></label>
+              <select id="competitiveStatus" name="competitiveStatus" required>
+                <option value="">Selecciona una opción</option>
+                <option value="activo">Activo</option>
+                <option value="inactivo">Inactivo</option>
+                <option value="retirado">Retirado</option>
+              </select>
+            </div>
+
+            <div class="campo">
+              <label for="availableToFight">¿Disponible para pelear? <span class="req">*</span></label>
+              <select id="availableToFight" name="availableToFight" required>
+                <option value="">Selecciona una opción</option>
+                <option value="si">Sí</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+
+            <div class="campo">
+              <label for="lastFightDate">Fecha de última pelea</label>
+              <input id="lastFightDate" name="lastFightDate" type="date" max="2026-09-07">
+            </div>
+
             <div class="campo col-full">
               <label for="achievements">Logros y reconocimientos</label>
               <textarea id="achievements" name="achievements" maxlength="600"></textarea>
@@ -193,7 +276,7 @@
           </div>
         </fieldset>
 
-        <!-- GRUPO 4: RÉCORD Y ESTILO -->
+        <!-- GRUPO 5: RÉCORD Y ESTILO -->
         <fieldset>
           <legend>Récord y estilo</legend>
           <div class="campos">
@@ -222,6 +305,28 @@
               <label for="firstRoundKos">Nocauts en el primer round</label>
               <input id="firstRoundKos" name="firstRoundKos" type="number" min="0" placeholder="Ej: 1" disabled>
               <p class="ayuda">Primero ingresa tus nocauts totales.</p>
+            </div>
+
+            <div class="campo campo-checkboxes col-full" data-grupo="fightStyle" role="group" aria-labelledby="fightStyleLabel">
+              <span class="grupo-label" id="fightStyleLabel">Estilo de pelea <span class="req">*</span></span>
+              <div class="checkbox-opciones" id="fightStyleOpciones">
+                <!-- se puebla por JS según la disciplina elegida en "Disciplina y categoría" -->
+              </div>
+            </div>
+
+            <div class="campo campo-checkboxes col-full oculto" data-grupo="martialArts" role="group" aria-labelledby="martialArtsLabel">
+              <span class="grupo-label" id="martialArtsLabel">Artes marciales / fortalezas <span class="req">*</span></span>
+              <div class="checkbox-opciones">
+                <label class="checkbox-item"><input type="checkbox" name="martialArts" value="boxing"> Boxing</label>
+                <label class="checkbox-item"><input type="checkbox" name="martialArts" value="wrestling"> Wrestling</label>
+                <label class="checkbox-item"><input type="checkbox" name="martialArts" value="bjj"> BJJ</label>
+                <label class="checkbox-item"><input type="checkbox" name="martialArts" value="muay-thai"> Muay Thai</label>
+                <label class="checkbox-item"><input type="checkbox" name="martialArts" value="kickboxing"> Kickboxing</label>
+                <label class="checkbox-item"><input type="checkbox" name="martialArts" value="grappling"> Grappling</label>
+                <label class="checkbox-item"><input type="checkbox" name="martialArts" value="judo"> Judo</label>
+                <label class="checkbox-item"><input type="checkbox" name="martialArts" value="sambo"> Sambo</label>
+                <label class="checkbox-item"><input type="checkbox" name="martialArts" value="karate"> Karate</label>
+              </div>
             </div>
 
             <div class="campo col-full">

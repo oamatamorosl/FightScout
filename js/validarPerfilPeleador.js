@@ -88,6 +88,22 @@
         boxeo: DIVISIONES_BOXEO,
         mma: DIVISIONES_MMA,
     };
+    // Estilos de pelea por disciplina — mismo patrón que las divisiones de
+    // peso: el checkbox de "estilo" depende de si el peleador es de boxeo o MMA.
+    const ESTILOS_BOXEO = [
+        { value: 'estilista', etiqueta: 'Estilista' },
+        { value: 'contragolpeador', etiqueta: 'Contragolpeador' },
+        { value: 'fajador', etiqueta: 'Fajador' },
+    ];
+    const ESTILOS_MMA = [
+        { value: 'striker', etiqueta: 'Striker' },
+        { value: 'grappler', etiqueta: 'Grappler' },
+        { value: 'mixto', etiqueta: 'Mixto' },
+    ];
+    const ESTILOS_POR_DISCIPLINA = {
+        boxeo: ESTILOS_BOXEO,
+        mma: ESTILOS_MMA,
+    };
     const validadores = [
         {
             id: 'fighterName',
@@ -101,8 +117,8 @@
             },
         },
         {
-            id: 'country',
-            validar: (valor) => (valor ? null : 'Selecciona tu país.'),
+            id: 'nationality',
+            validar: (valor) => (valor ? null : 'Selecciona tu nacionalidad.'),
         },
         {
             id: 'birthDate',
@@ -117,6 +133,24 @@
                 return null;
             },
         },
+        {
+            id: 'residenceCountry',
+            validar: (valor) => (valor ? null : 'Selecciona tu país de residencia actual.'),
+        },
+        {
+            id: 'residenceCityState',
+            validar: (valor) => (valor.trim() === '' ? 'Ingresa tu ciudad y estado de residencia.' : null),
+        },
+        {
+            id: 'city',
+            validar: (valor) => (valor.trim() === '' ? 'Ingresa tu ciudad.' : null),
+        },
+        {
+            id: 'stateProvince',
+            validar: (valor) => (valor.trim() === '' ? 'Ingresa tu estado o provincia.' : null),
+        },
+        // "gym" no tiene validador, igual que "nickname": es de texto libre y
+        // opcional, sin ninguna regla que pueda hacerlo inválido.
         {
             id: 'discipline',
             validar: (valor) => (valor ? null : 'Selecciona tu disciplina.'),
@@ -167,7 +201,7 @@
             },
         },
         {
-            id: 'fighterType',
+            id: 'competitiveLevel',
             validar: (valor) => (valor ? null : 'Selecciona si sos amateur o profesional.'),
         },
         {
@@ -175,7 +209,7 @@
             validar: (valor, datos) => {
                 // Solo es obligatorio (y solo tiene sentido validar) si el peleador
                 // se identificó como profesional — ver la cascada más abajo.
-                if (datos.fighterType !== 'profesional')
+                if (datos.competitiveLevel !== 'profesional')
                     return null;
                 if (valor.trim() === '')
                     return 'Ingresa tu fecha de debut profesional.';
@@ -193,7 +227,7 @@
             id: 'trainingYears',
             validar: (valor, datos) => {
                 // Solo obligatorio si el peleador se identificó como amateur.
-                if (datos.fighterType !== 'amateur')
+                if (datos.competitiveLevel !== 'amateur')
                     return null;
                 if (valor.trim() === '')
                     return 'Ingresa cuántos años llevas entrenando.';
@@ -202,6 +236,29 @@
                     return 'Ingresa un número válido de años.';
                 if (anios > 60)
                     return 'Revisa el número de años ingresado.';
+                return null;
+            },
+        },
+        {
+            id: 'competitiveStatus',
+            validar: (valor) => (valor ? null : 'Selecciona tu estado competitivo.'),
+        },
+        {
+            id: 'availableToFight',
+            validar: (valor) => (valor ? null : 'Indica si estás disponible para pelear.'),
+        },
+        {
+            id: 'lastFightDate',
+            validar: (valor) => {
+                if (valor.trim() === '')
+                    return null;
+                const ultimaPelea = aFecha(valor);
+                if (ultimaPelea === null)
+                    return 'Ingresa una fecha de última pelea válida.';
+                const hoy = new Date();
+                const hoySinHora = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+                if (ultimaPelea > hoySinHora)
+                    return 'La fecha de última pelea no puede ser futura.';
                 return null;
             },
         },
@@ -283,6 +340,16 @@
             },
         },
     ];
+    // Grupos de checkboxes: a diferencia de "validadores" (un id → un input),
+    // acá un "name" identifica a varios <input type="checkbox"> hermanos y la
+    // regla siempre es la misma — al menos uno marcado. martialArts solo se
+    // valida cuando está visible (MMA); eso lo decide validarGrupoCheckbox
+    // mirando la clase "oculto" del contenedor, no hace falta un caso especial acá.
+    const gruposCheckbox = [
+        { name: 'languages', mensaje: 'Selecciona al menos un idioma.' },
+        { name: 'fightStyle', mensaje: 'Selecciona al menos un estilo de pelea.' },
+        { name: 'martialArts', mensaje: 'Selecciona al menos un arte marcial.' },
+    ];
     // Type guard: confirma en runtime que el elemento es uno de los que sabemos validar,
     // en vez de simplemente afirmarlo con "as" (que no comprueba nada al ejecutarse).
     function esCampoValidable(el) {
@@ -325,6 +392,92 @@
         const error = contenedor.querySelector('.error-campo');
         if (error)
             error.remove();
+    }
+    // ===== Grupos de checkboxes =====
+    // El "campo" acá es el contenedor .campo-checkboxes completo, no un input
+    // suelto: no hay un único elemento al que amarrarle setCustomValidity, así
+    // que el error y el aria-describedby van en el contenedor (ver mostrarError/
+    // limpiarError arriba, que hacen lo mismo pero sobre un CampoFormulario).
+    function obtenerContenedorGrupo(name) {
+        return document.querySelector(`.campo-checkboxes[data-grupo="${name}"]`);
+    }
+    function grupoEstaOculto(contenedor) {
+        return contenedor.classList.contains('oculto');
+    }
+    function mostrarErrorGrupo(contenedor, mensaje) {
+        contenedor.setAttribute('aria-invalid', 'true');
+        const idError = `${contenedor.dataset.grupo}-error`;
+        let error = contenedor.querySelector('.error-campo');
+        if (!error) {
+            error = document.createElement('p');
+            error.className = 'error-campo';
+            error.id = idError;
+            contenedor.appendChild(error);
+        }
+        error.textContent = mensaje;
+        contenedor.setAttribute('aria-describedby', idError);
+    }
+    function limpiarErrorGrupo(contenedor) {
+        contenedor.removeAttribute('aria-invalid');
+        contenedor.removeAttribute('aria-describedby');
+        const error = contenedor.querySelector('.error-campo');
+        if (error)
+            error.remove();
+    }
+    // Al menos un checkbox marcado dentro del grupo "name". Un grupo oculto
+    // (ej. martialArts en Boxeo) no es obligatorio: se limpia y se considera válido.
+    function validarGrupoCheckbox(name, mensaje) {
+        const contenedor = obtenerContenedorGrupo(name);
+        if (!contenedor)
+            return true;
+        if (grupoEstaOculto(contenedor)) {
+            limpiarErrorGrupo(contenedor);
+            return true;
+        }
+        const marcados = document.querySelectorAll(`input[name="${name}"]:checked`).length;
+        if (marcados === 0) {
+            mostrarErrorGrupo(contenedor, mensaje);
+            return false;
+        }
+        limpiarErrorGrupo(contenedor);
+        return true;
+    }
+    function mensajeDeGrupo(name) {
+        var _a;
+        var _b;
+        return (_b = (_a = gruposCheckbox.find((grupo) => grupo.name === name)) === null || _a === void 0 ? void 0 : _a.mensaje) !== null && _b !== void 0 ? _b : '';
+    }
+    // Revalida un grupo SOLO si ya tenía un error mostrado — así marcar o
+    // desmarcar una opción en un grupo que el peleador todavía no tocó no lo
+    // pone en rojo antes de tiempo, pero si ya falló en un submit, corregirlo
+    // limpia el error al instante sin esperar a un nuevo intento de envío.
+    function revalidarGrupoSiYaTeniaError(name) {
+        const contenedor = obtenerContenedorGrupo(name);
+        if (!contenedor || !contenedor.querySelector('.error-campo'))
+            return;
+        validarGrupoCheckbox(name, mensajeDeGrupo(name));
+    }
+    function agregarListenerGrupo(checkbox, name) {
+        checkbox.addEventListener('change', () => revalidarGrupoSiYaTeniaError(name));
+    }
+    // Reconstruye las opciones de un grupo de checkboxes desde cero (mismo
+    // espíritu que la cascada de weightClass: siempre arranca vacío para no
+    // dejar marcada una opción de la disciplina anterior). Cada checkbox nuevo
+    // sale de acá ya con su listener de revalidación en vivo enganchado.
+    function poblarCheckboxes(contenedorOpciones, name, opciones) {
+        contenedorOpciones.innerHTML = '';
+        opciones.forEach((opcion) => {
+            const label = document.createElement('label');
+            label.className = 'checkbox-item';
+            const input = document.createElement('input');
+            input.type = 'checkbox';
+            input.name = name;
+            input.value = opcion.value;
+            agregarListenerGrupo(input, name);
+            label.appendChild(input);
+            label.appendChild(document.createTextNode(` ${opcion.etiqueta}`));
+            contenedorOpciones.appendChild(label);
+        });
     }
     function recolectarDatos() {
         const datos = {};
@@ -389,6 +542,33 @@
             weightClassEl.disabled = false;
         });
     }
+    // Cascada disciplina → estilo de pelea / artes marciales: fightStyle se
+    // repuebla con las opciones de la disciplina elegida (mismo patrón que
+    // weightClass, pero con checkboxes en vez de <option>). martialArts solo
+    // aplica a MMA: se muestra/oculta como los campos condicionales de
+    // competitiveLevel, y se desmarca al ocultarse para no dejar datos de
+    // un peleador que ya no es de MMA.
+    const fightStyleOpcionesEl = document.getElementById('fightStyleOpciones');
+    const martialArtsContenedor = obtenerContenedorGrupo('martialArts');
+    if (disciplineEl instanceof HTMLSelectElement && fightStyleOpcionesEl instanceof HTMLElement) {
+        disciplineEl.addEventListener('change', () => {
+            var _a;
+            const fightStyleContenedor = obtenerContenedorGrupo('fightStyle');
+            poblarCheckboxes(fightStyleOpcionesEl, 'fightStyle', (_a = ESTILOS_POR_DISCIPLINA[disciplineEl.value]) !== null && _a !== void 0 ? _a : []);
+            if (fightStyleContenedor)
+                limpiarErrorGrupo(fightStyleContenedor);
+            if (martialArtsContenedor) {
+                const esMma = disciplineEl.value === 'mma';
+                martialArtsContenedor.classList.toggle('oculto', !esMma);
+                if (!esMma) {
+                    document
+                        .querySelectorAll('input[name="martialArts"]:checked')
+                        .forEach((casilla) => { casilla.checked = false; });
+                    limpiarErrorGrupo(martialArtsContenedor);
+                }
+            }
+        });
+    }
     // Cascada tipo de peleador → debut profesional / años entrenando: son
     // mutuamente excluyentes, cada uno se muestra y se vuelve obligatorio solo
     // para el tipo que le corresponde; el otro se oculta, deja de ser
@@ -401,17 +581,17 @@
             limpiarError(campo);
         }
     }
-    const fighterTypeEl = obtenerCampo('fighterType');
+    const competitiveLevelEl = obtenerCampo('competitiveLevel');
     const debutDateEl = obtenerCampo('debutDate');
     const trainingYearsEl = obtenerCampo('trainingYears');
-    if (fighterTypeEl instanceof HTMLSelectElement &&
+    if (competitiveLevelEl instanceof HTMLSelectElement &&
         debutDateEl instanceof HTMLInputElement &&
         trainingYearsEl instanceof HTMLInputElement) {
         const debutDateCampo = obtenerContenedor(debutDateEl);
         const trainingYearsCampo = obtenerContenedor(trainingYearsEl);
-        fighterTypeEl.addEventListener('change', () => {
-            const esProfesional = fighterTypeEl.value === 'profesional';
-            const esAmateur = fighterTypeEl.value === 'amateur';
+        competitiveLevelEl.addEventListener('change', () => {
+            const esProfesional = competitiveLevelEl.value === 'profesional';
+            const esAmateur = competitiveLevelEl.value === 'amateur';
             alternarCampoCondicional(debutDateEl, debutDateCampo, esProfesional);
             alternarCampoCondicional(trainingYearsEl, trainingYearsCampo, esAmateur);
         });
@@ -447,6 +627,14 @@
         const evento = campo.tagName === 'SELECT' ? 'change' : 'blur';
         campo.addEventListener(evento, () => validarUnCampo(id));
     });
+    // Mismo feedback en vivo, pero para los grupos de checkboxes que ya
+    // existen en el HTML (languages, martialArts). Los de fightStyle no hacen
+    // falta acá: nacen vacíos y cada uno se engancha al crearse, en poblarCheckboxes.
+    gruposCheckbox.forEach(({ name }) => {
+        document.querySelectorAll(`input[name="${name}"]`).forEach((checkbox) => {
+            agregarListenerGrupo(checkbox, name);
+        });
+    });
     function mostrarConfirmacion() {
         var _a;
         let confirmacion = formulario.querySelector('.formulario-confirmacion');
@@ -465,6 +653,15 @@
             const esValido = validarUnCampo(id);
             if (!esValido && !primerCampoInvalido) {
                 primerCampoInvalido = obtenerCampo(id);
+            }
+        });
+        // Grupos de checkboxes: no hay un id de "campo" al que enfocar, así que
+        // se enfoca el primer checkbox del grupo — sigue siendo un CampoFormulario
+        // válido (todo <input>, incluido type="checkbox", es un HTMLInputElement).
+        gruposCheckbox.forEach(({ name, mensaje }) => {
+            const esValido = validarGrupoCheckbox(name, mensaje);
+            if (!esValido && !primerCampoInvalido) {
+                primerCampoInvalido = document.querySelector(`input[name="${name}"]`);
             }
         });
         if (primerCampoInvalido) {

@@ -1,6 +1,10 @@
 # Dependencias (se regeneran con npm install)
 node_modules/
 
+# Build para Netlify (se regenera con "npx tsc" + copiar archivos publicos,
+# ver netlify.toml — no hace falta versionarlo)
+dist/
+
 # Archivos de sistema
 .DS_Store
 Thumbs.db

@@ -376,12 +376,44 @@ legend {
 .col-full { grid-column: 1 / -1; }
 
 .campo { display: flex; flex-direction: column; }
-.oculto { display: none; }
+.oculto { display: none !important;}
 label {
   font-size: 0.9rem; font-weight: var(--peso-medio); margin-bottom: var(--espacio-8);
   color: var(--hueso);
 }
 label .req { color: var(--sangre); }
+
+/* Grupos de checkboxes (idiomas, estilo de pelea, artes marciales): el
+   "campo" acá es el grupo entero, no un solo input — por eso el label es
+   un <span> (.grupo-label), no un <label for="">. */
+.campo-checkboxes { display: flex; flex-direction: column; gap: var(--espacio-8); }
+.grupo-label {
+  font-size: 0.9rem; font-weight: var(--peso-medio);
+  color: var(--hueso);
+}
+.grupo-label .req { color: var(--sangre); }
+
+.checkbox-opciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-8) var(--espacio-16);
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-8);
+  font-size: 0.9rem;
+  color: var(--hueso);
+  cursor: pointer;
+}
+/* la regla genérica "input, select, textarea" de abajo le pone fondo, borde
+   y padding de campo de texto — se resetea acá para que el checkbox se vea
+   como checkbox nativo, no como un input de texto deforme. */
+.checkbox-item input[type="checkbox"] {
+  all: revert;
+  cursor: pointer;
+}
 
 input, select, textarea {
   background: var(--negro);
