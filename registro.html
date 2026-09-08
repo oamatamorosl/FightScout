@@ -81,7 +81,7 @@
 
             <div class="campo col-full">
               <label for="fighterName">Nombre completo <span class="req">*</span></label>
-              <input id="fighterName" name="fighterName" type="text" minlength="3" placeholder="Ej: Carlos Mendoza" required>
+              <input id="fighterName" name="fighterName" type="text" minlength="3" placeholder="Ej: Ezio Gudiño" required>
             </div>
 
             <div class="campo">
@@ -178,6 +178,11 @@
                 <option value="">Primero elige disciplina</option>
               </select>
               <p class="ayuda">¿Compites en otra división? Selecciona la categoría en la que compites oficialmente.</p>
+            </div>
+
+            <div class="campo campo-checkboxes col-full oculto" data-grupo="alternativeWeightClasses" role="group" aria-labelledby="altWeightLabel">
+              <span class="grupo-label" id="altWeightLabel">Divisiones alternativas <span class="ayuda-inline">(opcional)</span></span>
+              <div class="checkbox-opciones" id="alternativeWeightClassesOpciones"></div>
             </div>
 
             <div class="campo">

@@ -475,7 +475,15 @@
   // espíritu que la cascada de weightClass: siempre arranca vacío para no
   // dejar marcada una opción de la disciplina anterior). Cada checkbox nuevo
   // sale de acá ya con su listener de revalidación en vivo enganchado.
-  function poblarCheckboxes(contenedorOpciones: HTMLElement, name: string, opciones: OpcionCheckbox[]): void {
+  // conRevalidacion=false para grupos opcionales sin validación (ej.
+  // alternativeWeightClasses): nunca van a mostrar un .error-campo, así que
+  // el listener de revalidarGrupoSiYaTeniaError no tendría nada que hacer.
+  function poblarCheckboxes(
+    contenedorOpciones: HTMLElement,
+    name: string,
+    opciones: OpcionCheckbox[],
+    conRevalidacion: boolean = true,
+  ): void {
     contenedorOpciones.innerHTML = '';
     opciones.forEach((opcion) => {
       const label = document.createElement('label');
@@ -485,7 +493,7 @@
       input.type = 'checkbox';
       input.name = name;
       input.value = opcion.value;
-      agregarListenerGrupo(input, name);
+      if (conRevalidacion) agregarListenerGrupo(input, name);
 
       label.appendChild(input);
       label.appendChild(document.createTextNode(` ${opcion.etiqueta}`));
@@ -530,6 +538,12 @@
   const disciplineEl = obtenerCampo('discipline');
   const weightClassEl = obtenerCampo('weightClass');
 
+  // Divisiones alternativas: mismas divisiones que weightClass, pero como
+  // checkboxes (el peleador puede marcar varias) y opcional — sin validación
+  // de "al menos una", por eso NO está en gruposCheckbox.
+  const alternativeWeightClassesOpcionesEl = document.getElementById('alternativeWeightClassesOpciones');
+  const alternativeWeightClassesContenedor = obtenerContenedorGrupo('alternativeWeightClasses');
+
   if (disciplineEl instanceof HTMLSelectElement && weightClassEl instanceof HTMLSelectElement) {
     disciplineEl.addEventListener('change', () => {
       // Siempre arranca de cero: evita que quede seleccionada una división
@@ -545,6 +559,12 @@
         placeholder.textContent = 'Primero elige disciplina';
         weightClassEl.appendChild(placeholder);
         weightClassEl.disabled = true;
+
+        // Sin disciplina no hay divisiones que ofrecer como alternativa.
+        if (alternativeWeightClassesOpcionesEl instanceof HTMLElement) {
+          alternativeWeightClassesOpcionesEl.innerHTML = '';
+        }
+        alternativeWeightClassesContenedor?.classList.add('oculto');
         return;
       }
 
@@ -561,6 +581,11 @@
       });
 
       weightClassEl.disabled = false;
+
+      if (alternativeWeightClassesOpcionesEl instanceof HTMLElement) {
+        poblarCheckboxes(alternativeWeightClassesOpcionesEl, 'alternativeWeightClasses', divisiones, false);
+      }
+      alternativeWeightClassesContenedor?.classList.remove('oculto');
     });
   }
 

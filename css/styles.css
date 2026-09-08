@@ -392,6 +392,7 @@ label .req { color: var(--sangre); }
   color: var(--hueso);
 }
 .grupo-label .req { color: var(--sangre); }
+.grupo-label .ayuda-inline { color: var(--ceniza); font-weight: var(--peso-normal); }
 
 .checkbox-opciones {
   display: flex;
