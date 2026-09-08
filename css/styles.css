@@ -398,6 +398,14 @@ input, textarea { padding-right: 42px; }
 
 input:focus, select:focus, textarea:focus { border-color: var(--sangre); outline: none; }
 textarea { resize: vertical; min-height: 110px; }
+
+/* El ícono nativo del calendario (type="date") es oscuro por defecto y
+   casi no se ve sobre el fondo negro. invert(0.8) lo aclara para que se
+   note dónde hacer clic; cursor pointer refuerza que es clicable. */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.8);
+  cursor: pointer;
+}
 .ayuda { color: var(--ceniza); font-size: 0.8rem; margin-top: var(--espacio-6); }
 
 /* =========================================================
