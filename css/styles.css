@@ -139,6 +139,30 @@ body.nav-bloqueo-scroll { overflow: hidden; }
 .btn-fantasma { background: transparent; color: var(--hueso); }
 .btn-fantasma:hover { background: var(--sangre); }
 
+/* ===== CAMPO DE ARCHIVO (foto de perfil): label como botón primario redondeado ===== */
+/* El <input type="file"> nativo se oculta visualmente pero sigue enfocable
+   por teclado; el <label> asociado es el botón visible. */
+.input-archivo {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+.btn-archivo {
+  border-radius: 999px;      /* píldora, como el wireframe */
+  align-self: flex-start;    /* ancho al contenido: el .campo es flex-column
+                                y por defecto estiraría el botón a todo el ancho */
+}
+/* El foco real vive en el input oculto: se refleja en el botón vía el
+   hermano adyacente, porque el label no recibe :focus-visible por sí solo. */
+.input-archivo:focus-visible + .btn-archivo {
+  outline: 3px solid var(--sangre);
+  outline-offset: 2px;
+}
+
 /* ===== FOOTER (compartido) · BASE = MÓVIL (una columna) ===== */
 footer {
   background: var(--carbon); border-top: 2px solid var(--sangre);

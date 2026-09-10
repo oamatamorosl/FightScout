@@ -189,6 +189,10 @@
       },
     },
     {
+      id: 'sex',
+      validar: (valor) => (valor ? null : 'Selecciona tu género.'),
+    },
+    {
       id: 'residenceCountry',
       validar: (valor) => (valor ? null : 'Selecciona tu país de residencia actual.'),
     },

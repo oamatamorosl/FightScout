@@ -127,6 +127,15 @@
             </div>
 
             <div class="campo">
+              <label for="sex">Género <span class="req">*</span></label>
+              <select id="sex" name="sex" required>
+                <option value="">Selecciona una opción</option>
+                <option value="male">Masculino</option>
+                <option value="female">Femenino</option>
+              </select>
+            </div>
+
+            <div class="campo">
               <label for="residenceCountry">País de residencia actual <span class="req">*</span></label>
               <select id="residenceCountry" name="residenceCountry" required>
                 <option value="">Selecciona un país</option>
@@ -155,6 +164,19 @@
               </div>
             </div>
 
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Foto de perfil (opcional)</legend>
+          <div class="campos">
+            <div class="campo col-full">
+              <input id="profilePhoto" name="profilePhoto" type="file" accept="image/*"
+                     class="input-archivo" aria-describedby="profilePhoto-ayuda">
+              <label for="profilePhoto" class="btn btn-primario btn-archivo">Seleccionar archivo</label>
+              <p class="ayuda" id="profilePhoto-ayuda">Sube una imagen (JPG o PNG).
+                Aún no se guarda: el sitio no tiene backend.</p>
+            </div>
           </div>
         </fieldset>
 
