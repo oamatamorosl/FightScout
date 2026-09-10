@@ -283,10 +283,6 @@
             },
         },
         {
-            id: 'achievements',
-            validar: (valor) => (valor.length > 600 ? 'Máximo 600 caracteres.' : null),
-        },
-        {
             id: 'style',
             validar: (valor) => (valor.length > 400 ? 'Máximo 400 caracteres.' : null),
         },
@@ -622,6 +618,11 @@
             input.id = metodo.name;
             input.name = metodo.name;
             input.min = '0';
+            // placeholder: mismo formato "Ej: N" que wins/losses/draws en este
+            // mismo fieldset. Sin él, ":placeholder-shown" nunca puede aplicar
+            // (no hay placeholder que "dejar de mostrarse"), así que un input
+            // vacío se veía con el check verde de :valid puesto de entrada.
+            input.placeholder = 'Ej: 0';
             input.addEventListener('blur', () => {
                 validarUnMetodoVictoria(input);
                 validarSumaMetodosVictoria();
@@ -638,6 +639,318 @@
         // deshabilitado y limpio de nuevo, no arrastrar el estado de la
         // disciplina anterior.
         actualizarFirstRoundKos();
+    }
+    // ===== Logros y títulos (filas repetibles) =====
+    // Cada fila es un .logro-fila con 5 campos propios, indexados (_N) para que
+    // el name sea único por fila — ni las filas ni sus campos viven en
+    // "validadores": son dinámicas (0, 1 o varias) igual que los checkboxes o
+    // los métodos de victoria, así que se recorren desde el DOM en el submit.
+    let indiceLogroSiguiente = 0;
+    // Reglas de validación por campo, separadas de mostrar/limpiar el error:
+    // las reutilizan tanto validarFilaLogro (submit, siempre) como
+    // revalidarCampoLogroSiYaTeniaError (en vivo, solo si ya había error) —
+    // mismo espíritu de no duplicar reglas que el resto del archivo.
+    function validarCampoTituloLogro(campo) {
+        return campo.value.trim() === '' ? 'Ingresa el nombre del logro.' : null;
+    }
+    function validarCampoOrgLogro(campo) {
+        return campo.value.trim() === '' ? 'Ingresa la organización o promotora.' : null;
+    }
+    function validarCampoAnioLogro(campo) {
+        const anioActual = new Date().getFullYear();
+        if (campo.value.trim() === '')
+            return 'Ingresa el año.';
+        const anio = aEntero(campo.value);
+        if (anio === null || anio < 1950 || anio > anioActual) {
+            return `Ingresa un año entre 1950 y ${anioActual}.`;
+        }
+        return null;
+    }
+    function validarCampoNivelLogro(campo) {
+        return campo.value === '' ? 'Selecciona el nivel competitivo.' : null;
+    }
+    function validarCampoLogro(campo, validar) {
+        const mensaje = validar(campo);
+        if (mensaje) {
+            mostrarError(campo, mensaje);
+            return false;
+        }
+        limpiarError(campo);
+        return true;
+    }
+    // En vivo: blur en inputs / change en el select, pero SOLO si el campo ya
+    // tenía un error mostrado — igual criterio que revalidarGrupoSiYaTeniaError.
+    function revalidarCampoLogroSiYaTeniaError(campo, validar) {
+        if (!obtenerContenedor(campo).querySelector('.error-campo'))
+            return;
+        validarCampoLogro(campo, validar);
+    }
+    // Arma un <div class="campo"> con su <label> (y el "*" si es requerido) —
+    // mismo marcado que ya usa el resto del formulario a mano.
+    function crearCampoLogro(idCampo, etiqueta, requerido) {
+        const contenedor = document.createElement('div');
+        contenedor.className = 'campo';
+        const label = document.createElement('label');
+        label.htmlFor = idCampo;
+        label.appendChild(document.createTextNode(requerido ? `${etiqueta} ` : etiqueta));
+        if (requerido) {
+            const req = document.createElement('span');
+            req.className = 'req';
+            req.textContent = '*';
+            label.appendChild(req);
+        }
+        contenedor.appendChild(label);
+        return contenedor;
+    }
+    function crearFilaLogro(indice) {
+        const fila = document.createElement('div');
+        fila.className = 'logro-fila';
+        // ===== Estado edición: los 5 campos + Quitar / Guardar logro =====
+        const edicion = document.createElement('div');
+        edicion.className = 'logro-edicion';
+        const camposFila = document.createElement('div');
+        camposFila.className = 'campos';
+        // Logro (título)
+        const idTitulo = `achievementTitle_${indice}`;
+        const campoTitulo = crearCampoLogro(idTitulo, 'Logro', true);
+        const inputTitulo = document.createElement('input');
+        inputTitulo.type = 'text';
+        inputTitulo.id = idTitulo;
+        inputTitulo.name = idTitulo;
+        inputTitulo.required = true;
+        inputTitulo.addEventListener('blur', () => revalidarCampoLogroSiYaTeniaError(inputTitulo, validarCampoTituloLogro));
+        campoTitulo.appendChild(inputTitulo);
+        // Organización / promotora
+        const idOrg = `achievementOrg_${indice}`;
+        const campoOrg = crearCampoLogro(idOrg, 'Organización / promotora', true);
+        const inputOrg = document.createElement('input');
+        inputOrg.type = 'text';
+        inputOrg.id = idOrg;
+        inputOrg.name = idOrg;
+        inputOrg.required = true;
+        inputOrg.addEventListener('blur', () => revalidarCampoLogroSiYaTeniaError(inputOrg, validarCampoOrgLogro));
+        campoOrg.appendChild(inputOrg);
+        // Año — max = año actual calculado, nunca hardcodeado.
+        const idAnio = `achievementYear_${indice}`;
+        const campoAnio = crearCampoLogro(idAnio, 'Año', true);
+        const inputAnio = document.createElement('input');
+        inputAnio.type = 'number';
+        inputAnio.id = idAnio;
+        inputAnio.name = idAnio;
+        inputAnio.min = '1950';
+        inputAnio.max = String(new Date().getFullYear());
+        inputAnio.required = true;
+        inputAnio.addEventListener('blur', () => revalidarCampoLogroSiYaTeniaError(inputAnio, validarCampoAnioLogro));
+        campoAnio.appendChild(inputAnio);
+        // Nivel competitivo
+        const idNivel = `achievementLevel_${indice}`;
+        const campoNivel = crearCampoLogro(idNivel, 'Nivel competitivo', true);
+        const selectNivel = document.createElement('select');
+        selectNivel.id = idNivel;
+        selectNivel.name = idNivel;
+        selectNivel.required = true;
+        const placeholderNivel = document.createElement('option');
+        placeholderNivel.value = '';
+        placeholderNivel.textContent = 'Selecciona una opción';
+        selectNivel.appendChild(placeholderNivel);
+        const opcionAmateur = document.createElement('option');
+        opcionAmateur.value = 'amateur';
+        opcionAmateur.textContent = 'Amateur';
+        selectNivel.appendChild(opcionAmateur);
+        const opcionProfesional = document.createElement('option');
+        opcionProfesional.value = 'profesional';
+        opcionProfesional.textContent = 'Profesional';
+        selectNivel.appendChild(opcionProfesional);
+        selectNivel.addEventListener('change', () => revalidarCampoLogroSiYaTeniaError(selectNivel, validarCampoNivelLogro));
+        campoNivel.appendChild(selectNivel);
+        // Descripción — opcional, sin validador (el maxlength ya la acota).
+        // placeholder=" ": fix de Fase D2. Sin ningún placeholder, la pseudo-clase
+        // ":placeholder-shown" nunca puede aplicar (no hay placeholder que "dejar
+        // de mostrarse"), así que ":not(:placeholder-shown)" da siempre verdadero
+        // y un textarea opcional vacío se veía con el check verde de :valid puesto
+        // desde el principio. Un placeholder de un solo espacio activa
+        // :placeholder-shown igual que en cualquier otro campo, sin mostrar texto.
+        const idDescripcion = `achievementDescription_${indice}`;
+        const campoDescripcion = crearCampoLogro(idDescripcion, 'Descripción (opcional)', false);
+        campoDescripcion.classList.add('col-full');
+        const textareaDescripcion = document.createElement('textarea');
+        textareaDescripcion.id = idDescripcion;
+        textareaDescripcion.name = idDescripcion;
+        textareaDescripcion.maxLength = 300;
+        textareaDescripcion.placeholder = ' ';
+        campoDescripcion.appendChild(textareaDescripcion);
+        camposFila.appendChild(campoTitulo);
+        camposFila.appendChild(campoOrg);
+        camposFila.appendChild(campoAnio);
+        camposFila.appendChild(campoNivel);
+        camposFila.appendChild(campoDescripcion);
+        edicion.appendChild(camposFila);
+        // ===== Estado lectura: resumen de 3 líneas + Editar / Borrar =====
+        // Los inputs de arriba nunca se destruyen al guardar: se ocultan con
+        // .oculto (mismo mecanismo que ya usa el resto del formulario) y el
+        // resumen solo lee sus valores — así "Editar" los vuelve a mostrar tal
+        // como quedaron, sin reconstruir nada.
+        const lectura = document.createElement('div');
+        lectura.className = 'logro-lectura oculto';
+        const resumenTitulo = document.createElement('p');
+        resumenTitulo.className = 'logro-resumen-titulo';
+        const resumenMeta = document.createElement('p');
+        resumenMeta.className = 'logro-resumen-meta';
+        const resumenDescripcion = document.createElement('p');
+        resumenDescripcion.className = 'logro-resumen-descripcion';
+        lectura.appendChild(resumenTitulo);
+        lectura.appendChild(resumenMeta);
+        lectura.appendChild(resumenDescripcion);
+        function actualizarResumen() {
+            var _a;
+            var _b;
+            resumenTitulo.textContent = inputTitulo.value.trim();
+            const nivelTexto = (_b = (_a = selectNivel.options[selectNivel.selectedIndex]) === null || _a === void 0 ? void 0 : _a.textContent) !== null && _b !== void 0 ? _b : '';
+            resumenMeta.textContent = `${inputOrg.value.trim()} · ${inputAnio.value.trim()} · ${nivelTexto}`;
+            const descripcion = textareaDescripcion.value.trim();
+            resumenDescripcion.textContent = descripcion;
+            resumenDescripcion.classList.toggle('oculto', descripcion === '');
+        }
+        function mostrarLectura() {
+            actualizarResumen();
+            edicion.classList.add('oculto');
+            lectura.classList.remove('oculto');
+            fila.classList.add('logro-fila-guardado');
+            revalidarLogrosSiYaTeniaError();
+        }
+        function mostrarEdicion() {
+            lectura.classList.add('oculto');
+            edicion.classList.remove('oculto');
+            fila.classList.remove('logro-fila-guardado');
+            inputTitulo.focus();
+        }
+        // Quitar (edición) / Guardar logro
+        const accionesEdicion = document.createElement('div');
+        accionesEdicion.className = 'logro-fila-acciones';
+        const botonQuitar = document.createElement('button');
+        botonQuitar.type = 'button';
+        botonQuitar.className = 'btn btn-fantasma';
+        botonQuitar.textContent = 'Quitar';
+        botonQuitar.addEventListener('click', () => fila.remove());
+        const botonGuardar = document.createElement('button');
+        botonGuardar.type = 'button';
+        botonGuardar.className = 'btn btn-primario';
+        botonGuardar.textContent = 'Guardar logro';
+        botonGuardar.addEventListener('click', () => {
+            // Valida solo los campos de ESTA fila (no dispara el submit del
+            // formulario completo). Si falla, se queda en edición con los
+            // errores visibles — mismo mostrarError/limpiarError de siempre — y
+            // el foco va al primer campo inválido.
+            const primerInvalido = validarFilaLogro(fila);
+            if (primerInvalido) {
+                primerInvalido.focus();
+                return;
+            }
+            mostrarLectura();
+        });
+        accionesEdicion.appendChild(botonQuitar);
+        accionesEdicion.appendChild(botonGuardar);
+        edicion.appendChild(accionesEdicion);
+        // Editar / Borrar (lectura)
+        const accionesLectura = document.createElement('div');
+        accionesLectura.className = 'logro-fila-acciones';
+        const botonEditar = document.createElement('button');
+        botonEditar.type = 'button';
+        botonEditar.className = 'btn btn-fantasma btn-chico';
+        botonEditar.textContent = 'Editar';
+        botonEditar.addEventListener('click', mostrarEdicion);
+        const botonBorrar = document.createElement('button');
+        botonBorrar.type = 'button';
+        botonBorrar.className = 'btn btn-fantasma btn-chico';
+        botonBorrar.textContent = 'Borrar';
+        botonBorrar.addEventListener('click', () => fila.remove());
+        accionesLectura.appendChild(botonEditar);
+        accionesLectura.appendChild(botonBorrar);
+        lectura.appendChild(accionesLectura);
+        fila.appendChild(edicion);
+        fila.appendChild(lectura);
+        return fila;
+    }
+    // Una fila está "en edición" si su bloque de edición está visible (sin
+    // .oculto) — no hace falta guardar un estado aparte: el mismo toggle de
+    // visibilidad que ya usa el resto del formulario para mostrar/ocultar es
+    // la única fuente de verdad acá también.
+    function filaEstaEnEdicion(fila) {
+        const edicion = fila.querySelector('.logro-edicion');
+        return edicion ? !edicion.classList.contains('oculto') : true;
+    }
+    // Error a nivel del bloque completo de logros (no de un campo puntual):
+    // "queda alguna fila sin guardar" no tiene un <input> propio al que
+    // colgarle setCustomValidity, así que el mensaje vive en el contenedor
+    // #logros — mismo patrón que mostrarErrorMetodos/limpiarErrorMetodos,
+    // incluido ":scope > .error-campo" (no ".error-campo" a secas): #logros
+    // también contiene, más adentro, el .error-campo de cada campo de cada
+    // fila individual, y no hay que confundirlos con este.
+    function mostrarErrorLogros(mensaje) {
+        const contenedor = document.getElementById('logros');
+        if (!contenedor)
+            return;
+        contenedor.setAttribute('aria-invalid', 'true');
+        const idError = `${contenedor.id}-error`;
+        let error = contenedor.querySelector(':scope > .error-campo');
+        if (!error) {
+            error = document.createElement('p');
+            error.className = 'error-campo';
+            error.id = idError;
+            contenedor.appendChild(error);
+        }
+        error.textContent = mensaje;
+        contenedor.setAttribute('aria-describedby', idError);
+    }
+    function limpiarErrorLogros() {
+        const contenedor = document.getElementById('logros');
+        if (!contenedor)
+            return;
+        contenedor.removeAttribute('aria-invalid');
+        contenedor.removeAttribute('aria-describedby');
+        const error = contenedor.querySelector(':scope > .error-campo');
+        if (error)
+            error.remove();
+    }
+    // Igual criterio que el resto del formulario (revalidarGrupoSiYaTeniaError,
+    // revalidarCampoLogroSiYaTeniaError): limpia el error de #logros SOLO si ya
+    // estaba mostrado, y solo si guardar ESTA fila hizo que ya no quede
+    // ninguna otra en edición. Así corregir la fila que disparó el error lo
+    // limpia al instante, sin esperar a un nuevo intento de envío.
+    function revalidarLogrosSiYaTeniaError() {
+        const contenedor = document.getElementById('logros');
+        const lista = document.getElementById('logrosLista');
+        if (!contenedor || !(lista instanceof HTMLElement) || !contenedor.querySelector(':scope > .error-campo'))
+            return;
+        const sigueHabiendoFilaSinGuardar = Array.from(lista.querySelectorAll('.logro-fila')).some((fila) => filaEstaEnEdicion(fila));
+        if (!sigueHabiendoFilaSinGuardar)
+            limpiarErrorLogros();
+    }
+    // Recorre las filas EXISTENTES en el DOM (no un array fijo, porque son
+    // dinámicas). Cero filas es válido: los logros son opcionales.
+    function validarFilaLogro(fila) {
+        let primerInvalido = null;
+        const registrar = (campo, validar) => {
+            if (!esCampoValidable(campo))
+                return;
+            const esValido = validarCampoLogro(campo, validar);
+            if (!esValido && !primerInvalido)
+                primerInvalido = campo;
+        };
+        registrar(fila.querySelector('[id^="achievementTitle_"]'), validarCampoTituloLogro);
+        registrar(fila.querySelector('[id^="achievementOrg_"]'), validarCampoOrgLogro);
+        registrar(fila.querySelector('[id^="achievementYear_"]'), validarCampoAnioLogro);
+        registrar(fila.querySelector('[id^="achievementLevel_"]'), validarCampoNivelLogro);
+        return primerInvalido;
+    }
+    const logrosListaEl = document.getElementById('logrosLista');
+    const agregarLogroEl = document.getElementById('agregarLogro');
+    if (logrosListaEl instanceof HTMLElement && agregarLogroEl instanceof HTMLButtonElement) {
+        agregarLogroEl.addEventListener('click', () => {
+            const fila = crearFilaLogro(indiceLogroSiguiente);
+            indiceLogroSiguiente += 1;
+            logrosListaEl.appendChild(fila);
+        });
     }
     function recolectarDatos() {
         const datos = {};
@@ -839,6 +1152,24 @@
             const primerMetodo = document.getElementById((_a = nombresMetodosVictoriaActuales[0]) !== null && _a !== void 0 ? _a : '');
             if (primerMetodo instanceof HTMLInputElement)
                 primerCampoInvalido = primerMetodo;
+        }
+        // Logros: cada fila ya validó sus propios campos al presionar "Guardar
+        // logro" (ver crearFilaLogro) — acá el submit NO vuelve a revisar esos
+        // campos, solo exige que ninguna fila haya quedado abierta sin guardar.
+        // Cero filas sigue siendo válido (son opcionales).
+        if (logrosListaEl instanceof HTMLElement) {
+            const filaSinGuardar = Array.from(logrosListaEl.querySelectorAll('.logro-fila')).find((fila) => filaEstaEnEdicion(fila));
+            if (filaSinGuardar) {
+                mostrarErrorLogros('Termina de guardar tu logro antes de enviar.');
+                if (!primerCampoInvalido) {
+                    const primerCampoDeLaFila = filaSinGuardar.querySelector('[id^="achievementTitle_"]');
+                    if (esCampoValidable(primerCampoDeLaFila))
+                        primerCampoInvalido = primerCampoDeLaFila;
+                }
+            }
+            else {
+                limpiarErrorLogros();
+            }
         }
         if (primerCampoInvalido) {
             primerCampoInvalido.focus();

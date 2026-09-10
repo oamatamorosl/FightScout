@@ -416,6 +416,63 @@ label .req { color: var(--sangre); }
   cursor: pointer;
 }
 
+/* Logros y títulos: cada fila es un bloque propio, con el mismo acento
+   vertical que los fieldsets, para distinguir un logro de otro cuando hay
+   varios seguidos. */
+.logro-fila {
+  border: 1px solid var(--linea);
+  border-left: 3px solid var(--sangre);
+  padding: var(--espacio-16);
+  margin-bottom: var(--espacio-16);
+}
+.logro-fila .btn {
+  margin-top: var(--espacio-8);
+}
+
+/* Estado lectura (logro ya guardado): el acento izquierdo pasa de rojo a
+   verde (--exito, el mismo tono que ya usa el check de :valid) para marcar
+   de un vistazo que esa fila está completa, distinto de las que siguen
+   abiertas en edición. */
+.logro-fila-guardado {
+  border-left-color: var(--exito);
+}
+
+.logro-fila-acciones {
+  display: flex;
+  gap: var(--espacio-8);
+  flex-wrap: wrap;
+}
+
+/* Resumen de 3 líneas del estado lectura: jerarquía tipográfica en vez del
+   formulario completo — título destacado, luego metadatos tenues, luego la
+   descripción (más tenue y chica todavía, y solo si existe). */
+.logro-resumen-titulo {
+  color: var(--hueso);
+  font-weight: var(--peso-fuerte);
+  font-size: var(--texto-base);
+  margin: 0;
+}
+.logro-resumen-meta {
+  color: var(--ceniza);
+  font-size: var(--texto-sm);
+  margin: var(--espacio-4) 0 0;
+}
+.logro-resumen-descripcion {
+  color: var(--ceniza);
+  font-size: 0.8rem;
+  margin: var(--espacio-6) 0 0;
+}
+
+/* Editar / Borrar del estado lectura: más chicos que los botones de
+   acción principal del formulario — pesan menos porque actúan sobre un
+   logro ya guardado, no sobre el envío del formulario. Doble clase (no
+   ".btn-chico" sola) para tener más especificidad que ".btn" y así ganarle
+   su padding/font-size, igual que ".logro-fila .btn" ya le gana el margin. */
+.btn.btn-chico {
+  padding: var(--espacio-8) var(--espacio-16);
+  font-size: var(--texto-sm);
+}
+
 input, select, textarea {
   background: var(--negro);
   border: 1px solid var(--linea);
@@ -476,6 +533,20 @@ textarea:valid:not(:placeholder-shown) {
 textarea:invalid:not(:placeholder-shown):not(:focus),
 textarea:valid:not(:placeholder-shown) {
   background-position: right 14px top 14px;   /* arriba, no centrado en un cuadro alto */
+}
+
+/* type="date" tampoco respeta :placeholder-shown (el navegador ignora el
+   atributo placeholder en este tipo de input, a diferencia de texto/número):
+   ":not(:placeholder-shown)" da siempre verdadero sin importar si el campo
+   tiene fecha o no, así que un date vacío y opcional (ej. lastFightDate) se
+   veía con el check verde de :valid puesto de entrada. El borde/fondo de
+   color se conservan igual (siguen siendo una pista real de validez) —
+   selectores más específicos que arriba, así que ganan sin depender del
+   orden; solo se les quita el ícono, mismo criterio que ya se usa con
+   <select> más abajo por el mismo motivo. */
+input[type="date"]:invalid:not(:placeholder-shown):not(:focus),
+input[type="date"]:valid:not(:placeholder-shown) {
+  background-image: none;
 }
 
 /* <select> no soporta :placeholder-shown (no aplica a ese elemento): se usa
