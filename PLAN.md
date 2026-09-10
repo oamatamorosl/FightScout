@@ -30,14 +30,27 @@ convenciones de código.
 - [x] Formulario de cuenta de scout (`registroScout.html`) validado en TypeScript (`ts/validarPerfilScout.ts`)
 - [x] Validación con type guards (no `as`), mensajes de error accesibles vía `aria-describedby`, validación en tiempo real (blur/change)
 - [x] Feedback visual nativo por campo (`:valid`/`:invalid`/`:focus` en `css/styles.css`, `:user-invalid`/`:user-valid` para los `<select>`), con ícono además del color, sin marcar nada antes de que el usuario interactúe
+- [x] Expansión de `registro.html` (fieldsets reorganizados, campos nuevos, checkboxes dinámicos, métodos de victoria, logros estructurados):
+  - [x] Fase A — campos simples: nacionalidad (antes `country`), país/ciudad de residencia, ciudad, estado/provincia, gimnasio; renombrado `fighterType`→`competitiveLevel`; nuevos: estado competitivo, disponible para pelear, fecha última pelea. Fieldsets reorganizados (Identidad, Ubicación y equipo, Disciplina y categoría, Trayectoria, Récord y estilo).
+  - [x] Fase B1 — grupos de checkboxes: idiomas (obligatorio mín. 1), estilo de pelea condicional por disciplina y obligatorio (Boxeo: Estilista/Contragolpeador/Fajador · MMA: Striker/Grappler/Mixto), artes/fortalezas solo MMA obligatorio cuando visible. Validación de grupo + revalidación en vivo (solo si el grupo ya tenía error).
+  - [x] Fase B2 — divisiones de peso alternativas (checkboxes dinámicos por disciplina, opcional), reutilizan las constantes de divisiones existentes.
+  - [x] Fase C1 — métodos de victoria dinámicos por disciplina (Boxeo: KO/TKO/DEC/DQ · MMA: +SUB), suman ≤ `wins`. Eliminado el campo `knockouts`. Agregado `noContests` (opcional).
+  - [x] Fase C2 — `firstRoundKos` reconectado a la suma KO+TKO (habilitación dinámica + validación ≤ KO+TKO + revalidación en vivo).
+  - [x] Fase D — logros estructurados repetibles con estado tarjeta: agregar fila → completar → "Guardar logro" colapsa a recuadro de lectura (título / org·año·nivel / descripción) con Editar/Borrar. Opcional; si se agrega una fila, sus campos (menos descripción) son obligatorios. Submit bloquea si queda una fila en edición sin guardar. Reemplazó el textarea `achievements`.
 - [ ] Conectar los formularios a un backend real — hoy `action="#"`, el "envío" solo valida en el cliente y muestra un mensaje de confirmación local
-- [ ] Definir si se necesita un campo de teléfono (y su validación de formato) en algún formulario
+- [x] Campo de teléfono: no se agrega — el formulario ya cubre validación de formato con email, fechas y rangos numéricos; no aporta cobertura adicional relevante
 
 ## Herramientas / calidad
 
 - [x] TypeScript en modo `strict`, compilado sin errores desde `ts/` a `js/`
 - [ ] No hay linter ni test runner configurado — evaluar si el proyecto lo necesita
 - [ ] Revisar los comandos en `.claude/commands/` — `Meta.md`, `limpiar-css.md` y `nueva-seccion.md` están escritos para otros proyectos (referencian archivos y carpetas que no existen en FightScout)
+
+## Pendientes generales
+
+- [ ] `perfil.html` — página de perfil público del peleador (siguiente objetivo, aún no iniciada)
+- [ ] `max` dinámico en los `<input type="date">` calculado con JS al cargar la página (hoy es un valor estático en el HTML)
+- [ ] Componentes vacíos del playground (`checkboxes-radios`, `menus`, `toasts`)
 
 ## Decisiones
 
@@ -55,3 +68,18 @@ convenciones de código.
   llama `setCustomValidity()` para que la plataforma refleje también las
   reglas que el HTML nativo no puede expresar (ej. "nocauts ≤ victorias").
   Así el mensaje de texto (JS) y el color (CSS) nunca quedan desincronizados.
+- La cadena de validación del récord es transitiva: suma de métodos de
+  victoria ≤ `wins`, y `firstRoundKos` ≤ (`methodKo` + `methodTko`). Se usa
+  `Math.max(valor, 0)` en las sumas para que un valor negativo no enmascare
+  el tope.
+- Los campos de formulario dinámicos (creados con `createElement` en las
+  cascadas de disciplina) reciben sus listeners en el momento de crearse, no
+  en una pasada de wiring al cargar la página, porque no existen en el DOM
+  inicial.
+- La clase `.oculto` usa `display: none !important` para ganar siempre sobre
+  `.campo { display: flex }` (misma especificidad; sin `!important` se
+  resolvía por orden en la hoja, algo frágil).
+- `type="date"` ignora el atributo `placeholder`, así que para quitarle el
+  check verde de `:valid` en vacío se lo excluye directamente del
+  `background-image` del ícono (el truco del placeholder no se le puede
+  aplicar ahí). Los inputs numéricos opcionales sí usan `placeholder` para eso.
