@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    :root {
+      --negro:#0a0a0b; --carbon:#16161a;
+      --hueso:#f2ede4; --ceniza:#8a8a92; --linea:#2a2a30;
+      --semantic-error:#ef4444; --semantic-success:#10b981; --semantic-warning:#f59e0b; --semantic-info:#3b82f6;
+      --sangre:#c1121f; --sangre-osc:#7a0c15;
+      --fuente-titulo:'Arial Narrow','Roboto Condensed','Impact',sans-serif;
+      --fuente-cuerpo:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+      --texto-sm:0.85rem;
+      --border:8px;
+    }
+    body { margin: 0; font-family: var(--fuente-cuerpo); }
+    a { color: var(--sangre); } a:hover { color: var(--sangre-osc); }
+    code { font-family: ui-monospace, 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; }
+    /* Diseño nuevo: css/toasts.css estaba vacío — reusa el mismo patrón de
+       tinte (color-mix 12% + borde izquierdo) que ya define css/alerts.css,
+       para que toda la familia de feedback de estado se vea emparentada.
+       Sin ícono ni botón de cerrar: el markup real de playground.html no los
+       tiene (se retiran solos, no son foco-interactivos). */
+    .atomo-toast {
+      display: flex; align-items: flex-start; padding: 14px 16px;
+      border-radius: var(--border); border-left: 4px solid transparent;
+      background: var(--carbon);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      width: 300px; box-sizing: border-box;
+    }
+    .atomo-toast p { margin: 0; font-size: var(--texto-sm); color: var(--hueso); }
+  </style>
+</helmet>
+
+<div style="width:100%; min-height:100%; background:var(--negro); color:var(--hueso); box-sizing:border-box; padding:40px;">
+
+  <p style="margin:0 0 8px; font-size:0.75rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--ceniza);">Backoffice · FightScout</p>
+  <h1 style="margin:0 0 8px; font-family:var(--fuente-titulo); text-transform:uppercase; font-size:1.6rem; line-height:1; color:var(--hueso);">Toasts</h1>
+  <p style="margin:0 0 28px; font-size:0.78rem; color:var(--ceniza); max-width:380px;">Nuevo: <code>css/toasts.css</code> está vacío. Mismo patrón de tinte que <code>css/alerts.css</code>, sin título ni ícono — así es el markup real.</p>
+
+  <div style="display:flex; flex-direction:column; gap:10px;">
+    <div class="atomo-toast" style="background-color:color-mix(in srgb, var(--semantic-success) 12%, var(--carbon)); border-left-color:var(--semantic-success);">
+      <p>Perfil verificado correctamente.</p>
+    </div>
+    <div class="atomo-toast" style="background-color:color-mix(in srgb, var(--semantic-error) 12%, var(--carbon)); border-left-color:var(--semantic-error);">
+      <p>No se pudo verificar el perfil. Reintenta.</p>
+    </div>
+    <div class="atomo-toast" style="background-color:color-mix(in srgb, var(--semantic-warning) 12%, var(--carbon)); border-left-color:var(--semantic-warning);">
+      <p>Quedan cambios sin guardar.</p>
+    </div>
+    <div class="atomo-toast" style="background-color:color-mix(in srgb, var(--semantic-info) 12%, var(--carbon)); border-left-color:var(--semantic-info);">
+      <p>Se actualizó la lista de perfiles.</p>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

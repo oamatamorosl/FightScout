@@ -1,0 +1,361 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    :root {
+      /* ===== Existentes — copiados tal cual de css/variables.css ===== */
+      --negro:#0a0a0b;
+      --carbon:#16161a;
+      --carbon-claro:#1e1e24;
+      --sangre:#c1121f;
+      --sangre-osc:#7a0c15;
+      --hueso:#f2ede4;
+      --ceniza:#8a8a92;
+      --linea:#2a2a30;
+      --exito:#3fae6a;
+
+      --semantic-error:#ef4444;
+      --semantic-success:#10b981;
+      --semantic-warning:#f59e0b;
+      --semantic-info:#3b82f6;
+
+      --fuente-titulo:'Arial Narrow','Roboto Condensed','Impact',sans-serif;
+      --fuente-cuerpo:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+
+      --texto-sm:0.85rem;
+      --texto-base:1rem;
+      --texto-lg:1.2rem;
+      --texto-xl:1.5rem;
+      --texto-titulo:2rem;
+      --texto-hero:clamp(2.2rem, 8vw, 6rem);
+
+      --peso-normal:400;
+      --peso-medio:600;
+      --peso-fuerte:700;
+
+      --border:8px;
+
+      /* ===== Nuevo para el backoffice ===== */
+      --border-pill:999px;
+
+      --espacio-4:4px;
+      --espacio-8:8px;
+      --espacio-12:12px;
+      --espacio-16:16px;
+      --espacio-24:24px;
+      --espacio-32:32px;
+      --espacio-48:48px;
+      --espacio-64:64px;
+    }
+    body { margin: 0; font-family: var(--fuente-cuerpo); }
+    a { color: var(--sangre); }
+    a:hover { color: var(--sangre-osc); }
+    code { font-family: ui-monospace, 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; }
+  </style>
+</helmet>
+
+<div style="width:100%; min-height:100%; background:var(--negro); color:var(--hueso); box-sizing:border-box;">
+  <div style="max-width:1100px; margin:0 auto; padding:64px 40px 96px; box-sizing:border-box;">
+
+    <!-- ===== HEADER ===== -->
+    <header style="margin-bottom:64px;">
+      <p style="margin:0 0 12px; font-size:var(--texto-sm); text-transform:uppercase; letter-spacing:1.5px; color:var(--ceniza);">Backoffice · FightScout</p>
+      <h1 style="margin:0 0 16px; font-family:var(--fuente-titulo); text-transform:uppercase; font-size:2.75rem; line-height:1; color:var(--hueso);">Design <span style="color:var(--sangre);">tokens</span></h1>
+      <p style="margin:0; max-width:680px; font-size:var(--texto-base); line-height:1.6; color:var(--ceniza);">Paleta semántica, escala tipográfica, espaciado de 4px y radios: la base para construir el resto del backoffice sobre los componentes que ya están estilizados en <code style="color:var(--hueso); background:var(--carbon); padding:2px 6px; border-radius:4px;">playground.html</code> (alerts, botones, dialogs).</p>
+    </header>
+
+    <!-- ===== 1. PALETA SEMÁNTICA ===== -->
+    <section style="margin-bottom:72px;">
+      <h2 style="margin:0 0 8px; font-family:var(--fuente-titulo); text-transform:uppercase; letter-spacing:1px; font-size:var(--texto-xl); color:var(--hueso); border-left:4px solid var(--sangre); padding-left:14px;">Paleta semántica</h2>
+      <p style="margin:0 0 32px; padding-left:18px; font-size:var(--texto-sm); color:var(--ceniza);">Cada color tiene un rol fijo — nunca se usa por su tono, siempre por lo que significa.</p>
+
+      <!-- Superficie -->
+      <p style="margin:0 0 14px; font-size:0.78rem; text-transform:uppercase; letter-spacing:1px; color:var(--ceniza);">Superficie</p>
+      <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:24px; margin-bottom:36px;">
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="height:80px; border-radius:var(--border); border:1px solid var(--linea); background:var(--negro);"></div>
+          <div>
+            <p style="margin:0; font-size:var(--texto-sm); font-weight:var(--peso-fuerte); color:var(--hueso);"><code>--negro</code></p>
+            <p style="margin:2px 0 0; font-size:0.78rem; color:var(--ceniza);">#0a0a0b · Fondo de página</p>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="height:80px; border-radius:var(--border); border:1px solid var(--linea); background:var(--carbon);"></div>
+          <div>
+            <p style="margin:0; font-size:var(--texto-sm); font-weight:var(--peso-fuerte); color:var(--hueso);"><code>--carbon</code></p>
+            <p style="margin:2px 0 0; font-size:0.78rem; color:var(--ceniza);">#16161a · Tarjetas y superficies</p>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="height:80px; border-radius:var(--border); border:1px solid var(--linea); background:var(--carbon-claro);"></div>
+          <div>
+            <p style="margin:0; font-size:var(--texto-sm); font-weight:var(--peso-fuerte); color:var(--hueso);"><code>--carbon-claro</code></p>
+            <p style="margin:2px 0 0; font-size:0.78rem; color:var(--ceniza);">#1e1e24 · Hover de superficies</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Texto y borde -->
+      <p style="margin:0 0 14px; font-size:0.78rem; text-transform:uppercase; letter-spacing:1px; color:var(--ceniza);">Texto y borde</p>
+      <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:24px; margin-bottom:36px;">
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="height:80px; border-radius:var(--border); border:1px solid var(--linea); background:var(--hueso);"></div>
+          <div>
+            <p style="margin:0; font-size:var(--texto-sm); font-weight:var(--peso-fuerte); color:var(--hueso);"><code>--hueso</code></p>
+            <p style="margin:2px 0 0; font-size:0.78rem; color:var(--ceniza);">#f2ede4 · Texto principal</p>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="height:80px; border-radius:var(--border); border:1px solid var(--linea); background:var(--ceniza);"></div>
+          <div>
+            <p style="margin:0; font-size:var(--texto-sm); font-weight:var(--peso-fuerte); color:var(--hueso);"><code>--ceniza</code></p>
+            <p style="margin:2px 0 0; font-size:0.78rem; color:var(--ceniza);">#8a8a92 · Texto secundario, mudo</p>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="height:80px; border-radius:var(--border); border:1px solid var(--linea); background:var(--linea);"></div>
+          <div>
+            <p style="margin:0; font-size:var(--texto-sm); font-weight:var(--peso-fuerte); color:var(--hueso);"><code>--linea</code></p>
+            <p style="margin:2px 0 0; font-size:0.78rem; color:var(--ceniza);">#2a2a30 · Bordes y separadores</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Marca -->
+      <p style="margin:0 0 14px; font-size:0.78rem; text-transform:uppercase; letter-spacing:1px; color:var(--ceniza);">Marca</p>
+      <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:24px; margin-bottom:36px;">
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="height:80px; border-radius:var(--border); border:1px solid var(--linea); background:var(--sangre);"></div>
+          <div>
+            <p style="margin:0; font-size:var(--texto-sm); font-weight:var(--peso-fuerte); color:var(--hueso);"><code>--sangre</code></p>
+            <p style="margin:2px 0 0; font-size:0.78rem; color:var(--ceniza);">#c1121f · Acción principal, acentos</p>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="height:80px; border-radius:var(--border); border:1px solid var(--linea); background:var(--sangre-osc);"></div>
+          <div>
+            <p style="margin:0; font-size:var(--texto-sm); font-weight:var(--peso-fuerte); color:var(--hueso);"><code>--sangre-osc</code></p>
+            <p style="margin:2px 0 0; font-size:0.78rem; color:var(--ceniza);">#7a0c15 · Hover / active de la marca</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Estado -->
+      <p style="margin:0 0 14px; font-size:0.78rem; text-transform:uppercase; letter-spacing:1px; color:var(--ceniza);">Estado</p>
+      <div style="display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:24px; margin-bottom:14px;">
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="height:80px; border-radius:var(--border); border:1px solid var(--linea); background:var(--semantic-error);"></div>
+          <div>
+            <p style="margin:0; font-size:var(--texto-sm); font-weight:var(--peso-fuerte); color:var(--hueso);"><code>--semantic-error</code></p>
+            <p style="margin:2px 0 0; font-size:0.78rem; color:var(--ceniza);">#ef4444</p>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="height:80px; border-radius:var(--border); border:1px solid var(--linea); background:var(--semantic-success);"></div>
+          <div>
+            <p style="margin:0; font-size:var(--texto-sm); font-weight:var(--peso-fuerte); color:var(--hueso);"><code>--semantic-success</code></p>
+            <p style="margin:2px 0 0; font-size:0.78rem; color:var(--ceniza);">#10b981</p>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="height:80px; border-radius:var(--border); border:1px solid var(--linea); background:var(--semantic-warning);"></div>
+          <div>
+            <p style="margin:0; font-size:var(--texto-sm); font-weight:var(--peso-fuerte); color:var(--hueso);"><code>--semantic-warning</code></p>
+            <p style="margin:2px 0 0; font-size:0.78rem; color:var(--ceniza);">#f59e0b</p>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="height:80px; border-radius:var(--border); border:1px solid var(--linea); background:var(--semantic-info);"></div>
+          <div>
+            <p style="margin:0; font-size:var(--texto-sm); font-weight:var(--peso-fuerte); color:var(--hueso);"><code>--semantic-info</code></p>
+            <p style="margin:2px 0 0; font-size:0.78rem; color:var(--ceniza);">#3b82f6</p>
+          </div>
+        </div>
+      </div>
+      <p style="margin:0 0 28px; font-size:0.78rem; color:var(--ceniza); font-style:italic;">Nota: <code>--exito</code> (#3fae6a) es un verde distinto — se usa solo para el feedback nativo de formularios (<code>:valid</code>), no para alerts/toasts. No es una duplicación por error.</p>
+
+      <!-- Aplicado: alerts reales (usa el patrón de tinte de css/alerts.css) -->
+      <p style="margin:0 0 14px; font-size:0.78rem; text-transform:uppercase; letter-spacing:1px; color:var(--ceniza);">Aplicado — patrón de css/alerts.css (tinte 12% + borde izquierdo)</p>
+      <div style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px;">
+        <div style="display:flex; align-items:flex-start; gap:12px; padding:16px; border-radius:var(--border); border-left:4px solid var(--semantic-error); background-color:color-mix(in srgb, var(--semantic-error) 12%, var(--carbon));">
+          <span aria-hidden="true" style="display:flex; align-items:center; justify-content:center; width:24px; height:24px; flex-shrink:0; font-size:1.1rem; line-height:1; color:var(--semantic-error);">⚠</span>
+          <div style="flex:1;">
+            <p style="margin:0; font-weight:var(--peso-fuerte); font-size:var(--texto-base); color:var(--hueso);">Error</p>
+            <p style="margin:0; font-size:var(--texto-sm); color:var(--hueso); opacity:0.85;">No se pudo guardar el perfil.</p>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:12px; padding:16px; border-radius:var(--border); border-left:4px solid var(--semantic-success); background-color:color-mix(in srgb, var(--semantic-success) 12%, var(--carbon));">
+          <span aria-hidden="true" style="display:flex; align-items:center; justify-content:center; width:24px; height:24px; flex-shrink:0; font-size:1.1rem; line-height:1; color:var(--semantic-success);">✓</span>
+          <div style="flex:1;">
+            <p style="margin:0; font-weight:var(--peso-fuerte); font-size:var(--texto-base); color:var(--hueso);">Éxito</p>
+            <p style="margin:0; font-size:var(--texto-sm); color:var(--hueso); opacity:0.85;">Perfil guardado correctamente.</p>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:12px; padding:16px; border-radius:var(--border); border-left:4px solid var(--semantic-warning); background-color:color-mix(in srgb, var(--semantic-warning) 12%, var(--carbon));">
+          <span aria-hidden="true" style="display:flex; align-items:center; justify-content:center; width:24px; height:24px; flex-shrink:0; font-size:1.1rem; line-height:1; color:var(--semantic-warning);">!</span>
+          <div style="flex:1;">
+            <p style="margin:0; font-weight:var(--peso-fuerte); font-size:var(--texto-base); color:var(--hueso);">Atención</p>
+            <p style="margin:0; font-size:var(--texto-sm); color:var(--hueso); opacity:0.85;">La sesión expira en 5 minutos.</p>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:12px; padding:16px; border-radius:var(--border); border-left:4px solid var(--semantic-info); background-color:color-mix(in srgb, var(--semantic-info) 12%, var(--carbon));">
+          <span aria-hidden="true" style="display:flex; align-items:center; justify-content:center; width:24px; height:24px; flex-shrink:0; font-size:1.1rem; line-height:1; color:var(--semantic-info);">ℹ</span>
+          <div style="flex:1;">
+            <p style="margin:0; font-weight:var(--peso-fuerte); font-size:var(--texto-base); color:var(--hueso);">Información</p>
+            <p style="margin:0; font-size:var(--texto-sm); color:var(--hueso); opacity:0.85;">La revisión puede tardar hasta 48 horas.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 2. ESCALA TIPOGRÁFICA ===== -->
+    <section style="margin-bottom:72px;">
+      <h2 style="margin:0 0 8px; font-family:var(--fuente-titulo); text-transform:uppercase; letter-spacing:1px; font-size:var(--texto-xl); color:var(--hueso); border-left:4px solid var(--sangre); padding-left:14px;">Escala tipográfica</h2>
+      <p style="margin:0 0 32px; padding-left:18px; font-size:var(--texto-sm); color:var(--ceniza);">Dos familias: una condensada para títulos, una neutra para el cuerpo.</p>
+
+      <div style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:24px; margin-bottom:40px;">
+        <div style="padding:24px; border:1px solid var(--linea); border-radius:var(--border); background:var(--carbon);">
+          <p style="margin:0 0 12px; font-size:0.78rem; text-transform:uppercase; letter-spacing:1px; color:var(--ceniza);"><code>--fuente-titulo</code></p>
+          <p style="margin:0 0 10px; font-family:var(--fuente-titulo); text-transform:uppercase; font-size:1.8rem; line-height:1.1; color:var(--hueso);">Fightscout Backoffice</p>
+          <p style="margin:0; font-size:0.75rem; color:var(--ceniza);">'Arial Narrow', 'Roboto Condensed', 'Impact', sans-serif</p>
+        </div>
+        <div style="padding:24px; border:1px solid var(--linea); border-radius:var(--border); background:var(--carbon);">
+          <p style="margin:0 0 12px; font-size:0.78rem; text-transform:uppercase; letter-spacing:1px; color:var(--ceniza);"><code>--fuente-cuerpo</code></p>
+          <p style="margin:0 0 10px; font-family:var(--fuente-cuerpo); font-size:1.15rem; line-height:1.4; color:var(--hueso);">Texto de interfaz, tablas y formularios.</p>
+          <p style="margin:0; font-size:0.75rem; color:var(--ceniza);">'Segoe UI', Roboto, Helvetica, Arial, sans-serif</p>
+        </div>
+      </div>
+
+      <p style="margin:0 0 14px; font-size:0.78rem; text-transform:uppercase; letter-spacing:1px; color:var(--ceniza);">Pesos</p>
+      <div style="display:flex; flex-direction:column; gap:4px; margin-bottom:40px;">
+        <div style="display:flex; align-items:baseline; gap:20px; padding:12px 0; border-top:1px solid var(--linea);">
+          <span style="width:170px; flex-shrink:0; font-size:0.75rem; color:var(--ceniza);"><code>--peso-normal</code> · 400</span>
+          <span style="font-weight:400; font-size:var(--texto-lg); color:var(--hueso);">Texto de párrafo estándar</span>
+        </div>
+        <div style="display:flex; align-items:baseline; gap:20px; padding:12px 0; border-top:1px solid var(--linea);">
+          <span style="width:170px; flex-shrink:0; font-size:0.75rem; color:var(--ceniza);"><code>--peso-medio</code> · 600</span>
+          <span style="font-weight:600; font-size:var(--texto-lg); color:var(--hueso);">Etiquetas y énfasis</span>
+        </div>
+        <div style="display:flex; align-items:baseline; gap:20px; padding:12px 0; border-top:1px solid var(--linea);">
+          <span style="width:170px; flex-shrink:0; font-size:0.75rem; color:var(--ceniza);"><code>--peso-fuerte</code> · 700</span>
+          <span style="font-weight:700; font-size:var(--texto-lg); color:var(--hueso);">Títulos y botones</span>
+        </div>
+      </div>
+
+      <p style="margin:0 0 14px; font-size:0.78rem; text-transform:uppercase; letter-spacing:1px; color:var(--ceniza);">Tamaños</p>
+      <div style="display:flex; flex-direction:column;">
+        <div style="display:flex; align-items:baseline; gap:20px; padding:14px 0; border-top:1px solid var(--linea);">
+          <span style="width:190px; flex-shrink:0; font-size:0.75rem; color:var(--ceniza);"><code>--texto-sm</code> · 13.6px</span>
+          <span style="font-size:var(--texto-sm); font-family:var(--fuente-cuerpo); color:var(--hueso);">Texto pequeño — ayudas, metadatos</span>
+        </div>
+        <div style="display:flex; align-items:baseline; gap:20px; padding:14px 0; border-top:1px solid var(--linea);">
+          <span style="width:190px; flex-shrink:0; font-size:0.75rem; color:var(--ceniza);"><code>--texto-base</code> · 16px</span>
+          <span style="font-size:var(--texto-base); font-family:var(--fuente-cuerpo); color:var(--hueso);">Cuerpo de texto estándar</span>
+        </div>
+        <div style="display:flex; align-items:baseline; gap:20px; padding:14px 0; border-top:1px solid var(--linea);">
+          <span style="width:190px; flex-shrink:0; font-size:0.75rem; color:var(--ceniza);"><code>--texto-lg</code> · 19.2px</span>
+          <span style="font-size:var(--texto-lg); font-family:var(--fuente-cuerpo); color:var(--hueso);">Texto destacado, subtítulos</span>
+        </div>
+        <div style="display:flex; align-items:baseline; gap:20px; padding:14px 0; border-top:1px solid var(--linea);">
+          <span style="width:190px; flex-shrink:0; font-size:0.75rem; color:var(--ceniza);"><code>--texto-xl</code> · 24px</span>
+          <span style="font-size:var(--texto-xl); font-family:var(--fuente-titulo); text-transform:uppercase; color:var(--hueso);">Título de sección</span>
+        </div>
+        <div style="display:flex; align-items:baseline; gap:20px; padding:14px 0; border-top:1px solid var(--linea);">
+          <span style="width:190px; flex-shrink:0; font-size:0.75rem; color:var(--ceniza);"><code>--texto-titulo</code> · 32px</span>
+          <span style="font-size:var(--texto-titulo); font-family:var(--fuente-titulo); text-transform:uppercase; color:var(--hueso);">Título de página</span>
+        </div>
+        <div style="display:flex; align-items:baseline; gap:20px; padding:14px 0; border-top:1px solid var(--linea); border-bottom:1px solid var(--linea);">
+          <span style="width:190px; flex-shrink:0; font-size:0.75rem; color:var(--ceniza);"><code>--texto-hero</code> · clamp(2.2rem,8vw,6rem)</span>
+          <span style="font-size:var(--texto-hero); font-family:var(--fuente-titulo); text-transform:uppercase; color:var(--hueso); line-height:1;">Hero</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 3. ESCALA DE ESPACIADO (4px) ===== -->
+    <section style="margin-bottom:72px;">
+      <h2 style="margin:0 0 8px; font-family:var(--fuente-titulo); text-transform:uppercase; letter-spacing:1px; font-size:var(--texto-xl); color:var(--hueso); border-left:4px solid var(--sangre); padding-left:14px;">Espaciado</h2>
+      <p style="margin:0 0 8px; padding-left:18px; font-size:var(--texto-sm); color:var(--ceniza);">Nueva para el backoffice: el <code>--espacio-*</code> del sitio público combina valores múltiplo de 4 (4, 8, 12, 16...) con otros que no lo son (6, 10, 14, 18, 22, 30, 50, 90px). Esta escala es estrictamente múltiplo de 4.</p>
+      <p style="margin:0 0 28px; padding-left:18px; font-size:var(--texto-sm); color:var(--ceniza);">8 pasos: de ajustes finos entre ícono y texto hasta separación entre secciones.</p>
+
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <div style="display:flex; align-items:center; gap:20px;">
+          <span style="width:160px; flex-shrink:0; font-size:0.78rem; color:var(--ceniza);"><code>--espacio-4</code></span>
+          <div style="height:16px; width:4px; background:var(--sangre); border-radius:2px; flex-shrink:0;"></div>
+          <span style="font-size:0.78rem; color:var(--ceniza);">4px · entre ícono y texto</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:20px;">
+          <span style="width:160px; flex-shrink:0; font-size:0.78rem; color:var(--ceniza);"><code>--espacio-8</code></span>
+          <div style="height:16px; width:8px; background:var(--sangre); border-radius:2px; flex-shrink:0;"></div>
+          <span style="font-size:0.78rem; color:var(--ceniza);">8px · dentro de un control</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:20px;">
+          <span style="width:160px; flex-shrink:0; font-size:0.78rem; color:var(--ceniza);"><code>--espacio-12</code></span>
+          <div style="height:16px; width:12px; background:var(--sangre); border-radius:2px; flex-shrink:0;"></div>
+          <span style="font-size:0.78rem; color:var(--ceniza);">12px · entre controles relacionados</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:20px;">
+          <span style="width:160px; flex-shrink:0; font-size:0.78rem; color:var(--ceniza);"><code>--espacio-16</code></span>
+          <div style="height:16px; width:16px; background:var(--sangre); border-radius:2px; flex-shrink:0;"></div>
+          <span style="font-size:0.78rem; color:var(--ceniza);">16px · padding estándar de tarjeta</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:20px;">
+          <span style="width:160px; flex-shrink:0; font-size:0.78rem; color:var(--ceniza);"><code>--espacio-24</code></span>
+          <div style="height:16px; width:24px; background:var(--sangre); border-radius:2px; flex-shrink:0;"></div>
+          <span style="font-size:0.78rem; color:var(--ceniza);">24px · entre bloques de una tarjeta</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:20px;">
+          <span style="width:160px; flex-shrink:0; font-size:0.78rem; color:var(--ceniza);"><code>--espacio-32</code></span>
+          <div style="height:16px; width:32px; background:var(--sangre); border-radius:2px; flex-shrink:0;"></div>
+          <span style="font-size:0.78rem; color:var(--ceniza);">32px · entre tarjetas de una grilla</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:20px;">
+          <span style="width:160px; flex-shrink:0; font-size:0.78rem; color:var(--ceniza);"><code>--espacio-48</code></span>
+          <div style="height:16px; width:48px; background:var(--sangre); border-radius:2px; flex-shrink:0;"></div>
+          <span style="font-size:0.78rem; color:var(--ceniza);">48px · entre paneles</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:20px;">
+          <span style="width:160px; flex-shrink:0; font-size:0.78rem; color:var(--ceniza);"><code>--espacio-64</code></span>
+          <div style="height:16px; width:64px; background:var(--sangre); border-radius:2px; flex-shrink:0;"></div>
+          <span style="font-size:0.78rem; color:var(--ceniza);">64px · entre secciones de página</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 4. RADIOS ===== -->
+    <section>
+      <h2 style="margin:0 0 8px; font-family:var(--fuente-titulo); text-transform:uppercase; letter-spacing:1px; font-size:var(--texto-xl); color:var(--hueso); border-left:4px solid var(--sangre); padding-left:14px;">Radios</h2>
+      <p style="margin:0 0 32px; padding-left:18px; font-size:var(--texto-sm); color:var(--ceniza);">Nuevo para el backoffice: <code>--border-pill</code>, para badges y chips. <code>--border</code> ya existía y se mantiene igual.</p>
+
+      <div style="display:flex; gap:48px; flex-wrap:wrap; align-items:flex-end;">
+        <div style="display:flex; flex-direction:column; align-items:flex-start; gap:14px;">
+          <div style="width:140px; height:88px; background:var(--carbon); border:1px solid var(--linea); border-radius:var(--border);"></div>
+          <div>
+            <p style="margin:0; font-size:var(--texto-sm); font-weight:var(--peso-fuerte); color:var(--hueso);"><code>--border</code></p>
+            <p style="margin:2px 0 0; font-size:0.78rem; color:var(--ceniza);">8px · botones, tarjetas, alerts, dialogs</p>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:flex-start; gap:14px;">
+          <div style="padding:10px 24px; background:var(--sangre); border-radius:var(--border-pill); display:inline-flex; align-items:center;">
+            <span style="font-size:var(--texto-sm); font-weight:var(--peso-medio); text-transform:uppercase; letter-spacing:0.5px; color:var(--hueso);">Disponible</span>
+          </div>
+          <div>
+            <p style="margin:0; font-size:var(--texto-sm); font-weight:var(--peso-fuerte); color:var(--hueso);"><code>--border-pill</code></p>
+            <p style="margin:2px 0 0; font-size:0.78rem; color:var(--ceniza);">999px · badges, tags, chips de estado</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <p style="margin:80px 0 0; padding-top:24px; border-top:1px solid var(--linea); font-size:0.78rem; color:var(--ceniza);">Colores, tipografía y <code>--border</code>: documentados tal cual desde <code>css/variables.css</code>, <code>css/botones.css</code>, <code>css/alerts.css</code> y <code>css/dialogs.css</code>. Nuevo para esta página: <code>--border-pill</code> y la escala <code>--espacio-*</code> de 4px.</p>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

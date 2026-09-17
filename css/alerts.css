@@ -11,6 +11,7 @@
     border-radius: var(--border);
     border-left: 4px solid transparent;
     background-color: var(--carbon);
+    min-width: 0;
 }
 
 .c-alert--success {
@@ -46,18 +47,22 @@
 .c-alert--warning .c-alert-icon { color: var(--semantic-warning); }
 .c-alert--info .c-alert-icon { color: var(--semantic-info); }
 
-.c-alert-cuerpo { flex: 1; }
+.c-alert-cuerpo { flex: 1; min-width: 0; }
 .c-alert-title {
     margin: 0;
     font-weight: var(--peso-fuerte);
     font-size: var(--texto-base);
     color: var(--hueso);
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 .c-alert-message {
     margin: 0;
     font-size: var(--texto-sm);
     color: var(--hueso);
     opacity: 0.85;   /* atenuado respecto al título: la jerarquía la da el peso, no el color */
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 /* sin fondo ni caja — solo la ✕, que se ilumina al pasar el mouse o enfocar */
@@ -69,9 +74,38 @@
     font-size: 1.1rem;
     line-height: 1;
     cursor: pointer;
+    flex-shrink: 0;
 }
 .c-alert-close:hover { color: var(--hueso); }
 .c-alert-close:focus-visible {
     outline: 2px solid var(--sangre);
     outline-offset: 2px;
+}
+
+/* Contenedor fijo arriba para la alerta del formulario */
+.alerta-sticky {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  padding: var(--espacio-12);
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.alerta-sticky:empty { display: none; }
+.alerta-sticky .c-alert {
+  pointer-events: auto;
+  width: 100%;
+  max-width: 640px;
+  box-sizing: border-box;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  animation: alertaBajar 0.3s ease-out;
+}
+@keyframes alertaBajar {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .alerta-sticky .c-alert { animation: none; }
 }

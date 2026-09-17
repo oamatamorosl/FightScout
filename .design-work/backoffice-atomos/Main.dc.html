@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    :root {
+      --negro:#0a0a0b; --carbon:#16161a; --carbon-claro:#1e1e24;
+      --sangre:#c1121f; --sangre-osc:#7a0c15;
+      --hueso:#f2ede4; --ceniza:#8a8a92; --linea:#2a2a30; --exito:#3fae6a;
+      --semantic-error:#ef4444; --semantic-success:#10b981; --semantic-warning:#f59e0b; --semantic-info:#3b82f6;
+      --fuente-titulo:'Arial Narrow','Roboto Condensed','Impact',sans-serif;
+      --fuente-cuerpo:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+      --texto-sm:0.85rem; --texto-base:1rem; --texto-lg:1.2rem; --texto-xl:1.5rem;
+      --peso-normal:400; --peso-medio:600; --peso-fuerte:700;
+      --border:8px; --border-pill:999px;
+    }
+    body { margin: 0; font-family: var(--fuente-cuerpo); }
+    a { color: var(--sangre); } a:hover { color: var(--sangre-osc); }
+    code { font-family: ui-monospace, 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; }
+    .atomo-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 14px 28px; font-weight: 700; font-size: 0.92rem;
+      text-transform: uppercase; letter-spacing: 1px; border-radius: var(--border);
+      font-family: var(--fuente-cuerpo);
+    }
+    .atomo-btn--icon { width: 44px; height: 44px; padding: 0; font-size: 1.1rem; }
+  </style>
+</helmet>
+
+<div style="width:100%; min-height:100%; background:var(--negro); color:var(--hueso); box-sizing:border-box;">
+  <div style="max-width:1080px; margin:0 auto; padding:56px 40px 72px; box-sizing:border-box;">
+
+    <header style="margin-bottom:40px;">
+      <p style="margin:0 0 12px; font-size:var(--texto-sm); text-transform:uppercase; letter-spacing:1.5px; color:var(--ceniza);">Backoffice · FightScout</p>
+      <h1 style="margin:0 0 12px; font-family:var(--fuente-titulo); text-transform:uppercase; font-size:2.25rem; line-height:1; color:var(--hueso);">Botones — <span style="color:var(--sangre);">estados</span></h1>
+      <p style="margin:0; max-width:640px; font-size:var(--texto-base); line-height:1.6; color:var(--ceniza);">Las 4 variantes de <code style="color:var(--hueso); background:var(--carbon); padding:2px 6px; border-radius:4px;">css/botones.css</code>, ya estilizadas, en sus 5 estados. Nada nuevo acá — es el catálogo visual completo de lo que ya existe.</p>
+    </header>
+
+    <!-- Encabezado de columnas -->
+    <div style="display:grid; grid-template-columns:130px repeat(5, 1fr); gap:16px; margin-bottom:20px; padding-bottom:12px; border-bottom:1px solid var(--linea);">
+      <div></div>
+      <p style="margin:0; font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; color:var(--ceniza); text-align:center;">Idle</p>
+      <p style="margin:0; font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; color:var(--ceniza); text-align:center;">Hover</p>
+      <p style="margin:0; font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; color:var(--ceniza); text-align:center;">Focus</p>
+      <p style="margin:0; font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; color:var(--ceniza); text-align:center;">Active</p>
+      <p style="margin:0; font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; color:var(--ceniza); text-align:center;">Disabled</p>
+    </div>
+
+    <!-- Fila: Primary -->
+    <div style="display:grid; grid-template-columns:130px repeat(5, 1fr); gap:16px; align-items:center; padding:18px 0; border-bottom:1px solid var(--linea);">
+      <p style="margin:0; font-size:var(--texto-sm); font-weight:var(--peso-fuerte); color:var(--hueso);">Primary</p>
+      <div style="display:flex; justify-content:center;"><button type="button" class="atomo-btn" style="background:var(--sangre); border:2px solid var(--sangre); color:var(--hueso);">Guardar</button></div>
+      <div style="display:flex; justify-content:center;"><button type="button" class="atomo-btn" style="background:var(--sangre-osc); border:2px solid var(--sangre-osc); color:var(--hueso);">Guardar</button></div>
+      <div style="display:flex; justify-content:center;"><button type="button" class="atomo-btn" style="background:var(--sangre); border:2px solid var(--sangre); color:var(--hueso); outline:3px solid var(--sangre); outline-offset:2px;">Guardar</button></div>
+      <div style="display:flex; justify-content:center;"><button type="button" class="atomo-btn" style="background:var(--sangre-osc); border:2px solid var(--sangre-osc); color:var(--hueso); transform:translateY(1px);">Guardar</button></div>
+      <div style="display:flex; justify-content:center;"><button type="button" class="atomo-btn" style="background:var(--sangre); border:2px solid var(--sangre); color:var(--hueso); opacity:0.5; cursor:not-allowed;">Guardar</button></div>
+    </div>
+
+    <!-- Fila: Secondary -->
+    <div style="display:grid; grid-template-columns:130px repeat(5, 1fr); gap:16px; align-items:center; padding:18px 0; border-bottom:1px solid var(--linea);">
+      <p style="margin:0; font-size:var(--texto-sm); font-weight:var(--peso-fuerte); color:var(--hueso);">Secondary</p>
+      <div style="display:flex; justify-content:center;"><button type="button" class="atomo-btn" style="background:transparent; border:2px solid var(--sangre); color:var(--hueso);">Cancelar</button></div>
+      <div style="display:flex; justify-content:center;"><button type="button" class="atomo-btn" style="background:var(--sangre); border:2px solid var(--sangre); color:var(--hueso);">Cancelar</button></div>
+      <div style="display:flex; justify-content:center;"><button type="button" class="atomo-btn" style="background:transparent; border:2px solid var(--sangre); color:var(--hueso); outline:3px solid var(--sangre); outline-offset:2px;">Cancelar</button></div>
+      <div style="display:flex; justify-content:center;"><button type="button" class="atomo-btn" style="background:var(--sangre-osc); border:2px solid var(--sangre-osc); color:var(--hueso); transform:translateY(1px);">Cancelar</button></div>
+      <div style="display:flex; justify-content:center;"><button type="button" class="atomo-btn" style="background:transparent; border:2px solid var(--sangre); color:var(--hueso); opacity:0.5; cursor:not-allowed;">Cancelar</button></div>
+    </div>
+
+    <!-- Fila: Destructive -->
+    <div style="display:grid; grid-template-columns:130px repeat(5, 1fr); gap:16px; align-items:center; padding:18px 0; border-bottom:1px solid var(--linea);">
+      <p style="margin:0; font-size:var(--texto-sm); font-weight:var(--peso-fuerte); color:var(--hueso);">Destructive</p>
+      <div style="display:flex; justify-content:center;"><button type="button" class="atomo-btn" style="background:transparent; border:2px solid var(--semantic-error); color:var(--semantic-error);">Eliminar</button></div>
+      <div style="display:flex; justify-content:center;"><button type="button" class="atomo-btn" style="background:var(--semantic-error); border:2px solid var(--semantic-error); color:var(--hueso);">Eliminar</button></div>
+      <div style="display:flex; justify-content:center;"><button type="button" class="atomo-btn" style="background:transparent; border:2px solid var(--semantic-error); color:var(--semantic-error); outline:3px solid var(--sangre); outline-offset:2px;">Eliminar</button></div>
+      <div style="display:flex; justify-content:center;"><button type="button" class="atomo-btn" style="background:var(--semantic-error); border:2px solid var(--semantic-error); color:var(--hueso); filter:brightness(0.85); transform:translateY(1px);">Eliminar</button></div>
+      <div style="display:flex; justify-content:center;"><button type="button" class="atomo-btn" style="background:transparent; border:2px solid var(--semantic-error); color:var(--semantic-error); opacity:0.5; cursor:not-allowed;">Eliminar</button></div>
+    </div>
+
+    <!-- Fila: Icon -->
+    <div style="display:grid; grid-template-columns:130px repeat(5, 1fr); gap:16px; align-items:center; padding:18px 0;">
+      <p style="margin:0; font-size:var(--texto-sm); font-weight:var(--peso-fuerte); color:var(--hueso);">Icon</p>
+      <div style="display:flex; justify-content:center;"><button type="button" aria-label="Más opciones" class="atomo-btn atomo-btn--icon" style="border:1px solid var(--linea); background:transparent; color:var(--hueso);">⋮</button></div>
+      <div style="display:flex; justify-content:center;"><button type="button" aria-label="Más opciones" class="atomo-btn atomo-btn--icon" style="border:1px solid var(--sangre); background:var(--carbon); color:var(--hueso);">⋮</button></div>
+      <div style="display:flex; justify-content:center;"><button type="button" aria-label="Más opciones" class="atomo-btn atomo-btn--icon" style="border:1px solid var(--linea); background:transparent; color:var(--hueso); outline:3px solid var(--sangre); outline-offset:2px;">⋮</button></div>
+      <div style="display:flex; justify-content:center;"><button type="button" aria-label="Más opciones" class="atomo-btn atomo-btn--icon" style="border:1px solid var(--sangre-osc); background:var(--linea); color:var(--hueso); transform:translateY(1px);">⋮</button></div>
+      <div style="display:flex; justify-content:center;"><button type="button" aria-label="Más opciones" class="atomo-btn atomo-btn--icon" style="border:1px solid var(--linea); background:transparent; color:var(--hueso); opacity:0.5; cursor:not-allowed;">⋮</button></div>
+    </div>
+
+    <p style="margin:32px 0 0; font-size:0.78rem; color:var(--ceniza); font-style:italic;">Nota real del CSS: el anillo de foco de <em>Destructive</em> es <code>--sangre</code> (rojo de marca), no <code>--semantic-error</code> — el foco siempre se ve igual sin importar la variante.</p>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

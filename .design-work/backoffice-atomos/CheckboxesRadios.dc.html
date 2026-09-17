@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    :root {
+      --negro:#0a0a0b; --carbon:#16161a;
+      --sangre:#c1121f; --sangre-osc:#7a0c15;
+      --hueso:#f2ede4; --ceniza:#8a8a92; --linea:#2a2a30;
+      --fuente-titulo:'Arial Narrow','Roboto Condensed','Impact',sans-serif;
+      --fuente-cuerpo:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+      --texto-sm:0.85rem; --texto-base:1rem;
+      --peso-fuerte:700;
+      --border:8px;
+    }
+    body { margin: 0; font-family: var(--fuente-cuerpo); }
+    a { color: var(--sangre); } a:hover { color: var(--sangre-osc); }
+    code { font-family: ui-monospace, 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; }
+    /* Diseño nuevo: inputs nativos reales, retinteados con accent-color en vez
+       de reconstruirlos como divs — conserva foco/teclado/lector de pantalla
+       nativos tal cual ya los describe playground.html. */
+    .atomo-input {
+      width: 20px; height: 20px;
+      accent-color: var(--sangre);
+      cursor: pointer;
+      margin: 0;
+    }
+    .atomo-input:disabled { cursor: not-allowed; }
+    .atomo-grupo {
+      border: 1px solid var(--linea);
+      border-radius: var(--border);
+      padding: 8px 20px 18px;
+      margin: 0;
+    }
+    .atomo-grupo legend {
+      font-family: var(--fuente-titulo);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: var(--texto-sm);
+      color: var(--ceniza);
+      padding: 0 8px;
+    }
+    .atomo-fila {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+    }
+    .atomo-fila label {
+      font-size: var(--texto-base);
+      color: var(--hueso);
+      cursor: pointer;
+    }
+  </style>
+</helmet>
+
+<div style="width:100%; min-height:100%; background:var(--negro); color:var(--hueso); box-sizing:border-box; padding:40px; box-sizing:border-box;">
+
+  <p style="margin:0 0 8px; font-size:0.75rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--ceniza);">Backoffice · FightScout</p>
+  <h1 style="margin:0 0 8px; font-family:var(--fuente-titulo); text-transform:uppercase; font-size:1.6rem; line-height:1; color:var(--hueso);">Checkboxes <span style="color:var(--sangre);">/</span> Radios</h1>
+  <p style="margin:0 0 28px; font-size:0.78rem; color:var(--ceniza); max-width:380px;">Nuevo: <code>css/checkboxes-radios.css</code> está vacío. Se mantiene el <code>&lt;input&gt;</code> nativo y se retinta con <code>accent-color</code>.</p>
+
+  <!-- Componente real -->
+  <fieldset class="atomo-grupo" style="margin-bottom:20px;">
+    <legend>Filtrar por disciplina</legend>
+    <div class="atomo-fila"><input class="atomo-input" type="checkbox" id="fMma" checked><label for="fMma">MMA</label></div>
+    <div class="atomo-fila"><input class="atomo-input" type="checkbox" id="fBox"><label for="fBox">Boxeo</label></div>
+  </fieldset>
+
+  <fieldset class="atomo-grupo" style="margin-bottom:28px;">
+    <legend>Estado del perfil</legend>
+    <div class="atomo-fila"><input class="atomo-input" type="radio" name="estado" id="eAprob" checked><label for="eAprob">Aprobado</label></div>
+    <div class="atomo-fila"><input class="atomo-input" type="radio" name="estado" id="eRech"><label for="eRech">Rechazado</label></div>
+  </fieldset>
+
+  <!-- Estados -->
+  <p style="margin:0 0 12px; font-size:0.72rem; text-transform:uppercase; letter-spacing:1px; color:var(--ceniza);">Estados</p>
+  <div style="display:grid; grid-template-columns:repeat(2, auto); gap:10px 32px; margin-bottom:4px;">
+    <div style="display:flex; align-items:center; gap:10px;"><input class="atomo-input" type="checkbox"><span style="font-size:0.78rem; color:var(--ceniza);">Sin marcar</span></div>
+    <div style="display:flex; align-items:center; gap:10px;"><input class="atomo-input" type="radio" name="_a"><span style="font-size:0.78rem; color:var(--ceniza);">Sin marcar</span></div>
+    <div style="display:flex; align-items:center; gap:10px;"><input class="atomo-input" type="checkbox" checked><span style="font-size:0.78rem; color:var(--ceniza);">Marcado</span></div>
+    <div style="display:flex; align-items:center; gap:10px;"><input class="atomo-input" type="radio" name="_b" checked><span style="font-size:0.78rem; color:var(--ceniza);">Marcado</span></div>
+    <div style="display:flex; align-items:center; gap:10px;"><input class="atomo-input" type="checkbox" style="outline:3px solid var(--sangre); outline-offset:2px;"><span style="font-size:0.78rem; color:var(--ceniza);">Foco</span></div>
+    <div style="display:flex; align-items:center; gap:10px;"><input class="atomo-input" type="radio" name="_c" style="outline:3px solid var(--sangre); outline-offset:2px;"><span style="font-size:0.78rem; color:var(--ceniza);">Foco</span></div>
+    <div style="display:flex; align-items:center; gap:10px;"><input class="atomo-input" type="checkbox" disabled style="opacity:0.5;"><span style="font-size:0.78rem; color:var(--ceniza);">Deshabilitado</span></div>
+    <div style="display:flex; align-items:center; gap:10px;"><input class="atomo-input" type="radio" name="_d" disabled style="opacity:0.5;"><span style="font-size:0.78rem; color:var(--ceniza);">Deshabilitado</span></div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

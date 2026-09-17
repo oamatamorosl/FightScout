@@ -589,23 +589,30 @@
     const contenedor = document.getElementById('metodosVictoria');
     if (!contenedor) return true;
 
-    const suma = nombresMetodosVictoriaActuales.reduce((total, name) => {
-      const input = document.getElementById(name);
-      const valor = input instanceof HTMLInputElement ? aEntero(input.value) : null;
-      // Math.max(..., 0): un método negativo ya se marca inválido aparte
-      // (validarUnMetodoVictoria) — acá no debe "restar" de la suma y
-      // esconder un error real de "supera tus victorias".
-      return total + Math.max(valor ?? 0, 0);
-    }, 0);
+    const inputs = nombresMetodosVictoriaActuales
+      .map((name) => document.getElementById(name))
+      .filter((el): el is HTMLInputElement => el instanceof HTMLInputElement);
+
+    const suma = inputs.reduce((total, input) => total + Math.max(aEntero(input.value) ?? 0, 0), 0);
 
     const winsEl = obtenerCampo('wins');
     const victorias = aEntero(winsEl?.value ?? '');
 
     if (victorias !== null && suma > victorias) {
       mostrarErrorMetodos(contenedor, 'La suma de los métodos de victoria no puede superar tu total de victorias.');
+      // marca en rojo cada método que aporta al exceso (valor > 0)
+      inputs.forEach((input) => {
+        const valor = aEntero(input.value);
+        if (input.value.trim() !== '' && valor !== null && valor > 0) {
+          mostrarError(input, 'Reduce este valor: la suma supera tus victorias.');
+        }
+      });
       return false;
     }
+
     limpiarErrorMetodos(contenedor);
+    // suma OK: limpia el rojo de "suma" en cada campo, respetando su regla ≥ 0
+    inputs.forEach((input) => validarUnMetodoVictoria(input));
     return true;
   }
 
@@ -1209,15 +1216,34 @@
     });
   });
 
+  const winsParaMetodos = obtenerCampo('wins');
+  if (winsParaMetodos) {
+    winsParaMetodos.addEventListener('input', () => {
+      validarSumaMetodosVictoria();
+      actualizarFirstRoundKos();
+    });
+  }
+
   function mostrarConfirmacion(): void {
-    let confirmacion = formulario!.querySelector<HTMLParagraphElement>('.formulario-confirmacion');
-    if (!confirmacion) {
-      confirmacion = document.createElement('p');
-      confirmacion.className = 'formulario-confirmacion';
-      confirmacion.setAttribute('role', 'status');
-      formulario!.querySelector('.acciones-form')?.insertAdjacentElement('beforebegin', confirmacion);
-    }
-    confirmacion.textContent = 'Perfil validado correctamente. (Demo: aún no se envía a un servidor.)';
+    mostrarAlerta('success', 'Perfil validado', 'Perfil validado correctamente. (Demo: aún no se envía a un servidor.)');
+  }
+
+  function mostrarAlerta(tipo: 'success' | 'error', titulo: string, mensaje: string): void {
+    const host = document.getElementById('alertaFormulario');
+    if (!host) return;
+    host.innerHTML = '';
+    const alerta = document.createElement('div');
+    alerta.className = `c-alert c-alert--${tipo}`;
+    alerta.setAttribute('role', tipo === 'error' ? 'alert' : 'status');
+    alerta.innerHTML = `
+      <span class="c-alert-icon" aria-hidden="true">${tipo === 'error' ? '⚠' : '✓'}</span>
+      <div class="c-alert-cuerpo">
+        <p class="c-alert-title">${titulo}</p>
+        <p class="c-alert-message">${mensaje}</p>
+      </div>
+      <button type="button" class="c-alert-close" aria-label="Cerrar alerta">✕</button>`;
+    alerta.querySelector('.c-alert-close')?.addEventListener('click', () => alerta.remove());
+    host.appendChild(alerta);
   }
 
   formulario.addEventListener('submit', (evento: SubmitEvent) => {
@@ -1277,6 +1303,7 @@
     }
 
     if (primerCampoInvalido) {
+      mostrarAlerta('error', 'Faltan campos por completar', 'Revisa los campos obligatorios marcados en rojo e inténtalo de nuevo.');
       (primerCampoInvalido as CampoFormulario).focus();
       return;
     }

@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    :root {
+      --negro:#0a0a0b; --carbon:#16161a; --carbon-claro:#1e1e24;
+      --sangre:#c1121f; --sangre-osc:#7a0c15;
+      --hueso:#f2ede4; --ceniza:#8a8a92; --linea:#2a2a30;
+      --fuente-titulo:'Arial Narrow','Roboto Condensed','Impact',sans-serif;
+      --fuente-cuerpo:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+      --texto-sm:0.85rem;
+      --border:8px;
+    }
+    body { margin: 0; font-family: var(--fuente-cuerpo); }
+    a { color: var(--sangre); } a:hover { color: var(--sangre-osc); }
+    code { font-family: ui-monospace, 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; }
+    .atomo-toggle {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 14px 28px; font-weight: 700; font-size: 0.92rem;
+      text-transform: uppercase; letter-spacing: 1px; border-radius: var(--border);
+      background: transparent; border: 2px solid var(--sangre); color: var(--hueso);
+      font-family: var(--fuente-cuerpo); cursor: pointer;
+    }
+    /* Diseño nuevo: css/menus.css estaba vacío — extiende el vocabulario de
+       tarjeta oscura + sombra de overlay que ya usa .c-dialog. */
+    .atomo-lista {
+      list-style: none; margin: 8px 0 0; padding: 8px;
+      background: var(--carbon); border: 1px solid var(--linea);
+      border-radius: var(--border);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      width: 190px;
+    }
+    .atomo-lista li + li { margin-top: 2px; }
+    .atomo-lista a, .atomo-lista button {
+      display: block; width: 100%; box-sizing: border-box;
+      padding: 10px 12px; border-radius: 4px;
+      background: transparent; border: none;
+      color: var(--hueso); font-size: var(--texto-sm); font-family: inherit;
+      text-align: left; text-decoration: none; cursor: pointer;
+    }
+  </style>
+</helmet>
+
+<div style="width:100%; min-height:100%; background:var(--negro); color:var(--hueso); box-sizing:border-box; padding:40px;">
+
+  <p style="margin:0 0 8px; font-size:0.75rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--ceniza);">Backoffice · FightScout</p>
+  <h1 style="margin:0 0 8px; font-family:var(--fuente-titulo); text-transform:uppercase; font-size:1.6rem; line-height:1; color:var(--hueso);">Menú <span style="color:var(--sangre);">de cuenta</span></h1>
+  <p style="margin:0 0 32px; font-size:0.78rem; color:var(--ceniza); max-width:380px;">Nuevo: <code>css/menus.css</code> está vacío. La lista extiende el mismo lenguaje de tarjeta que <code>.c-dialog</code> (fondo, borde, radio) + una sombra propia de overlay.</p>
+
+  <div style="display:flex; gap:56px; flex-wrap:wrap;">
+
+    <div>
+      <p style="margin:0 0 12px; font-size:0.72rem; text-transform:uppercase; letter-spacing:1px; color:var(--ceniza);">Cerrado</p>
+      <button type="button" class="atomo-toggle" aria-expanded="false">Cuenta ▾</button>
+    </div>
+
+    <div>
+      <p style="margin:0 0 12px; font-size:0.72rem; text-transform:uppercase; letter-spacing:1px; color:var(--ceniza);">Abierto</p>
+      <button type="button" class="atomo-toggle" aria-expanded="true">Cuenta ▾</button>
+      <ul class="atomo-lista">
+        <li><a href="#">Perfil</a></li>
+        <li><a href="#">Configuración</a></li>
+        <li><button type="button">Cerrar sesión</button></li>
+      </ul>
+    </div>
+
+    <div>
+      <p style="margin:0 0 12px; font-size:0.72rem; text-transform:uppercase; letter-spacing:1px; color:var(--ceniza);">Ítem hover</p>
+      <button type="button" class="atomo-toggle" aria-expanded="true">Cuenta ▾</button>
+      <ul class="atomo-lista">
+        <li><a href="#" style="background:var(--carbon-claro);">Perfil</a></li>
+        <li><a href="#">Configuración</a></li>
+        <li><button type="button">Cerrar sesión</button></li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

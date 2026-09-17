@@ -520,6 +520,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(0.8);
   cursor: pointer;
 }
+
 .ayuda { color: var(--ceniza); font-size: 0.8rem; margin-top: var(--espacio-6); }
 
 /* =========================================================
@@ -650,4 +651,86 @@ select:user-valid { border-color: var(--exito); }
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
   * { transition: none; scroll-behavior: auto; }
+}
+
+/* ============================================================
+   PERFIL PÚBLICO DEL PELEADOR (perfil.html) · BASE = MÓVIL
+   ============================================================ */
+.perfil { max-width: 960px; margin: 0 auto; padding: var(--espacio-40) var(--espacio-22); }
+/* padding: 0 pisa la regla genérica "section { padding: var(--espacio-60) 6vw; }"
+   de más arriba (pensada para las secciones full-bleed de index.html): acá el
+   espaciado horizontal/vertical ya lo da .perfil (arriba) y margin-bottom
+   (abajo) — sin este reset, ambos paddings se sumarían y descuadrarían el
+   layout centrado y angosto de esta página. */
+.perfil > section { padding: 0; margin-bottom: var(--espacio-50); }
+
+/* Hero */
+.perfil-hero { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--espacio-30); }
+.perfil-hero-id { display: flex; flex-direction: column; align-items: center; gap: var(--espacio-20); }
+.perfil-foto { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; border: 3px solid var(--sangre); }
+.perfil-hero h1 { font-family: var(--fuente-titulo); font-size: var(--texto-titulo); text-transform: uppercase; line-height: 1; margin: 0; }
+.perfil-hero h1 span { color: var(--sangre); }
+.perfil-apodo { color: var(--ceniza); font-style: italic; margin-top: var(--espacio-6); }
+.perfil-origen { color: var(--ceniza); font-size: var(--texto-sm); margin-top: var(--espacio-8); }
+.perfil-badges { display: flex; flex-wrap: wrap; gap: var(--espacio-8); justify-content: center; list-style: none; padding: 0; margin: var(--espacio-14) 0 0; }
+.badge { font-size: var(--texto-sm); font-weight: var(--peso-medio); text-transform: uppercase; letter-spacing: 0.5px; padding: var(--espacio-4) var(--espacio-14); border-radius: 999px; border: 1px solid var(--linea); background: var(--carbon); color: var(--hueso); }
+.badge-activo { border-color: var(--exito); color: var(--exito); }
+.badge-disponible { border-color: var(--sangre); background: var(--sangre); color: var(--hueso); }
+
+/* Récord (ahora vive en el hero, como <aside>) */
+.perfil-record { display: flex; flex-direction: column; align-items: center; gap: var(--espacio-16); }
+.record-marcador { display: flex; justify-content: center; gap: var(--espacio-30); margin: 0; }
+.record-cifra { display: flex; flex-direction: column; align-items: center; }
+.record-num { font-family: var(--fuente-titulo); font-size: 3rem; line-height: 1; color: var(--hueso); }
+.record-cifra:first-child .record-num { color: var(--sangre); }
+.record-lbl { font-size: var(--texto-sm); text-transform: uppercase; letter-spacing: 1px; color: var(--ceniza); margin-top: var(--espacio-6); }
+.record-metodos { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--espacio-12); list-style: none; padding: 0; margin: var(--espacio-24) 0 0; }
+.record-metodos li { background: var(--carbon); border: 1px solid var(--linea); border-radius: var(--border); padding: var(--espacio-8) var(--espacio-14); font-size: var(--texto-sm); color: var(--ceniza); }
+.record-metodos .metodo-num { color: var(--hueso); font-weight: var(--peso-fuerte); }
+
+/* Título discreto de sección (Ficha/Estilo/Palmarés) — reemplaza a
+   .titulo-seccion (el título enorme del landing) acá: el récord ya no lleva
+   título propio (vive en el hero), así que esto no le hace falta a nadie más. */
+.perfil-h2 {
+  font-family: var(--fuente-titulo);
+  font-size: var(--texto-xl);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--hueso);
+  border-left: 4px solid var(--sangre);
+  padding-left: var(--espacio-14);
+  margin: 0 0 var(--espacio-20);
+}
+
+/* Ficha técnica (dl) */
+.ficha-lista { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--linea); border: 1px solid var(--linea); border-radius: var(--border); overflow: hidden; margin-top: var(--espacio-24); }
+.ficha-lista > div { display: flex; justify-content: space-between; gap: var(--espacio-16); padding: var(--espacio-14) var(--espacio-18); background: var(--carbon); }
+.ficha-lista dt { color: var(--ceniza); font-size: var(--texto-sm); }
+.ficha-lista dd { margin: 0; text-align: right; color: var(--hueso); font-weight: var(--peso-medio); }
+
+/* Estilo */
+.estilo-tags { display: flex; flex-wrap: wrap; gap: var(--espacio-8); margin-top: var(--espacio-14); }
+.tag { padding: var(--espacio-6) var(--espacio-16); border-radius: 999px; border: 1px solid var(--linea); background: var(--carbon); color: var(--hueso); font-size: var(--texto-sm); }
+.tag-estilo { background: var(--sangre); border-color: var(--sangre); text-transform: uppercase; font-weight: var(--peso-fuerte); letter-spacing: 0.5px; }
+.tags-label { color: var(--ceniza); font-size: var(--texto-sm); margin: var(--espacio-20) 0 0; }
+.perfil-bio { margin-top: var(--espacio-20); line-height: 1.6; color: var(--hueso); }
+
+/* Palmarés */
+.palmares-lista { list-style: none; padding: 0; margin: var(--espacio-24) 0 0; display: flex; flex-direction: column; gap: var(--espacio-16); }
+.logro { background: var(--carbon); border: 1px solid var(--linea); border-left: 3px solid var(--sangre); border-radius: var(--border); padding: var(--espacio-18) var(--espacio-20); }
+.logro-cab { display: flex; justify-content: space-between; align-items: baseline; gap: var(--espacio-12); }
+.logro-titulo { margin: 0; font-size: var(--texto-lg); color: var(--hueso); }
+.logro-anio { font-family: var(--fuente-titulo); font-size: var(--texto-lg); font-weight: var(--peso-fuerte); color: var(--sangre); }
+.logro-org { color: var(--ceniza); font-size: var(--texto-sm); margin: var(--espacio-6) 0 0; }
+.logro-desc { margin: var(--espacio-10) 0 0; line-height: 1.5; }
+
+/* ===== DESKTOP ===== */
+@media (min-width: 768px) {
+  .perfil-hero { flex-direction: row; justify-content: space-between; align-items: center; text-align: left; gap: var(--espacio-40); }
+  .perfil-hero-id { flex-direction: row; align-items: center; gap: var(--espacio-30); }
+  .perfil-foto { width: 190px; height: 190px; }
+  .perfil-badges { justify-content: flex-start; }
+  .perfil-record { align-items: flex-end; }
+  .record-metodos { justify-content: flex-end; }
+  .ficha-lista { grid-template-columns: 1fr 1fr; }
 }
