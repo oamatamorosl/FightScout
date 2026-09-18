@@ -707,6 +707,19 @@ select:user-valid { border-color: var(--exito); }
 .ficha-lista > div { display: flex; justify-content: space-between; gap: var(--espacio-16); padding: var(--espacio-14) var(--espacio-18); background: var(--carbon); }
 .ficha-lista dt { color: var(--ceniza); font-size: var(--texto-sm); }
 .ficha-lista dd { margin: 0; text-align: right; color: var(--hueso); font-weight: var(--peso-medio); }
+.ficha-lista dd a { color: inherit; text-decoration: underline; text-underline-offset: 2px; transition: color 0.2s; }
+.ficha-lista dd a:hover { color: var(--sangre); }
+
+/* Contacto: la caja del correo (.ficha-lista) y el botón son dos cajas
+   separadas en la misma fila — el botón NO vive dentro del <dd>. stretch
+   para que el botón iguale la altura de la caja del correo. */
+.contacto-fila { display: flex; flex-wrap: wrap; align-items: stretch; gap: var(--espacio-16); margin-top: var(--espacio-24); }
+/* Nunca pasa a 2 columnas como el resto de .ficha-lista (@media más abajo):
+   esta solo tiene una fila, así que ese layout le sobra y le deja un hueco
+   vacío a la derecha del correo. Más específica que la regla del media query,
+   así que gana sin importar el orden. */
+.contacto-fila .ficha-lista { flex: 0 1 auto; margin-top: 0; grid-template-columns: 1fr; }
+.contacto-btn { display: flex; align-items: center; justify-content: center; text-align: center; }
 
 /* Estilo */
 .estilo-tags { display: flex; flex-wrap: wrap; gap: var(--espacio-8); margin-top: var(--espacio-14); }

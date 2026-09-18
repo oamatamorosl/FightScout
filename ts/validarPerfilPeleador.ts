@@ -31,6 +31,8 @@
     etiqueta: string;
   }
 
+  const patronCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   function aEntero(valor: string): number | null {
     const limpio = valor.trim();
     if (!/^-?\d+$/.test(limpio)) return null;
@@ -171,6 +173,15 @@
         const nombre = valor.trim();
         if (!nombre) return 'Ingresa tu nombre completo.';
         if (nombre.length < 3) return 'El nombre debe tener al menos 3 caracteres.';
+        return null;
+      },
+    },
+    {
+      id: 'email',
+      validar: (valor) => {
+        const correo = valor.trim();
+        if (!correo) return 'Ingresa tu correo electrónico.';
+        if (!patronCorreo.test(correo)) return 'Ingresa un correo electrónico válido.';
         return null;
       },
     },
