@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <script async src="https://t.contentsquare.net/uxa/268d6c1fa0182.js"></script>
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B5ENK45QG3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-B5ENK45QG3');
+</script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Buscar talento · FightScout</title>
+  <meta name="description"
+    content="Explora y filtra a los peleadores de MMA y boxeo de FightScout.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Buscar talento · FightScout">
+  <meta property="og:description"
+    content="Explora y filtra a los peleadores de MMA y boxeo de FightScout.">
+  <meta property="og:url" content="https://www.fightscout.com/peleadores.html">
+  <meta property="og:image" content="https://www.fightscout.com/peleador1.jpeg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Buscar talento · FightScout">
+  <meta name="twitter:description"
+    content="Explora y filtra a los peleadores de MMA y boxeo de FightScout.">
+  <meta name="twitter:image" content="https://www.fightscout.com/peleador1.jpeg">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/nav.js" defer></script>
+  <script src="js/buscarPeleadores.js" defer></script>
+
+  <!-- Paste this right before your closing </head> tag -->
+<script type="text/javascript">
+  (function(e,c){if(!c.__SV){var l,h;window.mixpanel=c;c._i=[];c.init=function(q,r,f){function t(d,a){var g=a.split(".");2==g.length&&(d=d[g[0]],a=g[1]);d[a]=function(){d.push([a].concat(Array.prototype.slice.call(arguments,0)))}}var b=c;"undefined"!==typeof f?b=c[f]=[]:f="mixpanel";b.people=b.people||[];b.toString=function(d){var a="mixpanel";"mixpanel"!==f&&(a+="."+f);d||(a+=" (stub)");return a};b.people.toString=function(){return b.toString(1)+".people (stub)"};l="disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders start_session_recording stop_session_recording people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" ");
+  for(h=0;h<l.length;h++)t(b,l[h]);var n="set set_once union unset remove delete".split(" ");b.get_group=function(){function d(p){a[p]=function(){b.push([g,[p].concat(Array.prototype.slice.call(arguments,0))])}}for(var a={},g=["get_group"].concat(Array.prototype.slice.call(arguments,0)),m=0;m<n.length;m++)d(n[m]);return a};c._i.push([q,r,f])};c.__SV=1.2;var k=e.createElement("script");k.type="text/javascript";k.async=!0;k.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===
+  e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=e.getElementsByTagName("script")[0];e.parentNode.insertBefore(k,e)}})(document,window.mixpanel||[])
+
+  mixpanel.init('3fbdccb0032669c4aebc7d1e929fdc22', {
+    autocapture: true,
+    record_sessions_percent: 100,
+  })
+
+</script>
+</head>
+
+
+
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <!-- ===== HEADER STICKY ===== -->
+  <header>
+    <a href="index.html" class="marca">Fight<span>Scout</span></a>
+
+    <button type="button" class="nav-toggle" id="navToggle" aria-controls="navPrincipal" aria-expanded="false"
+      aria-label="Abrir menú de navegación">
+      <span class="nav-toggle-barra"></span>
+      <span class="nav-toggle-barra"></span>
+      <span class="nav-toggle-barra"></span>
+    </button>
+
+    <nav aria-label="Navegación principal" id="navPrincipal">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="registro.html">Soy Peleador</a></li>
+        <li><a href="registroScout.html">Buscar talento</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-backdrop" id="navBackdrop" hidden></div>
+  </header>
+
+  <main id="contenido" class="buscar">
+    <section class="buscar-disciplina" aria-label="Disciplina">
+      <h1>Buscar talento</h1>
+      <div class="disciplina-toggle" role="group" aria-label="¿Qué disciplina buscas?">
+        <span class="disciplina-label">¿Qué disciplina buscas?</span>
+        <button type="button" class="chip-disciplina is-activo" data-disciplina="mma" aria-pressed="true">MMA</button>
+        <button type="button" class="chip-disciplina" data-disciplina="boxeo" aria-pressed="false">Boxeo</button>
+      </div>
+    </section>
+
+    <div class="buscar-layout">
+      <aside class="buscar-sidebar" aria-label="Búsqueda del peleador">
+        <h2 class="perfil-h2">Búsqueda del peleador</h2>
+
+        <!-- 1) Búsqueda semántica (destacada) -->
+        <div class="busqueda-semantica">
+          <label for="semantica">Búsqueda inteligente</label>
+          <textarea id="semantica" name="semantica" rows="3"
+            placeholder="Describe al peleador que buscas… ej: «zurdo agresivo con buen wrestling, disponible para pelear»"></textarea>
+          <button type="button" class="btn btn-primario btn-buscar">Buscar</button>
+          <p class="ayuda">Describe en palabras lo que necesitas; entiende la intención, no solo palabras exactas.</p>
+        </div>
+
+        <!-- 2) Texto libre -->
+        <div class="filtro-grupo">
+          <label for="fNombre">Nombre</label>
+          <input id="fNombre" name="fNombre" type="text" placeholder="Ej: Ezio Gudiño">
+        </div>
+        <div class="filtro-grupo">
+          <label for="fApodo">Apodo</label>
+          <input id="fApodo" name="fApodo" type="text" placeholder="Ej: El Toro">
+        </div>
+        <div class="filtro-grupo">
+          <label for="fCiudad">Ciudad o gimnasio</label>
+          <input id="fCiudad" name="fCiudad" type="text" placeholder="Ej: Guayaquil / Pantera MMA">
+        </div>
+
+        <!-- 3) Categoría de peso — cambia según la disciplina elegida arriba -->
+        <div class="campo-checkboxes filtro-grupo" data-disciplina-grupo="mma" role="group"
+          aria-labelledby="pesoMmaLabel">
+          <span class="grupo-label" id="pesoMmaLabel">Categoría de peso</span>
+          <div class="checkbox-opciones">
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-pesado"> Peso pesado</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-semipesado"> Peso semipesado</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-mediano"> Peso mediano</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-welter"> Peso welter</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-ligero"> Peso ligero</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-pluma"> Peso pluma</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-gallo"> Peso gallo</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-mosca"> Peso mosca</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-paja"> Peso paja</label>
+          </div>
+        </div>
+
+        <div class="campo-checkboxes filtro-grupo oculto" data-disciplina-grupo="boxeo" role="group"
+          aria-labelledby="pesoBoxLabel">
+          <span class="grupo-label" id="pesoBoxLabel">Categoría de peso</span>
+          <div class="checkbox-opciones">
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-pesado"> Peso pesado</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-crucero"> Peso crucero</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-semipesado"> Peso semipesado</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-super-mediano"> Peso súper mediano</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-mediano"> Peso mediano</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-mediano-junior"> Peso mediano junior</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-welter"> Peso welter</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-welter-junior"> Peso welter junior</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-ligero"> Peso ligero</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-ligero-juvenil"> Peso ligero juvenil</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-pluma"> Peso pluma</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-pluma-junior"> Peso pluma junior</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-gallo"> Peso gallo</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-gallo-junior"> Peso gallo junior</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-mosca"> Peso mosca</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-mosca-junior"> Peso mosca junior</label>
+            <label class="checkbox-item"><input type="checkbox" name="weightClass" value="peso-paja"> Peso paja</label>
+          </div>
+        </div>
+
+        <!-- 4) Disponibilidad -->
+        <div class="campo-checkboxes filtro-grupo" role="group" aria-labelledby="dispLabel">
+          <span class="grupo-label" id="dispLabel">Disponibilidad</span>
+          <div class="checkbox-opciones">
+            <label class="checkbox-item"><input type="checkbox" name="availableToFight" value="si"> Solo disponibles para pelear</label>
+          </div>
+        </div>
+
+        <!-- 5) Filtros categóricos -->
+        <div class="campo-checkboxes filtro-grupo" role="group" aria-labelledby="nacionalidadLabel">
+          <span class="grupo-label" id="nacionalidadLabel">Nacionalidad</span>
+          <div class="checkbox-opciones">
+            <label class="checkbox-item"><input type="checkbox" name="nationality" value="br"> Brasil</label>
+            <label class="checkbox-item"><input type="checkbox" name="nationality" value="ec"> Ecuador</label>
+            <label class="checkbox-item"><input type="checkbox" name="nationality" value="ar"> Argentina</label>
+            <label class="checkbox-item"><input type="checkbox" name="nationality" value="mx"> México</label>
+          </div>
+        </div>
+
+        <div class="campo-checkboxes filtro-grupo" role="group" aria-labelledby="generoLabel">
+          <span class="grupo-label" id="generoLabel">Género</span>
+          <div class="checkbox-opciones">
+            <label class="checkbox-item"><input type="checkbox" name="sex" value="male"> Masculino</label>
+            <label class="checkbox-item"><input type="checkbox" name="sex" value="female"> Femenino</label>
+          </div>
+        </div>
+
+        <div class="campo-checkboxes filtro-grupo" role="group" aria-labelledby="guardiaLabel">
+          <span class="grupo-label" id="guardiaLabel">Guardia</span>
+          <div class="checkbox-opciones">
+            <label class="checkbox-item"><input type="checkbox" name="stance" value="orthodox"> Ortodoxa</label>
+            <label class="checkbox-item"><input type="checkbox" name="stance" value="southpaw"> Zurda</label>
+            <label class="checkbox-item"><input type="checkbox" name="stance" value="switch"> Switch</label>
+          </div>
+        </div>
+
+        <div class="campo-checkboxes filtro-grupo" role="group" aria-labelledby="nivelLabel">
+          <span class="grupo-label" id="nivelLabel">Nivel</span>
+          <div class="checkbox-opciones">
+            <label class="checkbox-item"><input type="checkbox" name="competitiveLevel" value="amateur"> Amateur</label>
+            <label class="checkbox-item"><input type="checkbox" name="competitiveLevel" value="profesional"> Profesional</label>
+          </div>
+        </div>
+
+        <div class="campo-checkboxes filtro-grupo" role="group" aria-labelledby="estadoLabel">
+          <span class="grupo-label" id="estadoLabel">Estado</span>
+          <div class="checkbox-opciones">
+            <label class="checkbox-item"><input type="checkbox" name="competitiveStatus" value="activo"> Activo</label>
+            <label class="checkbox-item"><input type="checkbox" name="competitiveStatus" value="inactivo"> Inactivo</label>
+            <label class="checkbox-item"><input type="checkbox" name="competitiveStatus" value="retirado"> Retirado</label>
+          </div>
+        </div>
+
+        <div class="campo-checkboxes filtro-grupo" role="group" aria-labelledby="idiomasLabel">
+          <span class="grupo-label" id="idiomasLabel">Idiomas</span>
+          <div class="checkbox-opciones">
+            <label class="checkbox-item"><input type="checkbox" name="languages" value="espanol"> Español</label>
+            <label class="checkbox-item"><input type="checkbox" name="languages" value="ingles"> Inglés</label>
+            <label class="checkbox-item"><input type="checkbox" name="languages" value="portugues"> Portugués</label>
+            <label class="checkbox-item"><input type="checkbox" name="languages" value="frances"> Francés</label>
+          </div>
+        </div>
+
+        <div class="campo-checkboxes filtro-grupo" data-disciplina-grupo="mma" role="group"
+          aria-labelledby="estiloMmaLabel">
+          <span class="grupo-label" id="estiloMmaLabel">Estilo de pelea</span>
+          <div class="checkbox-opciones">
+            <label class="checkbox-item"><input type="checkbox" name="fightStyle" value="striker"> Striker</label>
+            <label class="checkbox-item"><input type="checkbox" name="fightStyle" value="grappler"> Grappler</label>
+            <label class="checkbox-item"><input type="checkbox" name="fightStyle" value="mixto"> Mixto</label>
+          </div>
+        </div>
+
+        <div class="campo-checkboxes filtro-grupo oculto" data-disciplina-grupo="boxeo" role="group"
+          aria-labelledby="estiloBoxLabel">
+          <span class="grupo-label" id="estiloBoxLabel">Estilo de pelea</span>
+          <div class="checkbox-opciones">
+            <label class="checkbox-item"><input type="checkbox" name="fightStyle" value="estilista"> Estilista</label>
+            <label class="checkbox-item"><input type="checkbox" name="fightStyle" value="contragolpeador"> Contragolpeador</label>
+            <label class="checkbox-item"><input type="checkbox" name="fightStyle" value="fajador"> Fajador</label>
+          </div>
+        </div>
+
+        <div class="campo-checkboxes filtro-grupo" data-solo="mma" role="group" aria-labelledby="artesLabel">
+          <span class="grupo-label" id="artesLabel">Artes marciales base</span>
+          <div class="checkbox-opciones">
+            <label class="checkbox-item"><input type="checkbox" name="martialArts" value="boxing"> Boxing</label>
+            <label class="checkbox-item"><input type="checkbox" name="martialArts" value="wrestling"> Wrestling</label>
+            <label class="checkbox-item"><input type="checkbox" name="martialArts" value="bjj"> BJJ</label>
+            <label class="checkbox-item"><input type="checkbox" name="martialArts" value="muay-thai"> Muay Thai</label>
+            <label class="checkbox-item"><input type="checkbox" name="martialArts" value="kickboxing"> Kickboxing</label>
+            <label class="checkbox-item"><input type="checkbox" name="martialArts" value="grappling"> Grappling</label>
+            <label class="checkbox-item"><input type="checkbox" name="martialArts" value="judo"> Judo</label>
+            <label class="checkbox-item"><input type="checkbox" name="martialArts" value="sambo"> Sambo</label>
+            <label class="checkbox-item"><input type="checkbox" name="martialArts" value="karate"> Karate</label>
+          </div>
+        </div>
+
+        <!-- 6) Rangos -->
+        <div class="filtro-grupo">
+          <span class="grupo-label">Edad</span>
+          <div class="filtro-rango">
+            <input type="number" name="edadMin" min="18" max="60" placeholder="Mín">
+            <span>a</span>
+            <input type="number" name="edadMax" min="18" max="60" placeholder="Máx">
+          </div>
+        </div>
+        <div class="filtro-grupo">
+          <label for="fVictorias">Victorias mínimas</label>
+          <input id="fVictorias" name="winsMin" type="number" min="0" placeholder="Ej: 5">
+        </div>
+
+        <button type="button" class="btn btn-fantasma" id="limpiarFiltros">Limpiar filtros</button>
+      </aside>
+      <section class="buscar-resultados" aria-label="Peleadores encontrados">
+        <p class="resultados-conteo">Mostrando 6 peleadores</p>
+        <ul class="tarjetas-peleadores">
+
+          <li class="tarjeta-peleador">
+            <img class="tarjeta-foto" src="img/peleador1.jpeg" alt="Foto de Ezio Gudiño">
+            <div class="tarjeta-info">
+              <p class="tarjeta-nombre">Ezio Gudiño <span class="tarjeta-meta">MMA · Peso wélter</span></p>
+              <p class="tarjeta-record"><strong>12-3-0</strong> · Ecuador / Guayaquil</p>
+              <span class="badge badge-disponible">Disponible para pelear</span>
+            </div>
+            <div class="tarjeta-acciones">
+              <a class="btn btn-primario" href="perfil.html">Ver perfil</a>
+              <button type="button" class="btn btn-fantasma">+ Agregar prospecto</button>
+            </div>
+          </li>
+
+          <li class="tarjeta-peleador">
+            <img class="tarjeta-foto" src="img/peleador2.jpeg" alt="Foto de Marcos Rivera">
+            <div class="tarjeta-info">
+              <p class="tarjeta-nombre">Marcos Rivera <span class="tarjeta-meta">Boxeo · Peso ligero</span></p>
+              <p class="tarjeta-record"><strong>18-2-1</strong> · México / Tijuana</p>
+              <span class="badge badge-disponible">Disponible para pelear</span>
+            </div>
+            <div class="tarjeta-acciones">
+              <a class="btn btn-primario" href="perfil.html">Ver perfil</a>
+              <button type="button" class="btn btn-fantasma">+ Agregar prospecto</button>
+            </div>
+          </li>
+
+          <li class="tarjeta-peleador">
+            <img class="tarjeta-foto" src="img/peleador3.jpeg" alt="Foto de Diego Salazar">
+            <div class="tarjeta-info">
+              <p class="tarjeta-nombre">Diego Salazar <span class="tarjeta-meta">MMA · Peso ligero</span></p>
+              <p class="tarjeta-record"><strong>9-4-0</strong> · Argentina / Córdoba</p>
+            </div>
+            <div class="tarjeta-acciones">
+              <a class="btn btn-primario" href="perfil.html">Ver perfil</a>
+              <button type="button" class="btn btn-fantasma">+ Agregar prospecto</button>
+            </div>
+          </li>
+
+          <li class="tarjeta-peleador">
+            <img class="tarjeta-foto" src="img/peleador4.jpg" alt="Foto de Bruno Costa">
+            <div class="tarjeta-info">
+              <p class="tarjeta-nombre">Bruno Costa <span class="tarjeta-meta">Boxeo · Peso welter</span></p>
+              <p class="tarjeta-record"><strong>22-0-0</strong> · Brasil / São Paulo</p>
+              <span class="badge badge-disponible">Disponible para pelear</span>
+            </div>
+            <div class="tarjeta-acciones">
+              <a class="btn btn-primario" href="perfil.html">Ver perfil</a>
+              <button type="button" class="btn btn-fantasma">+ Agregar prospecto</button>
+            </div>
+          </li>
+
+          <li class="tarjeta-peleador">
+            <img class="tarjeta-foto" src="img/peleador1.jpeg" alt="Foto de Kevin Andrade">
+            <div class="tarjeta-info">
+              <p class="tarjeta-nombre">Kevin Andrade <span class="tarjeta-meta">MMA · Peso mosca</span></p>
+              <p class="tarjeta-record"><strong>7-1-0</strong> · Ecuador / Quito</p>
+              <span class="badge badge-disponible">Disponible para pelear</span>
+            </div>
+            <div class="tarjeta-acciones">
+              <a class="btn btn-primario" href="perfil.html">Ver perfil</a>
+              <button type="button" class="btn btn-fantasma">+ Agregar prospecto</button>
+            </div>
+          </li>
+
+          <li class="tarjeta-peleador">
+            <img class="tarjeta-foto" src="img/peleador2.jpeg" alt="Foto de Tomás Herrera">
+            <div class="tarjeta-info">
+              <p class="tarjeta-nombre">Tomás Herrera <span class="tarjeta-meta">Boxeo · Peso pluma</span></p>
+              <p class="tarjeta-record"><strong>14-5-0</strong> · Argentina / Rosario</p>
+            </div>
+            <div class="tarjeta-acciones">
+              <a class="btn btn-primario" href="perfil.html">Ver perfil</a>
+              <button type="button" class="btn btn-fantasma">+ Agregar prospecto</button>
+            </div>
+          </li>
+
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div>
+      <p class="marca-footer">Fight<span>Scout</span></p>
+      <p>La plataforma de scouting para MMA y boxeo. Talento verificado, búsqueda que entiende lo que necesitas.</p>
+    </div>
+    <div>
+      <h4>Plataforma</h4>
+      <ul>
+        <li><a href="registro.html">Soy Peleador</a></li>
+        <li><a href="registroScout.html">Buscar talento</a></li>
+      </ul>
+    </div>
+    <p class="creditos">FightScout · Proyecto en desarrollo · Todos los perfiles mostrados son de ejemplo.</p>
+  </footer>
+
+</body>
+
+</html>

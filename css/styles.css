@@ -747,3 +747,51 @@ select:user-valid { border-color: var(--exito); }
   .record-metodos { justify-content: flex-end; }
   .ficha-lista { grid-template-columns: 1fr 1fr; }
 }
+
+/* ===== BUSCAR PELEADORES (peleadores.html) · BASE = MÓVIL ===== */
+.buscar { max-width: 1100px; margin: 0 auto; padding: var(--espacio-30) var(--espacio-22); }
+/* Mismo reset que .perfil > section: pisa "section { padding: var(--espacio-60) 6vw; }"
+   (pensada para las secciones full-bleed del landing). Acá el espaciado lo da
+   .buscar; sin esto los dos paddings se suman y descuadran el layout. */
+.buscar section { padding: 0; }
+.buscar-disciplina { margin-bottom: var(--espacio-30); }
+.buscar-disciplina h1 { font-family: var(--fuente-titulo); text-transform: uppercase; font-size: var(--texto-titulo); margin: 0 0 var(--espacio-16); }
+.disciplina-toggle { display: flex; flex-wrap: wrap; align-items: center; gap: var(--espacio-12); }
+.disciplina-label { color: var(--ceniza); font-size: var(--texto-sm); }
+.chip-disciplina { font-family: inherit; font-weight: var(--peso-fuerte); text-transform: uppercase; letter-spacing: 1px; padding: var(--espacio-10) var(--espacio-22); border-radius: 999px; cursor: pointer; background: transparent; color: var(--hueso); border: 2px solid var(--sangre); transition: all 0.2s; }
+.chip-disciplina.is-activo { background: var(--sangre); }
+
+.buscar-layout { display: block; }
+@media (min-width: 900px) {
+  .buscar-layout { display: grid; grid-template-columns: 300px 1fr; gap: var(--espacio-30); align-items: start; }
+  .buscar-sidebar { position: sticky; top: var(--espacio-16); }
+}
+
+.buscar-sidebar { background: var(--carbon); border: 1px solid var(--linea); border-radius: var(--border); padding: var(--espacio-22); margin-bottom: var(--espacio-24); }
+.buscar-sidebar .perfil-h2 { margin-top: 0; }
+.filtro-grupo { margin-bottom: var(--espacio-20); }
+.filtro-grupo > label, .filtro-grupo > .grupo-label { display: block; margin-bottom: var(--espacio-8); color: var(--hueso); font-size: var(--texto-sm); font-weight: var(--peso-medio); }
+.filtro-grupo input[type="text"], .filtro-grupo input[type="number"] { width: 100%; }
+
+.busqueda-semantica { border: 2px solid var(--sangre); border-radius: var(--border); padding: var(--espacio-16); margin-bottom: var(--espacio-24); background: color-mix(in srgb, var(--sangre) 8%, var(--carbon)); }
+.busqueda-semantica label { display: block; font-weight: var(--peso-fuerte); text-transform: uppercase; letter-spacing: 0.5px; font-size: var(--texto-sm); margin-bottom: var(--espacio-8); }
+.busqueda-semantica textarea { width: 100%; resize: vertical; margin-bottom: var(--espacio-12); }
+.busqueda-semantica .btn-buscar { width: 100%; }
+
+.filtro-rango { display: flex; align-items: center; gap: var(--espacio-8); }
+
+.resultados-conteo { color: var(--ceniza); font-size: var(--texto-sm); margin: 0 0 var(--espacio-16); }
+.tarjetas-peleadores { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--espacio-16); }
+.tarjeta-peleador { display: flex; flex-direction: column; gap: var(--espacio-16); background: var(--carbon); border: 1px solid var(--linea); border-left: 3px solid var(--sangre); border-radius: var(--border); padding: var(--espacio-18); }
+.tarjeta-foto { width: 100%; height: 180px; object-fit: cover; border-radius: var(--border); }
+.tarjeta-info { flex: 1; min-width: 0; }
+.tarjeta-nombre { margin: 0 0 var(--espacio-4); font-weight: var(--peso-fuerte); font-size: var(--texto-lg); color: var(--hueso); }
+.tarjeta-meta { display: block; font-weight: var(--peso-normal); font-size: var(--texto-sm); color: var(--ceniza); text-transform: none; letter-spacing: 0; }
+.tarjeta-record { margin: 0 0 var(--espacio-10); color: var(--ceniza); font-size: var(--texto-sm); }
+.tarjeta-record strong { color: var(--hueso); font-family: var(--fuente-titulo); font-size: var(--texto-lg); }
+.tarjeta-acciones { display: flex; flex-wrap: wrap; gap: var(--espacio-10); }
+@media (min-width: 560px) {
+  .tarjeta-peleador { flex-direction: row; align-items: center; }
+  .tarjeta-foto { width: 110px; height: 110px; flex-shrink: 0; }
+  .tarjeta-acciones { flex-direction: column; }
+}
